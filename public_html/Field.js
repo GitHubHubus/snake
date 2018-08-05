@@ -14,13 +14,13 @@ class Field {
     draw() {
         let root = document.getElementById(this.id);
         root.style.overflow = 'hidden';
-        for (let x = 0; x < parseInt(this.countY) + 1; x++) {
+        for (let y = 0; y < parseInt(this.countY) + 1; y++) {
             let node = document.createElement('div');
             node.style.margin = 0;
             node.style.padding = 0;
             node.style.lineHeight = 0;
             node.style.whiteSpace = 'nowrap';
-            for (let y = 0; y < parseInt(this.countX) + 1; y++) {
+            for (let x = 0; x < parseInt(this.countX) + 1; x++) {
                 let div = document.createElement('div');
                 div.id = 'c' + x + y;
                 div.dataset.x = x;
@@ -46,20 +46,21 @@ class Field {
     }
     
     movePoint(oldC, newC) {
-        let div = document.getElementById('c' + newC.x + newC.y);
-        if (div) {
-            if (div.style.backgroundColor === 'green') {
-                return false;
-            }
-            
-            div.style.backgroundColor = newC.color;
+        let n = document.getElementById('c' + newC.x + newC.y);
+        let o = document.getElementById('c' + oldC.x + oldC.y);
+
+        if (!n || n.dataset.lock == 1 || n.style.backgroundColor === 'green' || (o && o.dataset.lock == 1)) {
+            return false;
         }
         
-        div = document.getElementById('c' + oldC.x + oldC.y);
-        if (div) {
-            div.style.backgroundColor = '#ebedf0';
-        }
-        
+        n.dataset.lock = 1;
+        o.dataset.lock = 1;
+
+        n.style.backgroundColor = newC.color;
+        o.style.backgroundColor = '#ebedf0';
+
+        n.dataset.lock = 0;
+        o.dataset.lock = 0;
         return true;
     }
 }

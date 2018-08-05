@@ -1,3 +1,6 @@
+const MOVE_ON = true;
+const MOVE_OUT = false;
+
 class Point {
     constructor (x, y, color) {
         this.x = x;
@@ -11,35 +14,68 @@ class Point {
     }
     
     moveDestination (destinationX, destinationY, interval, callback) {
+        this.destination = {'x': destinationX, 'y': destinationY};
+        
         this.moving = setInterval(function () {
-            let isEndX = destinationX == this.x;
-            let isEndY = destinationY == this.y;
-            let direction;
+            let isEndX = this.destination.x == this.x;
+            let isEndY = this.destination.y == this.y;
+            let oldC = {'x':this.x, 'y': this.y};
 
-            if (!isEndX && !isEndY) {
-                direction = Math.random() >= 0.5;
+            if (!isEndX && !isEndY && Math.random() >= 0.5) {
+                this.moveXY(MOVE_ON);
             } else if (isEndX && isEndY) {
                 this.stopMoving();
-            } else {
-                direction = isEndX;
+            } else if (!isEndX) {
+                this.moveX(MOVE_ON);
+            } else if (!isEndY) {
+                this.moveY(MOVE_ON);
             }
 
-            let oldC = {'x':this.x, 'y': this.y};
-            
-            if (!direction) {
-                this.x = destinationX < this.x ? this.x - 1 : this.x + 1; 
-            } else {
-                this.y = destinationY < this.y ? this.y - 1 : this.y + 1;
-            }
-            let newC = {'x':this.x, 'y': this.y, color: this.color};
-
-            let result = callback(oldC, newC);
+            let result = callback(oldC, {'x':this.x, 'y': this.y, color: this.color});
             
             if (!result) {
                 this.x = oldC.x;
                 this.y = oldC.y;
+
+                if (!isEndX && !isEndY && Math.random() >= 0.5) {
+                    this.moveXY(MOVE_ON);
+                } else if (!isEndX) {
+                    if (Math.random() >= 0.5) {
+                        this.moveX(MOVE_ON);
+                    } else {
+                        this.moveY(MOVE_ON);
+                    }   
+                }
+
+                callback(oldC, {'x':this.x, 'y': this.y, color: this.color});
             }
         }.bind(this), interval);
+    }
+    
+    moveX(direction) {
+        if (direction) {
+            this.x = this.destination.x < this.x ? this.x - 1 : this.x + 1; 
+        } else {
+            this.x = this.destination.x < this.x ? this.x + 1 : this.x - 1;
+        }
+    }
+    
+    moveY(direction) {
+        if (direction) {
+            this.y = this.destination.y < this.y ? this.y - 1 : this.y + 1; 
+        } else {
+            this.y = this.destination.y < this.y ? this.y + 1 : this.y - 1;
+        }
+    }
+    
+    moveXY(direction) {
+        if (direction) {
+            this.x = this.destination.x < this.x ? this.x - 1 : this.x + 1;
+            this.y = this.destination.y < this.y ? this.y - 1 : this.y + 1; 
+        } else {
+            this.x = this.destination.x < this.x ? this.x + 1 : this.x - 1;
+            this.y = this.destination.y < this.y ? this.y + 1 : this.y - 1;
+        }
     }
     
     stopMoving() {
