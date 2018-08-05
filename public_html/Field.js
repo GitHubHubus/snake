@@ -25,7 +25,15 @@ class Field {
                 div.id = 'c' + x + y;
                 div.dataset.x = x;
                 div.dataset.y = y;
+                div.dataset.id = 'empty';
+                
+                //dev
+                div.style.textAlign = 'center';
+                div.style.lineHeight = '2.7';
+                div.style.fontSize = '10px';
+                div.style.color = 'red';
                 div.style.display = 'inline-block';
+                
                 div.style.backgroundColor = this.color;
                 div.style.width = this.tile.width + 'px';
                 div.style.height = this.tile.height + 'px';
@@ -45,21 +53,30 @@ class Field {
         this.tile = {width: width, height: height, indent: indent, color: color};
     }
     
+    lockTile(c) {
+        let tile = document.getElementById('c' + c.x + c.y);
+        tile.dataset.lock = 1;
+        tile.dataset.id = c.id;
+    }
+    
     movePoint(oldC, newC) {
         let n = document.getElementById('c' + newC.x + newC.y);
         let o = document.getElementById('c' + oldC.x + oldC.y);
 
-        if (!n || n.dataset.lock == 1 || n.style.backgroundColor === 'green' || (o && o.dataset.lock == 1)) {
+        if (!n || n.dataset.lock == 1 || n.dataset.id != 'empty') {
             return false;
         }
-        
+
         n.dataset.lock = 1;
-        o.dataset.lock = 1;
 
         n.style.backgroundColor = newC.color;
         o.style.backgroundColor = '#ebedf0';
+        n.dataset.id = newC.id;
+        o.dataset.id = 'empty';
 
-        n.dataset.lock = 0;
+        n.innerHTML = newC.id;
+        o.innerHTML = '';
+
         o.dataset.lock = 0;
         return true;
     }
