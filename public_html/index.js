@@ -1,40 +1,31 @@
 const START_POINT = 25;
 const END_POINT = 13;
-var point = {x: 20, y: 20};
-let startTextPointX = 16;
-let startTextPointY = 6;
+
+var point = {x: 16, y: 20};
 let text = 'O';
 let field = new Field('main');
+let id = 0;
+let length = 0;
 
-/**
- * @param {int} space
- * @return int 
- */
-function addSpace(space) {
-  space += 1;
-  point.x += space;
-  return point.x;
-};
-
+field.strategy = new Simple(field.movePoint, field.lockTile);
 field.initTile(15, 15, 2);
 field.draw();
 
-length = 0;
-point.x = ++startTextPointX;
-
-let id = 0;
 for(var char in text) {
     let data = alphabet[text[char]];
     if (data) {
         for (let i in data.coordinates) {
-            id++;
-            let coordinates = [point.x + data.coordinates[i][0], point.y - data.coordinates[i][1]];
-            let point2 = new Point(parseInt(Math.random() * field.countX), parseInt(Math.random() * field.countY), 'yellow', id);
-            
-            point2.moveDestination(coordinates[0], coordinates[1], 350, field.movePoint, field.lockTile);
+            field.strategy.startMoving(
+                    new Point({
+                        'x': parseInt(Math.random() * field.countX),
+                        'y': parseInt(Math.random() * field.countY), 
+                        'color': 'yellow', 
+                        'id': ++id,
+                        'destination': {'x': point.x + data.coordinates[i][0], 'y': point.y - data.coordinates[i][1]}
+                    }), 150);
         }
       
         length += data.width;
-        addSpace(data.width);
+        point.x += length + 1;
     }
 }

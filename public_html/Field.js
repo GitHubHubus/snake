@@ -4,6 +4,8 @@ class Field {
     get countY () {return this._countY;}
     set countX (w) {this._countX = w;}
     set countY (h) {this._countY = h;}
+    get strategy () {return this._strategy;}
+    set strategy (strategy) {this._strategy = strategy;}
     
     constructor(blockId, width, height) {
         this.width = width ? width : document.documentElement.clientWidth;
@@ -53,31 +55,32 @@ class Field {
         this.tile = {width: width, height: height, indent: indent, color: color};
     }
     
-    lockTile(c) {
-        let tile = document.getElementById('c' + c.x + c.y);
+    lockTile(p) {
+        let tile = document.getElementById('c' + p.x + p.y);
         tile.dataset.lock = 1;
-        tile.dataset.id = c.id;
+        tile.dataset.id = p.id;
     }
     
-    movePoint(oldC, newC) {
-        let n = document.getElementById('c' + newC.x + newC.y);
-        let o = document.getElementById('c' + oldC.x + oldC.y);
+    movePoint(currentPlace, newPlace) {
+        let n = document.getElementById('c' + newPlace.x + newPlace.y);
+        let o = document.getElementById('c' + currentPlace.x + currentPlace.y);
 
         if (!n || n.dataset.lock == 1 || n.dataset.id != 'empty') {
             return false;
         }
-
+        
         n.dataset.lock = 1;
 
-        n.style.backgroundColor = newC.color;
+        n.style.backgroundColor = newPlace.color;
+        n.dataset.id = newPlace.id;
+        n.innerHTML = newPlace.id;
+        
         o.style.backgroundColor = '#ebedf0';
-        n.dataset.id = newC.id;
         o.dataset.id = 'empty';
-
-        n.innerHTML = newC.id;
         o.innerHTML = '';
 
         o.dataset.lock = 0;
+
         return true;
     }
 }
