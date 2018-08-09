@@ -14,6 +14,9 @@ class Point {
     get destination () {return this._destination;}
     set destination (d) {this._destination = d;}
 
+    get last () {return this._last;}
+    set last (l) {this._last = l;}
+
     get id () {return this._id;}
     set id (id) {this._id = id;}
 
@@ -23,11 +26,16 @@ class Point {
         this._color = options.color ? options.color : '#fff';
         this._id = options.id ? options.id : null;
         this._destination = options.destination ? options.destination : {'x': 0, 'y': 0};
+        this._last = {'x': 0, 'y': 0};
     }
     
     move (x, y) {
         this._x = x;
         this._y = y;
+    }
+    
+    recordLast () {
+        this._last = {'x': this._x, 'y': this._y};
     }
     
     inPlace (destination) {

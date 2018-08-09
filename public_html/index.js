@@ -2,12 +2,11 @@ const START_POINT = 25;
 const END_POINT = 13;
 
 var point = {x: 16, y: 20};
-let text = 'O';
+let text = 'OLEG';
 let field = new Field('main');
 let id = 0;
-let length = 0;
 
-field.strategy = new Simple(field.movePoint, field.lockTile);
+field.strategy = new SearchNearest(field.movePoint, field.lockTile);
 field.initTile(15, 15, 2);
 field.draw();
 
@@ -22,10 +21,9 @@ for(var char in text) {
                         'color': 'yellow', 
                         'id': ++id,
                         'destination': {'x': point.x + data.coordinates[i][0], 'y': point.y - data.coordinates[i][1]}
-                    }), 150);
+                    }), 15);
         }
       
-        length += data.width;
-        point.x += length + 1;
+        point.x += data.width + 1;
     }
 }
