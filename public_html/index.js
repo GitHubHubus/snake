@@ -2,7 +2,7 @@ const START_POINT = 25;
 const END_POINT = 13;
 
 var point = {x: 16, y: 20};
-let text = 'OLEG';
+let text = 'W';
 let field = new Field('main');
 let id = 0;
 

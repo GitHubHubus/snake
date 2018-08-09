@@ -13,7 +13,7 @@ class SearchNearest {
  
             if (isEndX && isEndY) {
                 this.viewLockFunction(p);
-                this.stopMoving(p.id);
+                this.stopMoving(p);
                 return;
             }
 
@@ -21,10 +21,10 @@ class SearchNearest {
             
             for (let i = 0; i < points.length; i++) {
                 let point = points[i];
-                point.id = p.id;
-                point.color = p.color;
-                
+
                 if (point.x != p.last.x && point.y != p.last.y) {
+                    point.id = p.id;
+                    point.color = p.color;
                     let result = this.viewMoveFunction(currentPlace, point);
                 
                     if (result) {
@@ -64,8 +64,8 @@ class SearchNearest {
         return result;
     }
     
-    stopMoving(id) {
-        clearInterval(this.points[id]);
-      //  console.log({id: this.id, 'dx': this.destination.x, 'x': this.x, 'dy': this.destination.y, 'y': this.y});
+    stopMoving(p) {
+        clearInterval(this.points[p.id]);
+        console.log({id: p.id, 'dx': p.destination.x, 'x': p.x, 'dy': p.destination.y, 'y': p.y});
     }
 }
