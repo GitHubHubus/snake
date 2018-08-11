@@ -12,6 +12,7 @@ class Field {
         this.width = width ? width : document.documentElement.clientWidth;
         this.height = height ? height : document.documentElement.clientHeight;
         this.id = blockId;
+        this._counter = 0;
     }
     
     draw() {
@@ -99,7 +100,6 @@ class Field {
     }
     
     drawText(text, startPoint) {
-        let id = 0;
         let point = startPoint;
         
         for(var char in text) {
@@ -108,7 +108,7 @@ class Field {
                 for (let i in data.coordinates) {
                     let params = this.startPositionStrategy.getPosition({width: data.width, max: {x: this.countX, y: this.countY}, x: point.x, y: point.y})
                     params.color = 'rgb(123, 201, 111)';
-                    params.id = ++id;
+                    params.id = ++this._counter;
                     params.destination = {'x': point.x + data.coordinates[i][0], 'y': point.y - data.coordinates[i][1]};
                     
                     this.strategy.startMoving(new Point(params), 50);
