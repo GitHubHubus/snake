@@ -83,4 +83,48 @@ class Field {
 
         return true;
     }
+    
+    movePointPerforating(currentPlace, newPlace) {
+        let n = document.getElementById('c' + newPlace.x + newPlace.y);
+        let o = document.getElementById('c' + currentPlace.x + currentPlace.y);
+
+        if (o.dataset.lock != 1) {
+            o.style.backgroundColor = '#ebedf0';
+            o.dataset.id = 'empty';
+            //o.innerHTML = '';
+        }
+
+        if (n && n.dataset.lock == 1) {
+            return true;
+        }
+        
+        n.style.backgroundColor = newPlace.color;
+
+        return true;
+    }
+    
+    drawText(text, startPoint) {
+        let id = 0;
+        let point = startPoint;
+
+        for(var char in text) {
+            let data = alphabet[text[char]];
+            if (data) {
+                for (let i in data.coordinates) {
+                    this.strategy.startMoving(
+                        new Point({
+                            'x': parseInt(Math.random() * this.countX),
+                            'y': parseInt(Math.random() * this.countY), 
+                            'color': 'rgb(123, 201, 111)', 
+                            'id': ++id,
+                            'destination': {'x': point.x + data.coordinates[i][0], 'y': point.y - data.coordinates[i][1]}
+                        }), 15);
+                }
+
+                point.x += data.width + 1;
+            } else {
+                point.x += 3;
+            }
+        }
+    }
 }
