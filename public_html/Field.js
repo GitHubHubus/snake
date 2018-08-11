@@ -1,11 +1,12 @@
 class Field {
-    
     get countX () {return this._countX;}
     get countY () {return this._countY;}
     set countX (w) {this._countX = w;}
     set countY (h) {this._countY = h;}
     get strategy () {return this._strategy;}
     set strategy (strategy) {this._strategy = strategy;}
+    get startPositionstrategy () {return this._startPositionStrategy;}
+    set startPositionstrategy (startPositionstrategy) {this._startPositionStrategy = startPositionstrategy;}
     
     constructor(blockId, width, height) {
         this.width = width ? width : document.documentElement.clientWidth;
@@ -24,7 +25,7 @@ class Field {
             node.style.whiteSpace = 'nowrap';
             for (let x = 0; x < parseInt(this.countX) + 1; x++) {
                 let div = document.createElement('div');
-                div.id = 'c' + x + y;
+                div.id = 'c' + x + '-' + y;
                 div.dataset.x = x;
                 div.dataset.y = y;
                 div.dataset.id = 'empty';
@@ -50,20 +51,20 @@ class Field {
     
     initTile(width, height, indent, color) {
         this.color = color ? color : '#ebedf0';
-        this.countX = this.width / (width + indent);
-        this.countY = this.height / (height + indent);
+        this.countX = parseInt(this.width / (width + indent));
+        this.countY = parseInt(this.height / (height + indent));
         this.tile = {width: width, height: height, indent: indent, color: color};
     }
     
     lockTile(p) {
-        let tile = document.getElementById('c' + p.x + p.y);
+        let tile = document.getElementById('c' + p.x + '-' + p.y);
         tile.dataset.lock = 1;
         tile.dataset.id = p.id;
     }
     
     movePoint(currentPlace, newPlace) {
-        let n = document.getElementById('c' + newPlace.x + newPlace.y);
-        let o = document.getElementById('c' + currentPlace.x + currentPlace.y);
+        let n = document.getElementById('c' + newPlace.x + '-' + newPlace.y);
+        let o = document.getElementById('c' + currentPlace.x + '-' + currentPlace.y);
 
         if (!n || n.dataset.lock == 1 || n.dataset.id != 'empty') {
             return false;
@@ -73,11 +74,11 @@ class Field {
 
         n.style.backgroundColor = newPlace.color;
         n.dataset.id = newPlace.id;
-        n.innerHTML = newPlace.id;
+     //   n.innerHTML = newPlace.id;
         
         o.style.backgroundColor = '#ebedf0';
         o.dataset.id = 'empty';
-        o.innerHTML = '';
+     //   o.innerHTML = '';
 
         o.dataset.lock = 0;
 
@@ -85,17 +86,11 @@ class Field {
     }
     
     movePointPerforating(currentPlace, newPlace) {
-        let n = document.getElementById('c' + newPlace.x + newPlace.y);
-        let o = document.getElementById('c' + currentPlace.x + currentPlace.y);
+        let n = document.getElementById('c' + newPlace.x + '-' + newPlace.y);
+        let o = document.getElementById('c' + currentPlace.x + '-' + currentPlace.y);
 
-        if (o.dataset.lock != 1) {
+        if (o && o.dataset.lock != 1) {
             o.style.backgroundColor = '#ebedf0';
-            o.dataset.id = 'empty';
-            //o.innerHTML = '';
-        }
-
-        if (n && n.dataset.lock == 1) {
-            return true;
         }
         
         n.style.backgroundColor = newPlace.color;
@@ -106,19 +101,17 @@ class Field {
     drawText(text, startPoint) {
         let id = 0;
         let point = startPoint;
-
+        
         for(var char in text) {
             let data = alphabet[text[char]];
             if (data) {
                 for (let i in data.coordinates) {
-                    this.strategy.startMoving(
-                        new Point({
-                            'x': parseInt(Math.random() * this.countX),
-                            'y': parseInt(Math.random() * this.countY), 
-                            'color': 'rgb(123, 201, 111)', 
-                            'id': ++id,
-                            'destination': {'x': point.x + data.coordinates[i][0], 'y': point.y - data.coordinates[i][1]}
-                        }), 15);
+                    let params = this.startPositionStrategy.getPosition({width: data.width, max: {x: this.countX, y: this.countY}, x: point.x, y: point.y})
+                    params.color = 'rgb(123, 201, 111)';
+                    params.id = ++id;
+                    params.destination = {'x': point.x + data.coordinates[i][0], 'y': point.y - data.coordinates[i][1]};
+                    
+                    this.strategy.startMoving(new Point(params), 50);
                 }
 
                 point.x += data.width + 1;

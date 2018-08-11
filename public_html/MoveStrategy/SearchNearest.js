@@ -7,16 +7,7 @@ class SearchNearest {
     
     startMoving (p, interval) {
         this.points[p.id] = setInterval(function () {
-            let isEndX = p.inPlace(true);
-            let isEndY = p.inPlace(false);
             let currentPlace = {'x': p.x, 'y': p.y};
- 
-            if (isEndX && isEndY) {
-                this.viewLockFunction(p);
-                this.stopMoving(p);
-                return;
-            }
-
             let points = this.searchNearest(p);
             
             for (let i = 0; i < points.length; i++) {
@@ -32,11 +23,24 @@ class SearchNearest {
                         p.x = point.x;
                         p.y = point.y;
                     
+                        this.isFinished(p);
                         return false;
                     }
                 }
             }
+            
+            
         }.bind(this), interval);
+    }
+    
+    isFinished(p) {
+        if (p.inPlace(true) && p.inPlace(false)) {
+            this.viewLockFunction(p);
+            this.stopMoving(p);
+            return true;
+        }
+        
+        return false;
     }
     
     searchNearest(p) {
