@@ -1,60 +1,68 @@
 class Field {
-    get countX () {return this._countX;}
-    get countY () {return this._countY;}
-    set countX (w) {this._countX = w;}
-    set countY (h) {this._countY = h;}
     get strategy () {return this._strategy;}
     set strategy (strategy) {this._strategy = strategy;}
-    get startPositionstrategy () {return this._startPositionStrategy;}
-    set startPositionstrategy (startPositionstrategy) {this._startPositionStrategy = startPositionstrategy;}
+    get startPositionStrategy () {return this._startPositionStrategy;}
+    set startPositionStrategy (strategy) {this._startPositionStrategy = strategy;}
     
-    constructor(blockId, width, height) {
-        this.width = width ? width : document.documentElement.clientWidth;
-        this.height = height ? height : document.documentElement.clientHeight;
-        this.id = blockId;
+    constructor(blockId, params) {
+        let width = params.width ? params.width : document.documentElement.clientWidth;
+        let height = params.height ? params.height : document.documentElement.clientHeight;
+        this._color = params.color ? params.color : '#ebedf0';
+        let color = params.tile.color ? params.tile.color : 'rgb(123, 201, 111)'
+        
+        this._id = blockId;
         this._counter = 0;
+        this._countX = parseInt(width / (params.tile.width + params.tile.indent));
+        this._countY = parseInt(height / (params.tile.height + params.tile.indent));
+        this.tile = {width: params.tile.width, height: params.tile.height, indent: params.tile.indent, color: color};
     }
     
     draw() {
-        let root = document.getElementById(this.id);
+        let root = document.getElementById(this._id);
         root.style.overflow = 'hidden';
-        for (let y = 0; y < parseInt(this.countY) + 1; y++) {
-            let node = document.createElement('div');
-            node.style.margin = 0;
-            node.style.padding = 0;
-            node.style.lineHeight = 0;
-            node.style.whiteSpace = 'nowrap';
-            for (let x = 0; x < parseInt(this.countX) + 1; x++) {
-                let div = document.createElement('div');
-                div.id = 'c' + x + '-' + y;
-                div.dataset.x = x;
-                div.dataset.y = y;
-                div.dataset.id = 'empty';
-                
-                //dev
-                div.style.textAlign = 'center';
-                div.style.lineHeight = '2.7';
-                div.style.fontSize = '10px';
-                div.style.color = 'red';
-                div.style.display = 'inline-block';
-                
-                div.style.backgroundColor = this.color;
-                div.style.width = this.tile.width + 'px';
-                div.style.height = this.tile.height + 'px';
-                div.style.marginRight = this.tile.indent + 'px';
-                div.style.marginBottom = this.tile.indent + 'px';
-                
+
+        for (let y = 0; y < this._countY + 1; y++) {
+            let node = this.createNode();
+
+            for (let x = 0; x < this._countX + 1; x++) {
+                let div = this.createTileBlock(x, y);
                 node.appendChild(div);
             }
             root.appendChild(node);
         }
     }
     
-    initTile(width, height, indent, color) {
-        this.color = color ? color : '#ebedf0';
-        this.countX = parseInt(this.width / (width + indent));
-        this.countY = parseInt(this.height / (height + indent));
-        this.tile = {width: width, height: height, indent: indent, color: color};
+    createNode() {
+        let node = document.createElement('div');
+        node.style.margin = 0;
+        node.style.padding = 0;
+        node.style.lineHeight = 0;
+        node.style.whiteSpace = 'nowrap';
+            
+        return node;
+    }
+    
+    createTileBlock (x, y) {
+        let div = document.createElement('div');
+        div.id = 'c' + x + '-' + y;
+        div.dataset.x = x;
+        div.dataset.y = y;
+        div.dataset.id = 'empty';
+        
+        //dev
+        div.style.textAlign = 'center';
+        div.style.lineHeight = '2.7';
+        div.style.fontSize = '10px';
+        div.style.color = 'red';
+        div.style.display = 'inline-block';
+        
+        div.style.backgroundColor = this._color;
+        div.style.width = this.tile.width + 'px';
+        div.style.height = this.tile.height + 'px';
+        div.style.marginRight = this.tile.indent + 'px';
+        div.style.marginBottom = this.tile.indent + 'px';
+        
+        return div;
     }
     
     lockTile(p) {
@@ -99,19 +107,19 @@ class Field {
         return true;
     }
     
-    drawText(text, startPoint) {
+    drawText(text, startPoint, frequency) {
         let point = startPoint;
         
         for(var char in text) {
             let data = alphabet[text[char]];
             if (data) {
                 for (let i in data.coordinates) {
-                    let params = this.startPositionStrategy.getPosition({width: data.width, max: {x: this.countX, y: this.countY}, x: point.x, y: point.y})
-                    params.color = 'rgb(123, 201, 111)';
+                    let params = this.startPositionStrategy.getPosition({width: data.width, max: {x: this._countX, y: this._countY}, x: point.x, y: point.y})
+                    params.color = this.tile.color;
                     params.id = ++this._counter;
                     params.destination = {'x': point.x + data.coordinates[i][0], 'y': point.y - data.coordinates[i][1]};
                     
-                    this.strategy.startMoving(new Point(params), 50);
+                    this.strategy.startMoving(new Point(params), frequency);
                 }
 
                 point.x += data.width + 1;
