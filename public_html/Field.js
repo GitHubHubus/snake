@@ -8,7 +8,7 @@ class Field {
         let width = params.width ? params.width : document.documentElement.clientWidth;
         let height = params.height ? params.height : document.documentElement.clientHeight;
         this._color = params.color ? params.color : '#ebedf0';
-        let color = params.tile.color ? params.tile.color : 'rgb(123, 201, 111)'
+        let color = params.tile.color ? params.tile.color : ['rgb(123, 201, 111)', '#196127', '#c6e48b'];
         
         this._id = blockId;
         this._counter = 0;
@@ -114,8 +114,9 @@ class Field {
             let data = alphabet[text[char]];
             if (data) {
                 for (let i in data.coordinates) {
+                    let color = parseInt(Math.random() * this.tile.color.length);
                     let params = this.startPositionStrategy.getPosition({width: data.width, max: {x: this._countX, y: this._countY}, x: point.x, y: point.y})
-                    params.color = this.tile.color;
+                    params.color = this.tile.color[color];
                     params.id = ++this._counter;
                     params.destination = {'x': point.x + data.coordinates[i][0], 'y': point.y - data.coordinates[i][1]};
                     
