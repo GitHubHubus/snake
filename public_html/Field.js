@@ -111,7 +111,7 @@ class Field {
         let point = startPoint;
         
         for(var char in text) {
-            let data = alphabet[text[char]];
+            let data = symbols[text[char]];
             if (data) {
                 for (let i in data.coordinates) {
                     let color = parseInt(Math.random() * this.tile.color.length);
