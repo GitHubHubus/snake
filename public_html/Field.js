@@ -93,11 +93,16 @@ class Field {
 
         return true;
     }
-    
+
+    fillPoint(point) {
+        let p = document.getElementById('c' + point.x + '-' + point.y);
+        p.style.backgroundColor = point.color;
+    }
+
     movePointPerforating(currentPlace, newPlace) {
         let n = document.getElementById('c' + newPlace.x + '-' + newPlace.y);
         let o = document.getElementById('c' + currentPlace.x + '-' + currentPlace.y);
-
+        
         if (o && o.dataset.lock != 1) {
             o.style.backgroundColor = '#ebedf0';
         }
@@ -121,6 +126,33 @@ class Field {
                     params.destination = {'x': point.x + data.coordinates[i][0], 'y': point.y - data.coordinates[i][1]};
                     
                     this.strategy.startMoving(new Point(params), frequency);
+                }
+
+                point.x += data.width + 1;
+            } else {
+                point.x += 3;
+            }
+        }
+    }
+    
+    drawSimpleText(text, startPoint) {
+        let point = startPoint;
+        
+        for(var char in text) {
+            let data = symbols[text[char]];
+            if (data) {
+                for (let i in data.coordinates) {
+                    let color = parseInt(Math.random() * this.tile.color.length);
+                    
+                    let params = {
+                        'x': point.x + data.coordinates[i][0], 
+                        'y': point.y - data.coordinates[i][1],
+                        id : ++this._counter,
+                        color : this.tile.color[color]
+                    
+                    };
+                    
+                    this.fillPoint(new Point(params));
                 }
 
                 point.x += data.width + 1;
