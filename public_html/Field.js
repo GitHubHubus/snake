@@ -1,6 +1,6 @@
 class Field {
-    get strategy () {return this._strategy;}
-    set strategy (strategy) {this._strategy = strategy;}
+    get moveStrategy () {return this._moveStrategy;}
+    set moveStrategy (strategy) {this._moveStrategy = strategy;}
     get startPositionStrategy () {return this._startPositionStrategy;}
     set startPositionStrategy (strategy) {this._startPositionStrategy = strategy;}
     
@@ -11,10 +11,50 @@ class Field {
         let color = params.tile.color ? params.tile.color : ['rgb(123, 201, 111)', '#196127', '#c6e48b'];
         
         this._id = blockId;
+        this._moveStrategy = this.getMoveStrategy(params.moveStrategy);
+        this._startPositionStrategy = this.getStartPositionStrategy(params.startPositionStrategy);
         this._counter = 0;
         this._countX = parseInt(width / (params.tile.width + params.tile.indent));
         this._countY = parseInt(height / (params.tile.height + params.tile.indent));
         this.tile = {width: params.tile.width, height: params.tile.height, indent: params.tile.indent, color: color};
+    }
+    
+    getMoveStrategy(name) {
+        switch (name) {
+            case 'simple':
+                return new Simple(this.movePointPerforating, this.lockTile);
+            case 'search-nearest':
+            default:
+                return new SearchNearest(this.movePointPerforating, this.lockTile);
+        }
+    }
+    
+    getStartPositionStrategy(name) {
+        switch (name) {
+            case 'bottom':
+                return new Bottom();
+            case 'bottom-char':
+                return new BottomChar();
+            case 'center':
+                return new Center();
+            case 'center-char':
+                return new CenterChar();
+            case 'left':
+                return new Left();
+            case 'left-char':
+                return new LeftChar();
+            case 'right':
+                return new Right();
+            case 'right-char':
+                return new RightChar();
+            case 'top':
+                return new Top();
+            case 'top-char':
+                return new TopChar();
+            case 'random':
+            default:
+                return new Random();
+        }
     }
     
     draw() {
@@ -125,7 +165,7 @@ class Field {
                     params.id = ++this._counter;
                     params.destination = {'x': point.x + data.coordinates[i][0], 'y': point.y - data.coordinates[i][1]};
                     
-                    this.strategy.startMoving(new Point(params), frequency);
+                    this.moveStrategy.startMoving(new Point(params), frequency);
                 }
 
                 point.x += data.width + 1;
