@@ -5,10 +5,10 @@ class Field {
     set startPositionStrategy (strategy) {this._startPositionStrategy = strategy;}
     
     constructor(blockId, params) {
-        let width = params.width ? params.width : document.documentElement.clientWidth;
-        let height = params.height ? params.height : document.documentElement.clientHeight;
+        let width = params.width ? params.width : document.getElementById(blockId).clientWidth;
+        let height = params.height ? params.height : document.getElementById(blockId).clientHeight;
         this._color = params.color ? params.color : '#ebedf0';
-        let color = params.tile.color ? params.tile.color : ['rgb(123, 201, 111)', '#196127', '#c6e48b'];
+        let colors = params.tile.colors ? params.tile.colors : ['rgb(123, 201, 111)', '#196127', '#c6e48b'];
         
         this._id = blockId;
         this._moveStrategy = this.getMoveStrategy(params.moveStrategy);
@@ -16,7 +16,7 @@ class Field {
         this._counter = 0;
         this._countX = parseInt(width / (params.tile.width + params.tile.indent));
         this._countY = parseInt(height / (params.tile.height + params.tile.indent));
-        this.tile = {width: params.tile.width, height: params.tile.height, indent: params.tile.indent, color: color};
+        this.tile = {width: params.tile.width, height: params.tile.height, indent: params.tile.indent, colors: colors};
     }
     
     getMoveStrategy(name) {
@@ -143,6 +143,10 @@ class Field {
         let n = document.getElementById('c' + newPlace.x + '-' + newPlace.y);
         let o = document.getElementById('c' + currentPlace.x + '-' + currentPlace.y);
         
+        if (!n || !n.style) {
+            return false;
+        }
+        
         if (o && o.dataset.lock != 1) {
             o.style.backgroundColor = '#ebedf0';
         }
@@ -159,9 +163,9 @@ class Field {
             let data = symbols[text[char]];
             if (data) {
                 for (let i in data.coordinates) {
-                    let color = parseInt(Math.random() * this.tile.color.length);
+                    let color = parseInt(Math.random() * this.tile.colors.length);
                     let params = this.startPositionStrategy.getPosition({width: data.width, max: {x: this._countX, y: this._countY}, x: point.x, y: point.y})
-                    params.color = this.tile.color[color];
+                    params.color = this.tile.colors[color];
                     params.id = ++this._counter;
                     params.destination = {'x': point.x + data.coordinates[i][0], 'y': point.y - data.coordinates[i][1]};
                     
@@ -182,13 +186,13 @@ class Field {
             let data = symbols[text[char]];
             if (data) {
                 for (let i in data.coordinates) {
-                    let color = parseInt(Math.random() * this.tile.color.length);
+                    let color = parseInt(Math.random() * this.tile.colors.length);
                     
                     let params = {
                         'x': point.x + data.coordinates[i][0], 
                         'y': point.y - data.coordinates[i][1],
                         id : ++this._counter,
-                        color : this.tile.color[color]
+                        color : this.tile.colors[color]
                     
                     };
                     

@@ -24,8 +24,9 @@ class SearchNearest {
                         p.y = point.y;
                     
                         this.isFinished(p);
-                        return false;
                     }
+                    
+                    return false;
                 }
             }
             
