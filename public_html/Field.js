@@ -5,8 +5,16 @@ class Field {
     set startPositionStrategy (strategy) {this._startPositionStrategy = strategy;}
     
     constructor(blockId, params) {
+        let height = document.getElementById(blockId).clientHeight;
+
+        if (params.height) {
+            height = params.height;
+        } else if (height === 0) {
+            height = document.documentElement.clientHeight;
+        }
+
         let width = params.width ? params.width : document.getElementById(blockId).clientWidth;
-        let height = params.height ? params.height : document.getElementById(blockId).clientHeight;
+
         this._color = params.color ? params.color : '#ebedf0';
         let colors = params.tile.colors ? params.tile.colors : ['rgb(123, 201, 111)', '#196127', '#c6e48b'];
         
@@ -85,6 +93,7 @@ class Field {
     createTileBlock (x, y) {
         let div = document.createElement('div');
         div.id = 'c' + x + '-' + y;
+        div.classList.add('node');
         div.dataset.x = x;
         div.dataset.y = y;
         div.dataset.id = 'empty';
@@ -177,6 +186,21 @@ class Field {
                 point.x += 3;
             }
         }
+    }
+
+    createPoint (startPoint, endPoint) {
+        let color = parseInt(Math.random() * this.tile.colors.length);
+        let params = startPoint || {x: 0, y: 0};
+
+        params.color = this.tile.colors[color];
+        params.id = ++this._counter;
+        params.destination = endPoint;
+        
+        return new Point(params);
+    }
+    
+    movePoint(point, frequency) {
+        this.moveStrategy.startMoving(point, frequency);
     }
     
     drawSimpleText(text, startPoint) {
