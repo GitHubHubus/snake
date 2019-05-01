@@ -20,6 +20,9 @@ class Point {
     get id () {return this._id;}
     set id (id) {this._id = id;}
 
+    get stoped () {return this._stoped;}
+    set stoped (stoped) {this._stoped = stoped;}
+
     constructor (options) {
         this._x = options.x ? options.x : 0;
         this._y = options.y ? options.y : 0;
@@ -27,6 +30,7 @@ class Point {
         this._id = options.id ? options.id : null;
         this._destination = options.destination ? options.destination : {'x': 0, 'y': 0};
         this._last = {'x': 0, 'y': 0};
+        this._stoped = false;
     }
     
     move (x, y) {

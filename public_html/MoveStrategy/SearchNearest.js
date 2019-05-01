@@ -38,6 +38,7 @@ class SearchNearest {
         if (p.inPlace(true) && p.inPlace(false)) {
             this.viewLockFunction(p);
             this.stopMoving(p);
+            p.stoped = true;
             return true;
         }
         

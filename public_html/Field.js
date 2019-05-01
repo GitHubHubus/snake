@@ -120,6 +120,12 @@ class Field {
         tile.dataset.id = p.id;
     }
     
+    unlockTile(p) {
+        let tile = document.getElementById('c' + p.x + '-' + p.y);
+        tile.dataset.lock = 0;
+        tile.dataset.id = null;
+    }
+    
     movePoint(currentPlace, newPlace) {
         let n = document.getElementById('c' + newPlace.x + '-' + newPlace.y);
         let o = document.getElementById('c' + currentPlace.x + '-' + currentPlace.y);
@@ -155,7 +161,7 @@ class Field {
         if (!n || !n.style) {
             return false;
         }
-        
+
         if (o && o.dataset.lock != 1) {
             o.style.backgroundColor = '#ebedf0';
         }
@@ -199,8 +205,15 @@ class Field {
         return new Point(params);
     }
     
-    movePoint(point, frequency) {
+    movePointForce(point, frequency) {
         this.moveStrategy.startMoving(point, frequency);
+    }
+    
+    movePoint(point, frequency) {
+        if (point.stoped && (!point.inPlace(true) || !point.inPlace(false))) {
+            point.stoped = false;
+            this.moveStrategy.startMoving(point, frequency);
+        }
     }
     
     drawSimpleText(text, startPoint) {
