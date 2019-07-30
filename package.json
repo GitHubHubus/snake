@@ -1,0 +1,34 @@
+{
+  "requires": true,
+  "lockfileVersion": 1,
+  "dependencies": {},
+  "name": "snake_game",
+  "description": "Just for fun",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {
+    "webpack": "^4.38.0",
+    "webpack-cli": "^3.3.6"
+  },
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://githubhubus:381c6e73f1d8df7b5e6add3b3e8b18d34cb69749@github.com/GitHubHubus/billboard.git"
+  },
+  "keywords": [
+    "snake",
+    "game"
+  ],
+  "author": "oleg kochetkov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GitHubHubus/billboard/issues"
+  },
+  "homepage": "https://github.com/GitHubHubus/billboard#readme"
+}
