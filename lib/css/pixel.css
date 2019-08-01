@@ -3,6 +3,8 @@
     padding: 0;
 }
 body {
+    width: 50%;
+    margin: auto;
     overflow: hidden;
 }
 div.field-row {
@@ -19,5 +21,6 @@ div.field-node {
     /*transition: background-color 1s ease-in;*/
 }
 div#main, div#score {
-    display: inline-block;
+    margin: inherit;
+    width: fit-content;
 }
