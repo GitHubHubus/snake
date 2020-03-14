@@ -2,6 +2,7 @@
   "requires": true,
   "lockfileVersion": 1,
   "dependencies": {
+    "express": "^4.16.1",    
     "mongodb": "^3.5.5"
   },
   "name": "snake_game",
@@ -27,7 +28,7 @@
     "snake",
     "game"
   ],
-  "author": "oleg kochetkov",
+  "author": "Oleg Kochetkov <oleg.kochetkov999@yandex.ru>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/GitHubHubus/billboard/issues"
