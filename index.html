@@ -7,8 +7,21 @@
         <link rel="stylesheet" type="text/css" href="lib/css/pixel.css" />
     </head>
     <body>
-        <div id="score"></div>
-        <div id="main"></div>
-        <script src="./dist/snake.js" ></script>
+        <div>
+            <select id="type">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+            <button id="start">Start</button>
+        </div>
+        <div id="content">
+            <div id="score"></div>
+            <div id="main"></div>
+        </div> 
+        <script src="./dist/snake.js"></script>
     </body>
 </html>

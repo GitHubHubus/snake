@@ -20,7 +20,7 @@ div.field-node {
     display: inline-block;
     /*transition: background-color 1s ease-in;*/
 }
-div#main, div#score {
+div#content, div#main, div#score {
     margin: inherit;
     width: fit-content;
 }
