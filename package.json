@@ -1,7 +1,9 @@
 {
   "requires": true,
   "lockfileVersion": 1,
-  "dependencies": {},
+  "dependencies": {
+    "mongodb": "^3.5.5"
+  },
   "name": "snake_game",
   "description": "Just for fun",
   "version": "1.0.0",
