@@ -21,6 +21,9 @@ div.field-node {
     /*transition: background-color 1s ease-in;*/
 }
 div#content, div#main, div#score {
-    margin: inherit;
     width: fit-content;
+}
+
+.content-center {
+    margin: auto;
 }
