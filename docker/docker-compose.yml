@@ -8,11 +8,13 @@ services:
     ports:
       - '8080:8080'
     environment:
-      - NODE_ENV=development
+      NODE_ENV: development
+      WAIT_HOSTS: mongodb_image:27017
     depends_on:
       - mongodb_image
-    environment:
-      WAIT_HOSTS: mongodb_image:27017
+    networks:
+      - backend
+
   mongodb_image:
     image: mongo:latest
     environment:
@@ -22,16 +24,29 @@ services:
       - 27017:27017
     volumes:
       - mongodb_data_container:/data/db
+    networks:
+      - backend
+
   snake-client:
     build:
       context: ..
       dockerfile: ./docker/ui/Dockerfile
     ports:
       - '80:80'
+    volumes:
+      - ../:/usr/share/nginx/html
     environment:
       - NODE_ENV=development  
     depends_on:
-      - snake-server  
+      - snake-server
+    networks:
+      - frontend
 
 volumes:
-  mongodb_data_container:    
+  mongodb_data_container:
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
