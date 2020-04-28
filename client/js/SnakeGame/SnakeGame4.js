@@ -5,9 +5,10 @@ import {Field, DEFAULT_TILE_SIZE} from '../Core/Field';
 import TextDrawer from '../Core/Drawer/TextDrawer';
 
 export default class SnakeGame4 extends BaseSnakeGame {
-    /**
-     * 4. draw the word
-     */
+    static description () {
+        return 'Draw word';
+    }    
+
     constructor (params) {
         params.field = new Field('main', {tile: DEFAULT_TILE_SIZE, width: 500, height:250, border: true});
         super(params);

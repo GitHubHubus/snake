@@ -4,9 +4,10 @@ import Purpose from './Models/Purpose';
 import {Field, DEFAULT_TILE_SIZE} from '../Core/Field';
 
 export default class SnakeGame6 extends BaseSnakeGame {
-    /**
-     * 6. portals as goal
-     */
+    static description () {
+        return 'Portal as goal';
+    }
+
     constructor (params) {
         params.field = new Field('main', {tile: DEFAULT_TILE_SIZE, width: 150, height:150, border: true})
         super(params);

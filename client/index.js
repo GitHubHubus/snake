@@ -67,6 +67,7 @@ const resetGame = (type) => {
 document.getElementById('type').addEventListener("change", (e) => {
     resetGame(e.target.value);
     $('input[name="type"]').val(e.target.value);
+    $('.description').html(types[e.target.value].description());
 });
 
 $.each(types, (key, value) => {

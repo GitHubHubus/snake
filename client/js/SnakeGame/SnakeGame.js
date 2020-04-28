@@ -4,9 +4,10 @@ import {Field, DEFAULT_TILE_SIZE} from '../Core/Field';
 import Purpose from './Models/Purpose';
 
 export default class SnakeGame extends BaseSnakeGame {
-    /**
-     * 0. simple snake
-     */
+    static description () {
+        return 'Simple snake';
+    }    
+
     constructor (params) {
         params.field = new Field('main', {tile: DEFAULT_TILE_SIZE, width: 150, height:150, border: true});
         super(params);

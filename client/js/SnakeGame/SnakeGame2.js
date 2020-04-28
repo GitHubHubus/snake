@@ -4,9 +4,10 @@ import Purpose from './Models/Purpose';
 import {Field, DEFAULT_TILE_SIZE} from '../Core/Field';
 
 export default class SnakeGame2 extends BaseSnakeGame {
-    /**
-     * 2. endless purposes
-     */
+    static description () {
+        return 'Endless purposes';
+    }
+
     constructor (params) {
         params.field = new Field('main', {tile: DEFAULT_TILE_SIZE, width: 150, height:150, border: true});
         super(params);
@@ -148,6 +149,6 @@ export default class SnakeGame2 extends BaseSnakeGame {
     
     handleEndGame(isForce = false) {
         this._stopAddPurpose();
-        super.handleEndGame();
+        super.handleEndGame(isForce);
     }
 }
