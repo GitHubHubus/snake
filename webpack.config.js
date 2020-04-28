@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-  entry: './lib/index.js',
+  entry: './client/index.js',
   devtool: 'eval',
   output: {
     filename: 'snake.js',

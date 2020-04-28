@@ -6,7 +6,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY lib/server.js server.js
+COPY server/server.js server.js
 
 EXPOSE 8080
 

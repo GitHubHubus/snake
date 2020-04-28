@@ -1,5 +1,5 @@
 const SETTINGS = {
-    api_url: 'http://192.168.56.102'
+    api_url: 'http://0.0.0.0:8080'
 }
 
 export default SETTINGS;
