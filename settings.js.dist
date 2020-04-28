@@ -1,3 +1,5 @@
-export default SETTINGS = {
+const SETTINGS = {
     api_url: 'http://192.168.56.102'
 }
+
+export default SETTINGS;
