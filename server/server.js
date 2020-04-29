@@ -32,7 +32,7 @@ const init = () => {
 
 init();
 
-app.get('/top/:type/:limit', (req, res) => {
+app.get('/score/:type/:limit', (req, res) => {
     req.app.locals.score.find({type: req.params.type})
          .sort({ score: -1 })
          .limit(Number(req.params.limit))

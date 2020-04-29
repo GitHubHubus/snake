@@ -37,7 +37,11 @@ export class Field {
             this._drawBorder();
         }
     }
-    
+
+    destroy() {
+        document.getElementById(this._id).innerHTML = "";
+    }
+
     draw() {
         let root = document.getElementById(this._id);
         root.style.overflow = 'hidden';

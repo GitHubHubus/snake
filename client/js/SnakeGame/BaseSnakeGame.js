@@ -69,6 +69,11 @@ export default class SnakeGame {
         this.handleEndGame(true);
     }
 
+    destroyView() {
+        this._field.destroy();
+        this._score.destroy();
+    }
+
     /**
      * It could be overridden in child class, but this method required be called with 'super'
      * @param isForce

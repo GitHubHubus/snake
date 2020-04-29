@@ -11,7 +11,11 @@ export default class Score {
 
         this.redraw();
     }
-    
+
+    destroy() {
+        this._field.destroy();
+    }
+
     /**
      * @param {Number} amount
      */

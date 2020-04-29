@@ -4,98 +4,101 @@ import SnakeGame4 from './js/SnakeGame/SnakeGame4';
 import SnakeGame6 from './js/SnakeGame/SnakeGame6';
 import SnakeGame7 from './js/SnakeGame/SnakeGame7';
 import EventHelper from './js/SnakeGame/Helper/EventHelper';
-import SETTINGS from '../settings';
 import $ from 'jquery'
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/pixel.css';
+import Vue from 'vue';
+import api from './js/Api/index';
 
-let game = null;
-let lastScore = {};
-const types = {
-    1: SnakeGame,
-    2: SnakeGame2,
-    4: SnakeGame4,
-    6: SnakeGame6,
-    7: SnakeGame7
-};
+Vue.component('rating-row', {
+    props: {
+        score: Object,
+    },
+    template: `<div class="text-center">
+                <div>
+                    <span class="rating-name ml-2">{{score.key}}</span>
+                    <span class="rating-name ml-2">{{score.name}}</span>
+                    <span class="rating-score ml-5">{{score.score}}</span>
+                </div>
+            </div>`
+});
 
-const ratingRowTemplate = (key, value) => {
-    return `<div class="text-center">
-        <span class="rating-name ml-2">${key}. ${value.name}</span>
-        <span class="rating-score ml-5">${value.score}</span>
-    </div>
-    <hr />`;
-};
+var a = new Vue({
+    el: '#app',
+    data: {
+        top: [],
+        lastScore: null,
+        score: 0,
+        type: null,
+        description: '',
+        name: '',
+        games: [
+            {value: SnakeGame, text: SnakeGame.description()},
+            {value: SnakeGame2, text: SnakeGame2.description()},
+            {value: SnakeGame4, text: SnakeGame4.description()},
+            {value: SnakeGame6, text: SnakeGame6.description()},
+            {value: SnakeGame7, text: SnakeGame7.description()},
+        ],
+        game: null
+    },
+    methods: {
+        changeGame(e) {
+            this.type = e.target.value;
+            this.description = this.type;
+            this._resetGame(this.type);
+        },
+        _redrawRating(type) {
+            let that = this;
+            that.top = [];
 
-const handleEndGame = () => {
-    if (!lastScore.value || game.score() > lastScore.value || lastScore.key < 10) {
-        $('input[name="score"]').val(game.score());
-        $('#scoreModal').modal({show: true});
-    }
-};
-
-const redrawRating = (type) => {
-    $('#top').empty();
-    
-    $.ajax({
-        url: `${SETTINGS.api_url}/top/${type}/10`,
-        dataType: 'json',
-        contentType: 'Content-Type: application/x-www-form-urlencoded',
-        success: (response) => {
-            $.each(response, (key, value) => {
-                $('#top').append(ratingRowTemplate(key + 1, value));
-                lastScore = {value: value.score, key: key + 1};
+            api.score.list(type, 10).then((response) => {
+                $.each(response.data, (key, value) => {
+                    value.key = key + 1;
+                    that.top.push(value);
+                    that.lastScore = value;
+                });
             });
         },
-        error: (err) => {
-            console.log(err);
+        _resetGame(type) {
+            if (this.game) {
+                this.game.forceEndGame();
+                this.game.destroyView();
+                this.game = null;
+            }
+
+            for (let i =0; i < this.games.length; i++) {
+                if (this.games[i].text === type) {
+                    this.game = new this.games[i].value({onEndGame: this._handleEndGame});
+                    break;
+                }
+            }
+
+            this._redrawRating(type);
+        },
+        _handleEndGame() {
+            if (
+                this.game.score() > 0 &&
+                (!this.lastScore || this.game.score() > this.lastScore.score || this.lastScore.key < 10)
+            ) {
+                this.score = this.game.score();
+                $('#scoreModal').modal({show: true});
+            }
+        },
+        postScore() {
+            let data = {score: this.score, type: this.type, name: this.name};
+
+            api.score.post(data).then((response) => {
+                this._redrawRating(data.type);
+                $('#scoreModal').modal('hide');
+            });
+        },
+        startGame() {
+            if (this.game) {
+                this._resetGame(this.type);
+            }
+
+            EventHelper.fire('start');
         }
-    });
-};
-
-const resetGame = (type) => {
-    game && game.forceEndGame();
-    game = null;
-    document.getElementById('score').innerHTML = "";
-    document.getElementById('main').innerHTML = "";
-
-    game = new types[type]({onEndGame: handleEndGame});
-    redrawRating(type);
-};
-
-document.getElementById('type').addEventListener("change", (e) => {
-    resetGame(e.target.value);
-    $('input[name="type"]').val(e.target.value);
-    $('.description').html(types[e.target.value].description());
-});
-
-$.each(types, (key, value) => {
-    $('#type').append(`<option value="${key}">${key}</option>`); 
-});
-
-document.getElementById('start').addEventListener("click", () => {
-    if (game) {
-        resetGame($('#type').val());
     }
-
-    EventHelper.fire('start');
-});
-
-$('#score-submit').on('click', (e) => {
-    let data = {};
-
-    $.each($('.score-form').find('input'), (key, input) => {
-        data[$(input).attr('name')] = $(input).val();
-    });
-
-    $.ajax({
-        url: `${SETTINGS.api_url}/score`,
-        data: data,
-        type: 'POST',
-        success: (response) => {
-            redrawRating(data.type);
-            $('#scoreModal').modal('hide');
-        }
-    })
 });

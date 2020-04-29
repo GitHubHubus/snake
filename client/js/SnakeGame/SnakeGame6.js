@@ -48,7 +48,6 @@ export default class SnakeGame6 extends BaseSnakeGame {
             outPortal = this._getRandomOutPortal(event.p);
             this._score.set();
         } else if (this._snake.isSnake(event.p) || this._field.isBorder(event.p)) {
-            console.log(event.p);
             this.handleEndGame();
         }  
 
