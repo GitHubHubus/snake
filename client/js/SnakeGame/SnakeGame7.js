@@ -1,15 +1,19 @@
 import BaseSnakeGame from './BaseSnakeGame';
 import EventHelper from './Helper/EventHelper';
 import Purpose from './Models/Purpose';
-import {Field, DEFAULT_TILE_SIZE} from '../Core/Field';
 
 export default class SnakeGame7 extends BaseSnakeGame {
     static description () {
         return 'change color snake';
     }
 
+    static settings() {
+        const settings = [];
+
+        return settings.concat(super.settings());
+    }
+
     constructor (params) {
-        params.field = new Field('main', {tile: DEFAULT_TILE_SIZE, width: 250, height:250, border: true});
         super(params);
 
         this._colors = ['yellow', 'red', 'orange', 'blue', 'gray', 'brown', 'green'];

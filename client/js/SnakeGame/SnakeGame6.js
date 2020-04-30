@@ -1,15 +1,19 @@
 import BaseSnakeGame from './BaseSnakeGame';
 import EventHelper from './Helper/EventHelper';
 import Purpose from './Models/Purpose';
-import {Field, DEFAULT_TILE_SIZE} from '../Core/Field';
 
 export default class SnakeGame6 extends BaseSnakeGame {
     static description () {
         return 'Portal as goal';
     }
 
+    static settings() {
+        const settings = [];
+
+        return settings.concat(super.settings());
+    }
+
     constructor (params) {
-        params.field = new Field('main', {tile: DEFAULT_TILE_SIZE, width: 150, height:150, border: true})
         super(params);
         
         this._numberPortals = 4;

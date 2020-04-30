@@ -44,7 +44,7 @@
                             Settings
                             <div class="form-group">
                                 <div v-for="set in settings">
-                                    <settings-input :props="set" />
+                                    <settings-input :props="set" @update="changeSettings" />
                                 </div>
                             </div>
                         </div>

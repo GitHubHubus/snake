@@ -33,7 +33,9 @@ const v = new Vue({
             {value: SnakeGame7, text: SnakeGame7.description()},
         ],
         game: null,
-        settings: []
+        gameObject: null,
+        settings: {},
+        settingsValues: {}
     },
     methods: {
         changeGame(e) {
@@ -54,16 +56,16 @@ const v = new Vue({
             });
         },
         _resetGame(type) {
-            if (this.game) {
-                this.game.forceEndGame();
-                this.game.destroyView();
-                this.game = null;
+            if (this.gameObject) {
+                this.gameObject.forceEndGame();
+                this.gameObject.destroyView();
+                this.gameObject = null;
             }
 
-            for (let i =0; i < this.games.length; i++) {
+            for (let i = 0; i < this.games.length; i++) {
                 if (this.games[i].text === type) {
                     this.settings = this.games[i].value.settings();
-                    this.game = new this.games[i].value({onEndGame: this._handleEndGame});
+                    this.game = this.games[i].value;
                     break;
                 }
             }
@@ -72,10 +74,10 @@ const v = new Vue({
         },
         _handleEndGame() {
             if (
-                this.game.score() > 0 &&
-                (!this.lastScore || this.game.score() > this.lastScore.score || this.lastScore.key < 10)
+                this.gameObject.score() > 0 &&
+                (!this.lastScore || this.gameObject.score() > this.lastScore.score || this.lastScore.key < 10)
             ) {
-                this.score = this.game.score();
+                this.score = this.gameObject.score();
                 $('#scoreModal').modal({show: true});
             }
         },
@@ -88,11 +90,16 @@ const v = new Vue({
             });
         },
         startGame() {
-            if (this.game) {
+            if (this.gameObject) {
                 this._resetGame(this.type);
             }
 
+            this.gameObject = new this.game({onEndGame: this._handleEndGame, settings: this.settingsValues});
+
             EventHelper.fire('start');
+        },
+        changeSettings(e) {
+            this.settingsValues[e[0]] = e[1];
         }
     }
 });

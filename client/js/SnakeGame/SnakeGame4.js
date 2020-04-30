@@ -1,16 +1,20 @@
 import BaseSnakeGame from './BaseSnakeGame';
 import EventHelper from './Helper/EventHelper';
 import Purpose from './Models/Purpose';
-import {Field, DEFAULT_TILE_SIZE} from '../Core/Field';
 import TextDrawer from '../Core/Drawer/TextDrawer';
 
 export default class SnakeGame4 extends BaseSnakeGame {
     static description () {
         return 'Draw word';
-    }    
+    }
+
+    static settings() {
+        const settings = [];
+
+        return settings.concat(super.settings());
+    }
 
     constructor (params) {
-        params.field = new Field('main', {tile: DEFAULT_TILE_SIZE, width: 500, height:250, border: true});
         super(params);
 
         this._drawer = new TextDrawer({field: this._field, colors: ['orange']});
