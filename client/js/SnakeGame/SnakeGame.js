@@ -8,6 +8,15 @@ export default class SnakeGame extends BaseSnakeGame {
         return 'Simple snake';
     }    
 
+    static settings() {
+        return {
+            'field-width': {'type': 'number', 'max':1500, 'min': 150, step: 5, label: 'Field width'},
+            'field-height': {'type': 'number', 'max':1500, 'min': 150, step: 5, label: 'Field height'},
+            'start-speed': {'type': 'number', 'max':10, 'min': 150, step: 1, label: 'Start speed'},
+            'increase-speed-point': {'type': 'number', 'max':1000, 'min': 10, step: 10, label: 'Increase speed point'},
+        };
+    }
+
     constructor (params) {
         params.field = new Field('main', {tile: DEFAULT_TILE_SIZE, width: 150, height:150, border: true});
         super(params);

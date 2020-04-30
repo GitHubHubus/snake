@@ -10,21 +10,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/pixel.css';
 import Vue from 'vue';
 import api from './js/Api/index';
+import RowScore from './view/components/RowScore';
+import Input from './view/components/Input';
 
-Vue.component('rating-row', {
-    props: {
-        score: Object,
-    },
-    template: `<div class="text-center">
-                <div>
-                    <span class="rating-name ml-2">{{score.key}}</span>
-                    <span class="rating-name ml-2">{{score.name}}</span>
-                    <span class="rating-score ml-5">{{score.score}}</span>
-                </div>
-            </div>`
-});
+Vue.component('row-score', RowScore);
+Vue.component('settings-input', Input);
 
-var a = new Vue({
+const v = new Vue({
     el: '#app',
     data: {
         top: [],
@@ -40,7 +32,8 @@ var a = new Vue({
             {value: SnakeGame6, text: SnakeGame6.description()},
             {value: SnakeGame7, text: SnakeGame7.description()},
         ],
-        game: null
+        game: null,
+        settings: []
     },
     methods: {
         changeGame(e) {
@@ -69,6 +62,7 @@ var a = new Vue({
 
             for (let i =0; i < this.games.length; i++) {
                 if (this.games[i].text === type) {
+                    this.settings = this.games[i].value.settings();
                     this.game = new this.games[i].value({onEndGame: this._handleEndGame});
                     break;
                 }

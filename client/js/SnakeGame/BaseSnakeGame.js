@@ -2,6 +2,10 @@ import Snake from './Models/Snake';
 import Score from './Score';
 
 export default class SnakeGame {
+    static settings() {
+        return {};
+    }
+
     /**
      * @param {Object} params
      */

@@ -20,7 +20,7 @@ export default class Snake {
         this._color = params.color || 'green';
         this._points = params.points || [{x: 5, y: 1}, {x: 4, y: 1}, {x: 3, y: 1}, {x: 2, y: 1}, {x: 1, y: 1}];
         this._direction = DIRECTION_NONE;
-        this._speed = 150;
+        this._speed = params.speed || 150;
 
         this._handle = this._handle.bind(this);
         this._handleStart = this._handleStart.bind(this);
