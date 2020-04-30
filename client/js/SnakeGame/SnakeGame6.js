@@ -8,7 +8,9 @@ export default class SnakeGame6 extends BaseSnakeGame {
     }
 
     static settings() {
-        const settings = [];
+        const settings = [
+            {'type': 'number', 'max':20, 'min': 2, step: 1, label: 'Portal numbers', key: 'portal-numbers'}
+        ];
 
         return settings.concat(super.settings());
     }
@@ -16,7 +18,7 @@ export default class SnakeGame6 extends BaseSnakeGame {
     constructor (params) {
         super(params);
         
-        this._numberPortals = 4;
+        this._numberPortals = params.settings['portal-numbers'] || 4;
         this._portals = [];
     }
 
