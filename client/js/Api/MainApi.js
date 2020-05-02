@@ -4,8 +4,8 @@ import settings from '../../../settings.json';
 const queryString = require('query-string');
 
 class MainApi {
-    constructor (url) {
-        this._url = settings.api_url;
+    constructor () {
+        this._url = `${settings.api.scheme}${settings.api.url}:${settings.api.port}`;
     }
     
     _get(url) {

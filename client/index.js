@@ -12,18 +12,18 @@ import Vue from 'vue';
 import api from './js/Api/index';
 import RowScore from './view/components/RowScore';
 import Input from './view/components/Input';
-import io from 'socket.io-client';
+import socket from './js/Api/WebSocket';
 
 Vue.component('row-score', RowScore);
 Vue.component('settings-input', Input);
 
-const socket = io('http://0.0.0.0:8080/top');
-socket.on('refresh', (data) => {
-  console.log(data);
-});
-
 const v = new Vue({
     el: '#app',
+    created() {
+        socket.on('refresh', (data) => {
+            data.type === this.type && this._updateTop(data.score);
+        });
+    },
     data: {
         top: [],
         lastScore: null,
@@ -49,19 +49,16 @@ const v = new Vue({
             this.description = this.type;
             this._resetGame(this.type);
         },
-        _redrawRating(type) {
-            let that = this;
-            that.top = [];
+        _updateTop(data) {
+            this.top = [];
 
-            api.score.list(type, 10).then((response) => {
-                $.each(response.data, (key, value) => {
-                    value.key = key + 1;
-                    that.top.push(value);
-                    that.lastScore = value;
-                });
+            $.each(data, (key, value) => {
+                value.key = key + 1;
+                this.top.push(value);
+                this.lastScore = value;
             });
         },
-        _resetGame(type) {
+        async _resetGame(type) {
             if (this.gameObject) {
                 this.gameObject.forceEndGame();
                 this.gameObject.destroyView();
@@ -75,8 +72,9 @@ const v = new Vue({
                     break;
                 }
             }
-
-            this._redrawRating(type);
+            
+            const response = await api.score.list(type, 10);
+            this._updateTop(response.data);
         },
         _handleEndGame() {
             if (
@@ -91,10 +89,7 @@ const v = new Vue({
             let data = {score: this.score, type: this.type, name: this.name};
 
             api.score.post(data).then((response) => {
-                this._redrawRating(data.type);
                 $('#scoreModal').modal('hide');
-
-                socket.emit('top', {type: this.type});
             });
         },
         startGame() {

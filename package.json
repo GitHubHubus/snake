@@ -7,7 +7,6 @@
     "bootstrap": "^4.4.1",
     "cors": "^2.8.5",
     "express": "^4.16.1",
-    "fs": "0.0.1-security",
     "jquery": "^3.4.1",
     "mongodb": "^3.5.5",
     "popper.js": "^1.14.3",

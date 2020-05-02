@@ -1,5 +1,9 @@
 {
-    "api_url": "http://0.0.0.0:8080",
+    "api": {
+        "scheme": "http://",
+        "url": "0.0.0.0",
+        "port": 8080
+    },
     "db": {
         "connection": "mongodb://mongodb_image:27017",
         "user": "root",

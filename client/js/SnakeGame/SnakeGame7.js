@@ -39,7 +39,7 @@ export default class SnakeGame7 extends BaseSnakeGame {
         }
 
         if (this._snake.isSnake(event.p) || this._field.isBorder(event.p)) {
-            this._snake.stop();
+            this.handleEndGame();
         }
         
         let isChange = this._changeSnake(event.p);
