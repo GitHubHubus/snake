@@ -1,20 +1,23 @@
 'use strict';
 
-const express = require('express');
+const app = require('express')();
+const server = require('http').Server(app);
 const bodyParser = require('body-parser');
 const mongoClient = require('mongodb').MongoClient;
 const NumberInt = require('mongodb').Int32;
 const cors = require('cors');
-
-const app = express();
+const fs = require('fs');
+let settings = JSON.parse(fs.readFileSync('../settings.json', 'utf-8'))
+const io = require('socket.io')(server, { origins: '*:*'});
+const top = io.of('/top');
 app.use(cors());
 app.use(bodyParser());
 
 const init = () => {
-    mongoClient.connect('mongodb://mongodb_image:27017', {
+    mongoClient.connect(settings.db.connection, {
       auth: {
-        user:'root',
-        password:'rootpassword'
+        user: settings.db.user,
+        password: settings.db.password
       },
       useNewUrlParser:true
     }, (err, client) => {
@@ -25,7 +28,7 @@ const init = () => {
             app.locals.score = db.collection("score");
         }
 
-        app.listen(8080, '0.0.0.0');
+        server.listen(8080, '0.0.0.0');
         console.log(`Running server`);
     });
 };
@@ -44,15 +47,14 @@ app.get('/score/:type/:limit', (req, res) => {
 });
 
 app.post('/score', (req, res) => {
-    const name = req.body.name == '' ? 'Newby' : req.body.name;
+    const data = {
+        name: req.body.name == '' ? 'Newbie' : req.body.name,
+        type: req.body.type,
+        score: NumberInt(req.body.score)
+    };
 
-  const data = {
-      name: name,
-      type: req.body.type,
-      score: NumberInt(req.body.score)
-  };
-
-  req.app.locals.score.insertOne(data, null, () => {
-      res.send('OK');
-  });
+    req.app.locals.score.insertOne(data, null, () => {
+        top.emit('refresh', { type: req.body.type, score: [] });
+        res.send('OK');
+    });
 });

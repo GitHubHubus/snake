@@ -8,7 +8,8 @@ services:
     ports:
       - '8080:8080'
     volumes:
-      - ../server/server.js:/usr/src/app/server.js
+      - ../server:/usr/src/app/server
+      - ../settings.json:/usr/src/app/settings.json
     environment:
       NODE_ENV: development
       WAIT_HOSTS: mongodb_image:27017

@@ -1,11 +1,11 @@
 import axios from 'axios';
-import SETTINGS from '../../../settings';
+import settings from '../../../settings.json';
 
 const queryString = require('query-string');
 
 class MainApi {
     constructor (url) {
-        this._url = SETTINGS.api_url;
+        this._url = settings.api_url;
     }
     
     _get(url) {

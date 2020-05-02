@@ -4,6 +4,12 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 module.exports = {
   entry: './client/index.js',
   devtool: 'eval',
+  node: {
+    fs: 'empty'
+  },
+  externals: {
+    uws: "uws"
+  },
   output: {
     filename: 'snake.js',
     path: path.resolve(__dirname, 'dist')

@@ -12,9 +12,15 @@ import Vue from 'vue';
 import api from './js/Api/index';
 import RowScore from './view/components/RowScore';
 import Input from './view/components/Input';
+import io from 'socket.io-client';
 
 Vue.component('row-score', RowScore);
 Vue.component('settings-input', Input);
+
+const socket = io('http://0.0.0.0:8080/top');
+socket.on('refresh', (data) => {
+  console.log(data);
+});
 
 const v = new Vue({
     el: '#app',
@@ -87,6 +93,8 @@ const v = new Vue({
             api.score.post(data).then((response) => {
                 this._redrawRating(data.type);
                 $('#scoreModal').modal('hide');
+
+                socket.emit('top', {type: this.type});
             });
         },
         startGame() {
