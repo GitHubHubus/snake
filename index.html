@@ -37,7 +37,10 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 p-3 shadow-sm mb-5 bg-white description">{{ description }}</div>
+                        <div class="col-12 p-3 shadow-sm mb-5 bg-white description">
+                            {{ description }}
+                            <div class="block-rules" v-html="rules"></div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-12 p-3 shadow-sm mb-5 bg-white description">

@@ -30,7 +30,7 @@ const v = new Vue({
         score: 0,
         type: null,
         description: '',
-        name: '',
+        rules: '',
         games: [
             {value: SnakeGame, text: SnakeGame.description()},
             {value: SnakeGame2, text: SnakeGame2.description()},
@@ -67,8 +67,11 @@ const v = new Vue({
 
             for (let i = 0; i < this.games.length; i++) {
                 if (this.games[i].text === type) {
-                    this.settings = this.games[i].value.settings();
-                    this.game = this.games[i].value;
+                    const game = this.games[i].value;
+                    
+                    this.settings = game.settings();
+                    this.rules = game.rules();
+                    this.game = game;
                     break;
                 }
             }

@@ -27,3 +27,8 @@ div#content, div#main, div#score {
 .content-center {
     margin: auto;
 }
+
+div.block-rules p {
+    margin: 0px;
+    padding: 0px;
+}

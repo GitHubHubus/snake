@@ -7,6 +7,10 @@ export default class SnakeGame7 extends BaseSnakeGame {
         return 'change color snake';
     }
 
+    static rules() {
+        return '';
+    }
+
     static settings() {
         const settings = [];
 

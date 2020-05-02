@@ -8,6 +8,10 @@ export default class SnakeGame4 extends BaseSnakeGame {
         return 'Draw word';
     }
 
+    static rules() {
+        return '';
+    }
+
     static settings() {
         const settings = [];
 

@@ -7,6 +7,10 @@ export default class SnakeGame6 extends BaseSnakeGame {
         return 'Portal as goal';
     }
 
+    static rules() {
+        return '';
+    }
+
     static settings() {
         const settings = [
             {'type': 'number', 'max':20, 'min': 2, step: 1, label: 'Portal numbers', key: 'portal-numbers'}

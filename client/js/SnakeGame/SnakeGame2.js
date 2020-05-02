@@ -7,6 +7,10 @@ export default class SnakeGame2 extends BaseSnakeGame {
         return 'Endless purposes';
     }
 
+    static rules() {
+        return '';
+    }
+
     static settings() {
         const settings = [];
 
