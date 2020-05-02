@@ -10,7 +10,7 @@ thead {
 </style>
 
 <template lang="html">
-    <table class="table-sm table-striped">
+    <table class="col-12 table-sm table-striped">
         <thead>
             <tr>
                 <th width="10%">#</th>
