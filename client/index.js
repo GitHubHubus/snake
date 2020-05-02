@@ -10,11 +10,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/pixel.css';
 import Vue from 'vue';
 import api from './js/Api/index';
-import RowScore from './view/components/RowScore';
+import TableScore from './view/components/TableScore';
 import Input from './view/components/Input';
 import socket from './js/Api/WebSocket';
 
-Vue.component('row-score', RowScore);
+Vue.component('table-score', TableScore);
 Vue.component('settings-input', Input);
 
 const v = new Vue({

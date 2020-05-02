@@ -14,7 +14,7 @@ app.use(cors());
 app.use(bodyParser());
 
 server.listen(settings.api.port, settings.api.url);
-console.log(`Running server`);
+console.log(`Running server: http://localhost:${settings.api.port}`);
 
 app.get('/score/:type/:limit', (req, res) => {
     score.top(req.params).then((data) => {
