@@ -6,7 +6,7 @@
             :min="props.min"
             :step="props.step"
             class="mb-3 form-control"
-            v-on:change="update"
+            v-on:change="update" 
     />
 </template>
 

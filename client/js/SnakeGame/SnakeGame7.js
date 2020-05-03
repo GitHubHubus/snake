@@ -4,7 +4,7 @@ import Purpose from './Models/Purpose';
 
 export default class SnakeGame7 extends BaseSnakeGame {
     static description () {
-        return 'change color snake';
+        return 'Change color snake';
     }
 
     static rules() {
@@ -74,7 +74,6 @@ export default class SnakeGame7 extends BaseSnakeGame {
         for (let i in this._purposes) {
             if (this._purposes[i].p.x == p.x && this._purposes[i].p.y == p.y) {
                 purpose = this._purposes[i];
-
                 this._purposes.splice(i, 1);
                 
                 break;

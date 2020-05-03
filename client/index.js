@@ -39,6 +39,7 @@ const v = new Vue({
         name: '',
         description: '',
         rules: '',
+        rating: true,
         games: [
             {value: SnakeGame, text: SnakeGame.description()},
             {value: SnakeGame2, text: SnakeGame2.description()},
@@ -89,6 +90,7 @@ const v = new Vue({
         },
         _handleEndGame() {
             if (
+                this.rating &&
                 this.gameObject.score() > 0 &&
                 (!this.lastScore || this.gameObject.score() > this.lastScore.score || this.lastScore.key < 10)
             ) {
@@ -107,8 +109,9 @@ const v = new Vue({
             if (this.gameObject) {
                 this._resetGame(this.type);
             }
-
-            this.gameObject = new this.game({onEndGame: this._handleEndGame, settings: this.settingsValues});
+            
+            const settings = this.rating ? [] : this.settingsValues;
+            this.gameObject = new this.game({onEndGame: this._handleEndGame, settings: settings});
 
             EventHelper.fire('start');
         },
