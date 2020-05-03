@@ -23,12 +23,20 @@ const v = new Vue({
         socket.on('refresh', (data) => {
             data.type === this.type && this._updateTop(data.score);
         });
+        
+        window.addEventListener("keydown", function(e) {
+            // space and arrow keys
+            if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+            }
+        }, false);
     },
     data: {
         top: [],
         lastScore: null,
         score: 0,
         type: null,
+        name: '',
         description: '',
         rules: '',
         games: [
@@ -51,8 +59,8 @@ const v = new Vue({
         },
         _updateTop(data) {
             this.top = [];
-
-            $.each(data, (key, value) => {
+            
+            data.forEach((value, key) => {
                 value.key = key + 1;
                 this.top.push(value);
                 this.lastScore = value;
@@ -91,7 +99,7 @@ const v = new Vue({
         postScore() {
             let data = {score: this.score, type: this.type, name: this.name};
 
-            api.score.post(data).then((response) => {
+            api.score.post(data).then(() => {
                 $('#scoreModal').modal('hide');
             });
         },
