@@ -12,7 +12,9 @@ export default class SnakeGame2 extends BaseSnakeGame {
     }
 
     static settings() {
-        const settings = [];
+        const settings = [
+            {'type': 'number', 'max':1500, 'min': 150, step: 10, label: 'Purposes add speed', key: 'purposes-add-speed'},
+        ];
 
         return settings.concat(super.settings());
     }
@@ -31,7 +33,7 @@ export default class SnakeGame2 extends BaseSnakeGame {
         ];
         this._purposes = [];
         this._purposesAddInterval = null;
-        this._purposesAddSpeed = 300;
+        this._purposesAddSpeed = params.settings['purposes-add-speed'] || 300;
     }
 
     _stopAddPurpose() {
@@ -65,7 +67,6 @@ export default class SnakeGame2 extends BaseSnakeGame {
         for (let i in this._purposes) {
             if (this._purposes[i].p.x == p.x && this._purposes[i].p.y == p.y) {
                 purpose = this._purposes[i];
-
                 this._purposes.splice(i, 1);
                 
                 break;

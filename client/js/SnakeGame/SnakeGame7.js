@@ -12,7 +12,10 @@ export default class SnakeGame7 extends BaseSnakeGame {
     }
 
     static settings() {
-        const settings = [];
+        const settings = [
+            {'type': 'number', 'max':50, 'min': 5, step: 1, label: 'Purposes count', key: 'purposes-count'},
+            {'type': 'number', 'max':20, 'min': 2, step: 1, label: 'Colors count', key: 'colors-count'},
+        ];
 
         return settings.concat(super.settings());
     }
@@ -20,9 +23,14 @@ export default class SnakeGame7 extends BaseSnakeGame {
     constructor (params) {
         super(params);
 
-        this._colors = ['yellow', 'red', 'orange', 'blue', 'gray', 'brown', 'green'];
+        this._colors = [
+            'yellow', 'red', 'orange', 'blue', 'gray', 'brown', 'green', 'darkslategray', 'chocolate',
+            'darkturquoise', 'greenyellow', 'darkred', 'lightcoral', 'darkseagreen', 'palegoldenrod',
+            'aqua', 'violet', 'purple', 'slategray', 'darkkhaki'
+        ];
         this._purposes = [];
-        this._purposesCount = 30;
+        this._purposesCount = params.settings['purposes-count'];
+        this._colorCount = params.settings['colors-count'];
     }
     
     _handle(event) {
@@ -111,6 +119,6 @@ export default class SnakeGame7 extends BaseSnakeGame {
     }
 
     _getRandomColor() {
-        return this._colors[parseInt(Math.random() * this._colors.length)];
+        return this._colors[parseInt(Math.random() * this._colorCount)];
     }
 }
