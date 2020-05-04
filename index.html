@@ -14,7 +14,7 @@
                         <div class="col-8 shadow-sm p-3 mb-5 bg-white">
                             <div class="settings form-inline content-center">
                                 <select id="type" class="form-control" v-on:change="changeGame">
-                                    <option value="0">none</option>
+                                    <option value="0">None</option>
                                     <option v-for="option in games" v-bind:value="option.text">
                                         {{ option.text }}
                                     </option>
@@ -48,10 +48,10 @@
                             <div class="block-rules" v-html="rules"></div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="!rating">
                         <div class="col-12 p-3 shadow-sm mb-5 bg-white description">
                             <p>Settings</p>
-                            <div class="form-group" v-if="!rating">
+                            <div class="form-group">
                                 <div v-for="set in settings">
                                     <settings-input :props="set" @update="changeSettings" />
                                 </div>

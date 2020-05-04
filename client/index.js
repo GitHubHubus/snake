@@ -13,6 +13,8 @@ import api from './js/Api/index';
 import TableScore from './view/components/TableScore';
 import Input from './view/components/Input';
 import socket from './js/Api/WebSocket';
+import './i18n';
+import i18next from 'i18next';
 
 Vue.component('table-score', TableScore);
 Vue.component('settings-input', Input);

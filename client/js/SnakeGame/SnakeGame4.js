@@ -2,14 +2,15 @@ import BaseSnakeGame from './BaseSnakeGame';
 import EventHelper from './Helper/EventHelper';
 import Purpose from './Models/Purpose';
 import TextDrawer from '../Core/Drawer/TextDrawer';
+import i18next from 'i18next';
 
 export default class SnakeGame4 extends BaseSnakeGame {
     static description () {
-        return 'Draw word';
+        return i18next.t('games.description.4');;
     }
 
     static rules() {
-        return '';
+        return i18next.t('games.rules.4');
     }
 
     static settings() {

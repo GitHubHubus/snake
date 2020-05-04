@@ -1,20 +1,21 @@
 import BaseSnakeGame from './BaseSnakeGame';
 import EventHelper from './Helper/EventHelper';
 import Purpose from './Models/Purpose';
+import i18next from 'i18next';
 
 export default class SnakeGame7 extends BaseSnakeGame {
     static description () {
-        return 'Change color snake';
+        return i18next.t('games.description.7');
     }
 
     static rules() {
-        return '';
+        return i18next.t('games.rules.7');
     }
 
     static settings() {
         const settings = [
-            {'type': 'number', 'max':50, 'min': 5, step: 1, label: 'Purposes count', key: 'purposes-count'},
-            {'type': 'number', 'max':20, 'min': 2, step: 1, label: 'Colors count', key: 'colors-count'},
+            {'type': 'number', 'max':50, 'min': 5, step: 1, label: i18next.t('games.settings.purposes_count'), key: 'purposes_count'},
+            {'type': 'number', 'max':20, 'min': 2, step: 1, label: i18next.t('games.settings.colors_count'), key: 'colors_count'},
         ];
 
         return settings.concat(super.settings());
@@ -29,8 +30,8 @@ export default class SnakeGame7 extends BaseSnakeGame {
             'aqua', 'violet', 'purple', 'slategray', 'darkkhaki'
         ];
         this._purposes = [];
-        this._purposesCount = params.settings['purposes-count'] || 20;
-        this._colorCount = params.settings['colors-count'] || 7;
+        this._purposesCount = params.settings['purposes_count'] || 20;
+        this._colorCount = params.settings['colors_count'] || 7;
     }
     
     _handle(event) {

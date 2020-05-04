@@ -1,5 +1,6 @@
 import {Field} from '../Core/Field';
 import TextDrawer from '../Core/Drawer/TextDrawer';
+import i18next from 'i18next';
 
 export default class Score {
     get score() { return this._score; }
@@ -26,7 +27,7 @@ export default class Score {
     }
 
     redraw() {
-        this._drawer.draw('SCORE:', {x: 1, y: 1});
+        this._drawer.draw(`${i18next.t('page.score.score').toUpperCase()}:`, {x: 1, y: 1});
         this._drawer.draw(this._score.toString(), {x: 1, y: 7});
     }
 

@@ -1,14 +1,15 @@
 import BaseSnakeGame from './BaseSnakeGame';
 import EventHelper from './Helper/EventHelper';
 import Purpose from './Models/Purpose';
+import i18next from 'i18next';
 
 export default class SnakeGame extends BaseSnakeGame {
     static description() {
-        return 'Simple snake';
+        return i18next.t('games.description.1');
     }
 
     static rules() {
-        return '<p>You all know these rules<p><p>You eat purposes</><p>You lose if collide with border or snake</p><p>Speed will increase as you eat purposes</>';
+        return  i18next.t('games.rules.1');
     }
 
     /**

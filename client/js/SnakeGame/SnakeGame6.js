@@ -1,19 +1,20 @@
 import BaseSnakeGame from './BaseSnakeGame';
 import EventHelper from './Helper/EventHelper';
 import Purpose from './Models/Purpose';
+import i18next from 'i18next';
 
 export default class SnakeGame6 extends BaseSnakeGame {
     static description () {
-        return 'Portal as goal';
+        return i18next.t('games.description.6');
     }
 
     static rules() {
-        return '';
+        return i18next.t('games.rules.6');
     }
 
     static settings() {
         const settings = [
-            {'type': 'number', 'max':20, 'min': 2, step: 1, label: 'Portal numbers', key: 'portal-numbers'}
+            {'type': 'number', 'max':20, 'min': 2, step: 1, label: i18next.t('games.settings.portal_numbers'), key: 'portal_numbers'}
         ];
 
         return settings.concat(super.settings());
@@ -22,7 +23,7 @@ export default class SnakeGame6 extends BaseSnakeGame {
     constructor (params) {
         super(params);
         
-        this._numberPortals = params.settings['portal-numbers'] || 4;
+        this._numberPortals = params.settings['portal_numbers'] || 4;
         this._portals = [];
     }
 

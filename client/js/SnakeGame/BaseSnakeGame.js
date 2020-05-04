@@ -1,14 +1,15 @@
 import Snake from './Models/Snake';
 import Score from './Score';
 import {DEFAULT_TILE_SIZE, Field} from "../Core/Field";
+import i18next from 'i18next';
 
 export default class SnakeGame {
     static settings() {
         return [
-            {'type': 'number', 'max':1500, 'min': 150, step: 5, label: 'Field width', key: 'field-width'},
-            {'type': 'number', 'max':1500, 'min': 150, step: 5, label: 'Field height', key: 'field-height'},
-            {'type': 'number', 'max':10, 'min': 0, step: 1, label: 'Start speed', key: 'start-speed'},
-            {'type': 'number', 'max':1000, 'min': 10, step: 10, label: 'Increase speed point', key: 'increase-speed-point'},
+            {'type': 'number', 'max':1500, 'min': 150, step: 5, label: i18next.t('games.settings.field_width'), key: 'field_width'},
+            {'type': 'number', 'max':1500, 'min': 150, step: 5, label: i18next.t('games.settings.field_height'), key: 'field_height'},
+            {'type': 'number', 'max':10, 'min': 0, step: 1, label: i18next.t('games.settings.start_speed'), key: 'start_speed'},
+            {'type': 'number', 'max':1000, 'min': 10, step: 10, label: i18next.t('games.settings.increase_speed_point'), key: 'increase_speed_point'},
         ];
     }
 
@@ -29,7 +30,7 @@ export default class SnakeGame {
         document.addEventListener('start', this._handle);
         document.addEventListener('snake_moving', this._handleSnakeMoving);
 
-        this.increaseSpeedPoint = params.settings['increase-speed-point'] || 0;
+        this.increaseSpeedPoint = params.settings['increase_speed_point'] || 0;
     }
 
     _createField(params) {

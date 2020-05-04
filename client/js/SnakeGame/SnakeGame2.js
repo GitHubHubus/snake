@@ -1,19 +1,27 @@
 import BaseSnakeGame from './BaseSnakeGame';
 import EventHelper from './Helper/EventHelper';
 import Purpose from './Models/Purpose';
+import i18next from 'i18next';
 
 export default class SnakeGame2 extends BaseSnakeGame {
     static description () {
-        return 'Endless purposes';
+        return i18next.t('games.description.2');
     }
 
     static rules() {
-        return '';
+        return i18next.t('games.rules.2');
     }
 
     static settings() {
         const settings = [
-            {'type': 'number', 'max':1500, 'min': 150, step: 10, label: 'Purposes add speed', key: 'purposes-add-speed'},
+            {
+                type: 'number', 
+                max:1500, 
+                min: 150, 
+                step: 10, 
+                label: i18next.t('games.settings.purposes_add_speed'), 
+                key: 'purposes_add_speed'
+            },
         ];
 
         return settings.concat(super.settings());
@@ -33,7 +41,7 @@ export default class SnakeGame2 extends BaseSnakeGame {
         ];
         this._purposes = [];
         this._purposesAddInterval = null;
-        this._purposesAddSpeed = params.settings['purposes-add-speed'] || 300;
+        this._purposesAddSpeed = params.settings['purposes_add_speed'] || 300;
     }
 
     _stopAddPurpose() {
