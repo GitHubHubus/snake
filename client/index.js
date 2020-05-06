@@ -120,6 +120,7 @@ const v = new Vue({
             });
         },
         startGame() {
+            this._recreateGame(false);
             EventHelper.fire('start');
         },
         changeSettings(e) {
