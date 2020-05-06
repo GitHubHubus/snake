@@ -8,13 +8,12 @@ const NumberInt = require('mongodb').Int32;
 const cors = require('cors');
 const io = require('socket.io')(server, { origins: '*:*'});
 const top = io.of('/top');
-const settings = require('../settings.json');
 
 app.use(cors());
 app.use(bodyParser());
 
-server.listen(settings.api.port, settings.api.url);
-console.log(`Running server: http://localhost:${settings.api.port}`);
+server.listen(8080, '0.0.0.0');
+console.log(`Running server: http://0.0.0.0:${8080}`);
 
 app.get('/score/:type/:limit', (req, res) => {
     score.top(req.params).then((data) => {

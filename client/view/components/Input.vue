@@ -18,6 +18,18 @@ export default {
     },
     methods: {
         update(e) {
+            let value = e.target.value;
+            if (value > this.props.max) {
+                value = this.props.max;
+            } else if (value < this.props.min) {
+                value = this.props.min;
+            }
+
+            if (this.props.step) {
+                value = value - (value % this.props.step);
+            }
+
+            e.target.value = value;
             this.$emit('update', [this.props.key, e.target.value]);
         },
     }
