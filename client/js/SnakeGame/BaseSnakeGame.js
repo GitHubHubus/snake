@@ -37,8 +37,8 @@ export default class SnakeGame {
         if (params.field) {
             this._field = params.field;
         } else {
-            const width = params.settings['field-width'] || 250;
-            const height = params.settings['field-height'] || 250;
+            const width = params.settings['field_width'] || 250;
+            const height = params.settings['field_height'] || 250;
             this._field = new Field('main', {tile: DEFAULT_TILE_SIZE, width: width, height: height, border: true});
         }
     }
@@ -69,7 +69,7 @@ export default class SnakeGame {
      */
     _createSnake(params) {
         const points = params.points || null;
-        const speed = params.settings['start-speed'] ? (150 - (params.settings['start-speed'] * 10)) : null;
+        const speed = params.settings['start_speed'] ? (150 - (params.settings['start_speed'] * 10)) : null;
 
         this._snake = new Snake({points: points, speed: speed});
         

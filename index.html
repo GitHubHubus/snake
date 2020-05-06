@@ -14,14 +14,13 @@
                         <div class="col-8 shadow-sm p-3 mb-5 bg-white">
                             <div class="settings form-inline content-center">
                                 <select id="type" class="form-control" v-on:change="changeGame">
-                                    <option value="0">None</option>
                                     <option v-for="option in games" v-bind:value="option.text">
                                         {{ option.text }}
                                     </option>
                                 </select>
                                 <button v-on:click="startGame" class="btn btn-primary ml-2">Start</button>
                                 <div class="custom-control custom-checkbox ml-5">
-                                    <input type="checkbox" class="custom-control-input" id="rating-game" v-model="rating">
+                                    <input type="checkbox" class="custom-control-input" id="rating-game" v-model="rating" v-on:change="changeRating">
                                     <label class="custom-control-label" for="rating-game">Rating game</label>
                                 </div>
                             </div>

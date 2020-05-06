@@ -32,15 +32,17 @@ const v = new Vue({
                 e.preventDefault();
             }
         }, false);
+
+        this._recreateGame();
     },
     data: {
         top: [],
         lastScore: null,
         score: 0,
-        type: null,
+        type: SnakeGame.description(),
         name: '',
-        description: '',
-        rules: '',
+        description: SnakeGame.description(),
+        rules: SnakeGame.rules(),
         rating: true,
         games: [
             {value: SnakeGame, text: SnakeGame.description()},
@@ -49,16 +51,16 @@ const v = new Vue({
             {value: SnakeGame6, text: SnakeGame6.description()},
             {value: SnakeGame7, text: SnakeGame7.description()},
         ],
-        game: null,
+        game: SnakeGame,
         gameObject: null,
-        settings: {},
+        settings: SnakeGame.settings(),
         settingsValues: {}
     },
     methods: {
         changeGame(e) {
             this.type = e.target.value;
             this.description = this.type;
-            this._resetGame(this.type);
+            this._recreateGame();
         },
         _updateTop(data) {
             this.top = [];
@@ -69,7 +71,7 @@ const v = new Vue({
                 this.lastScore = value;
             });
         },
-        async _resetGame(type) {
+        _resetGame(type, updateTop = false) {
             if (this.gameObject) {
                 this.gameObject.forceEndGame();
                 this.gameObject.destroyView();
@@ -86,9 +88,19 @@ const v = new Vue({
                     break;
                 }
             }
-            
-            const response = await api.score.list(type, 10);
-            this._updateTop(response.data);
+        },
+        async _recreateGame(updateTop = true) {
+            if (this.gameObject) {
+                this._resetGame(this.type);
+            }
+
+            if (updateTop) {
+                const response = await api.score.list(this.type, 10);
+                this._updateTop(response.data);
+            }
+
+            const settings = this.rating ? [] : this.settingsValues;
+            this.gameObject = new this.game({onEndGame: this._handleEndGame, settings: settings});
         },
         _handleEndGame() {
             if (
@@ -108,17 +120,14 @@ const v = new Vue({
             });
         },
         startGame() {
-            if (this.gameObject) {
-                this._resetGame(this.type);
-            }
-            
-            const settings = this.rating ? [] : this.settingsValues;
-            this.gameObject = new this.game({onEndGame: this._handleEndGame, settings: settings});
-
             EventHelper.fire('start');
         },
         changeSettings(e) {
             this.settingsValues[e[0]] = e[1];
+            this._recreateGame(false);
+        },
+        changeRating(e) {
+            this._recreateGame(false);
         }
     }
 });
