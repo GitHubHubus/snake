@@ -16,8 +16,8 @@ const connection = async () => {
     if (!client) {
         return;
     }
-    
-    return client;
+
+    return client.db('snake');
 };
 
 module.exports = connection;

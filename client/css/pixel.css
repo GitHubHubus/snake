@@ -19,9 +19,6 @@ div.field-node {
     display: inline-block;
     /*transition: background-color 1s ease-in;*/
 }
-div#content, div#main, div#score {
-    width: fit-content;
-}
 
 .content-center {
     margin: auto;
@@ -30,4 +27,12 @@ div#content, div#main, div#score {
 div.block-rules p {
     margin: 0px;
     padding: 0px;
+}
+
+div#top .table-striped tbody tr:nth-of-type(odd) {
+     background-color: rgb(235, 237, 240);
+}
+
+.col-settings, .col-main {
+    display: flex;
 }

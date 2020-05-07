@@ -41,7 +41,6 @@ const v = new Vue({
         score: 0,
         type: SnakeGame.description(),
         name: '',
-        description: SnakeGame.description(),
         rules: SnakeGame.rules(),
         rating: true,
         games: [
@@ -59,7 +58,6 @@ const v = new Vue({
     methods: {
         changeGame(e) {
             this.type = e.target.value;
-            this.description = this.type;
             this._recreateGame();
         },
         _updateTop(data) {

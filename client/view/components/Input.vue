@@ -1,13 +1,19 @@
 <template lang="html">
-    <input
-            :placeholder="props.label"
-            :type="props.type"
-            :max="props.max"
-            :min="props.min"
-            :step="props.step"
-            class="mb-3 form-control"
-            v-on:change="update" 
-    />
+    <div class="form-group row">
+        <label :for="props.key" class="col-sm-2 col-form-label">{{props.label}}</label>
+        <div class="col-sm-10">
+            <input
+                :placeholder="props.min + ' - ' + props.max"
+                :type="props.type"
+                :max="props.max"
+                :min="props.min"
+                :step="props.step"
+                class="mb-3 form-control"
+                v-on:change="update"
+                :id="props.key"
+            />
+        </div>
+    </div>
 </template>
 
 <script>
