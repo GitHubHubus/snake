@@ -20,7 +20,8 @@ export default class SnakeGame4 extends BaseSnakeGame {
 
     constructor (params) {
         const length = params.settings.snake_length || 8;
-        params.snake = {points: [...Array(length + 1).keys()].slice(1).reverse().map((value) => {return {x: value, y: 1};})}
+        params.snake = {points: [...Array(length + 1).keys()].slice(1).reverse().map((value) => {return {x: value, y: 1};})};
+
         super(params);
 
         this._drawer = new ShapeDrawer({field: this._field});

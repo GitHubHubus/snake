@@ -100,6 +100,7 @@ const v = new Vue({
             }
 
             const settings = this.rating ? [] : this.settingsValues;
+
             this.gameObject = new this.game({onEndGame: this._handleEndGame, settings: settings});
         },
         _handleEndGame() {
@@ -124,7 +125,7 @@ const v = new Vue({
             EventHelper.fire('start');
         },
         changeSettings(e) {
-            this.settingsValues[e[0]] = e[1];
+            this.settingsValues[e[0]] = Number(e[1]);
             this._recreateGame(false);
         },
         changeRating(e) {
