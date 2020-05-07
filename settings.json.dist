@@ -5,7 +5,7 @@
         "port": 8080
     },
     "db": {
-        "connection": "mongodb://mongodb_image:27017",
+        "connection": "mongodb://mongodb_image:27017/snake",
         "user": "root",
         "password": "rootpassword"
     }

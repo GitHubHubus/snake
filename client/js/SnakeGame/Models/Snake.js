@@ -116,6 +116,13 @@ export default class Snake {
     /**
      * @param {Object} <p>{x;y}</p>
      */
+    lastPoint() {
+        return this._points[this._points.length - 1];
+    }
+
+    /**
+     * @param {Object} <p>{x;y}</p>
+     */
     decreaseSnake() {
         return this._points.splice(-1, 1)[0];
     }

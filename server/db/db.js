@@ -17,7 +17,7 @@ const connection = async () => {
         return;
     }
     
-    return client.db('snake');
+    return client;
 };
 
 module.exports = connection;

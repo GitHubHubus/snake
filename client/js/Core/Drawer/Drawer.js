@@ -5,7 +5,7 @@ export default class Drawer {
     set startPositionStrategy (strategy) {this._startPositionStrategy = strategy;}
     
     constructor(params) {
-      //  this._moveStrategy = new SearchNearest(this.moveTile.bind(this), this.lockTile.bind(this));
+        this._moveStrategy = params.moveStrategy || null;
         this._startPositionStrategy = this.getStartPositionStrategy(params.startPositionStrategy);
     }
     

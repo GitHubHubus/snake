@@ -1,12 +1,11 @@
 import BaseSnakeGame from './BaseSnakeGame';
 import EventHelper from './Helper/EventHelper';
-import Purpose from './Models/Purpose';
-import TextDrawer from '../Core/Drawer/TextDrawer';
+import ShapeDrawer from '../Core/Drawer/ShapeDrawer';
 import i18next from 'i18next';
 
 export default class SnakeGame4 extends BaseSnakeGame {
     static description () {
-        return i18next.t('games.description.4');;
+        return i18next.t('games.description.4');
     }
 
     static rules() {
@@ -14,17 +13,19 @@ export default class SnakeGame4 extends BaseSnakeGame {
     }
 
     static settings() {
-        const settings = [];
+        const settings = [{type: 'number', max:15, min: 5, step: 1, label: i18next.t('games.settings.snake_length'), key: 'snake_length'}];
 
         return settings.concat(super.settings());
     }
 
     constructor (params) {
+        const length = params.settings.snake_length || 8;
+        params.snake = {points: [...Array(length + 1).keys()].slice(1).reverse().map((value) => {return {x: value, y: 1};})}
         super(params);
 
-        this._drawer = new TextDrawer({field: this._field, colors: ['orange']});
-        this._wordPoints = this._drawer.draw(':', {x: 20, y: 10});
-        this._purpose = null;
+        this._drawer = new ShapeDrawer({field: this._field});
+        this._shapeLength = 0;
+        this._shapePoints = [];
     }
 
     /**
@@ -32,30 +33,30 @@ export default class SnakeGame4 extends BaseSnakeGame {
      */
     _handle(event) {
         this._addPurpose();
-
-        EventHelper.fire('add_purpose');
     }
     
     /**
      * @param {Object} event
      */
     _handleSnakeMoving(event) {
-        let point = this._snake.decreaseSnake();
-        let wordPoint = this._getWordPoint(point);
-            
-        if (wordPoint) {
-            this._field.fillTile(wordPoint, wordPoint.color)
-        } else {
-            this._field.unlockTile(point);
-            this._field.cleanTile(point);
-        }
-        
-        if (this._isPurpose(event.p)) {
+        let point = this._snake.lastPoint();
+
+        if (this._isCoveredShape(event.p)) {
             this._score.set();
             this._addPurpose();
+        } else {
+            this._snake.decreaseSnake();
+            let wordPoint = this._getShapePoint(point);
+
+            if (wordPoint) {
+                this._field.fillTile(wordPoint, wordPoint.color)
+            } else {
+                this._field.unlockTile(point);
+                this._field.cleanTile(point);
+            }
         }
         
-        if (this._snake.isSnake(event.p) || this._field.isBorder(event.p) || this._isCoveredWord(event.p)) {
+        if (this._snake.isSnake(event.p) || this._field.isBorder(event.p)) {
             this.handleEndGame();
         }  
 
@@ -65,24 +66,27 @@ export default class SnakeGame4 extends BaseSnakeGame {
     }
     
     _addPurpose() {
-        this._purpose = new Purpose({p: this.getRandomPoint()});
+        for (let i = 0; i < this._shapePoints.length; i++) {
+            let p = this._shapePoints[i];
 
-        this._field.fillTile(this._purpose.p, this._purpose.color);
-        this._field.lockTile(this._purpose.p);
+            if (!this._snake.isSnake(p)) {
+                this._field.unlockTile(p);
+                this._field.cleanTile(p);
+            }
+        }
+
+        this._shapeLength += 1;
+        this._shapePoints = this._drawer.draw(this.getRandomPoint(), this._shapeLength);
         
-        EventHelper.fire('add_purpose', {purpose: this._purpose});
+        EventHelper.fire('add_purpose');
     }
 
     /**
      * @return Boolean
      */
-    _isCoveredWord(point) {
-        if (this._wordPoints.length > this._snake.length) {
-            return false;
-        }
-        
-        for (let i in this._wordPoints) {
-            let p = this._wordPoints[i];
+    _isCoveredShape(point) {
+        for (let i in this._shapePoints) {
+            let p = this._shapePoints[i];
             if (!this._snake.isSnake(p) && !(point.x == p.x && point.y == p.y)) {
                 return false;
             }
@@ -90,26 +94,18 @@ export default class SnakeGame4 extends BaseSnakeGame {
         
         return true;
     }
-    
+
     /**
      * @param {Object} p <p>{x;y}</p>
      * @return {Object|null}
      */
-    _getWordPoint(p) {
-        for (let i in this._wordPoints) {
-            if (this._wordPoints[i].x == p.x && this._wordPoints[i].y == p.y) {
-                return this._wordPoints[i];
+    _getShapePoint(p) {
+        for (let i in this._shapePoints) {
+            if (this._shapePoints[i].x == p.x && this._shapePoints[i].y == p.y) {
+                return this._shapePoints[i];
             }
         }
-        
-        return null;
-    }
 
-    /**
-     * @param {Object} <p>{x; y}</p>
-     * @return {Boolean}
-     */
-    _isPurpose(p) {
-        return this._purpose && this._purpose.p.x == p.x && this._purpose.p.y == p.y;
+        return null;
     }
 }

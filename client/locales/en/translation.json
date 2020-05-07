@@ -22,19 +22,20 @@
             "purposes_add_speed": "Purposes add speed",
             "portal_numbers": "Portal numbers",
             "purposes_count": "Purposes count",
-            "colors_count": "Colors count"
+            "colors_count": "Colors count",
+            "snake_length": "Snake length"
         },
         "rules": {
-            "1": "<p>You all know these rules<p><p>You eat purposes</><p>You lose if collide with border or snake</p><p>Speed will increase as you eat purposes</>",
-            "2": "",
-            "4": "",
-            "6": "",
-            "7": ""
+            "1": "<p>You all know these rules<p><p>You eat purposes</><p>You lose if collide with border or snake</p><p>Speed growth when eating purposes</>",
+            "2": "<p>The number of purposes is growing infinitely</p><p>Purposes have different properties depending on a color</p><p>You lose if the number of purposes exceeds the permissible value</p><p>Speed growth when eating purposes</p> ",
+            "4": "<p>Instead of eating purposes, you need to cover the figure with a snake</p><p>You lose if you encounter the snake or border</p>",
+            "6": "<p>Instead of eating purposes, you need to go through the portals</p><p>You lose if you encounter the snake or border</p>",
+            "7": "<p>Eat the purposes</p><p>You lose if you eat the purpose of the same color as the snake or if you encounter the snake or border</p>"
         },
         "description": {
             "1": "Simple snake",
             "2": "Endless purposes",
-            "4": "Draw word",
+            "4": "Cover shape",
             "6": "Portal as goal",
             "7": "Change color snake"
         }

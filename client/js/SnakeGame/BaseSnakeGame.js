@@ -68,7 +68,7 @@ export default class SnakeGame {
      * @param {Object} params
      */
     _createSnake(params) {
-        const points = params.points || null;
+        const points = params.snake && params.snake.points ? params.snake.points : null;
         const speed = params.settings['start_speed'] ? (150 - (params.settings['start_speed'] * 10)) : null;
 
         this._snake = new Snake({points: points, speed: speed});
