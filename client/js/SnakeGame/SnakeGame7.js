@@ -30,8 +30,8 @@ export default class SnakeGame7 extends BaseSnakeGame {
             'aqua', 'violet', 'purple', 'slategray', 'darkkhaki'
         ];
         this._purposes = [];
-        this._purposesCount = params.settings['purposes_count'] || 20;
-        this._colorCount = params.settings['colors_count'] || 7;
+        this._purposesCount = params.settings.purposes_count || 20;
+        this._colorCount = params.settings.colors_count || 7;
     }
     
     _handle(event) {

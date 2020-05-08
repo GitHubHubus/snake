@@ -36,3 +36,7 @@ div#top .table-striped tbody tr:nth-of-type(odd) {
 .col-settings, .col-main {
     display: flex;
 }
+
+.col-top {
+    min-height: 375px;
+}

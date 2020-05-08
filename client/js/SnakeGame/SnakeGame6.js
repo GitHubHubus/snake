@@ -23,7 +23,7 @@ export default class SnakeGame6 extends BaseSnakeGame {
     constructor (params) {
         super(params);
         
-        this._numberPortals = params.settings['portal_numbers'] || 4;
+        this._numberPortals = params.settings.portal_numbers || 4;
         this._portals = [];
     }
 

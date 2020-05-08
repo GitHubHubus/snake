@@ -3,10 +3,11 @@ export const DEFAULT_TILE_SIZE = {width: 10, height: 10, indent: 1};
 export class Field {
     get countX() {return this._countX;}
     get countY() {return this._countY;}
-    
+    get color() {return this._color;}
+
     /**
      * @param {string} blockId
-     * @param {Array} params
+     * @param {Object} params
      */
     constructor(blockId, params= {}) {
         let height = document.getElementById(blockId).clientHeight;
@@ -22,6 +23,7 @@ export class Field {
         this._color = params.color ? params.color : '#ebedf0';
         
         this._id = blockId;
+        this._block = document.querySelector(`div#${this._id}`);
         this._countX = parseInt(width / (params.tile.width + params.tile.indent));
         this._countY = parseInt(height / (params.tile.height + params.tile.indent));
         this._tile = params.tile;
@@ -192,18 +194,14 @@ export class Field {
     }
     
     cleanAllTiles() {
-        for (let y = 0; y < this._countY + 1; y++) {
-            for (let x = 0; x < this._countX + 1; x++) {
-                this.cleanTile({x: x, y: y})
-            }
-        }
+        this._block.querySelectorAll('div#score div.field-node').forEach(el => el.style.backgroundColor = this._color);
     }
     
     /**
      * @param {Object} p <p>{x;y}</p>
      */
     getTile(p) {
-        return document.querySelector(`#${this._id} #c${p.x}-${p.y}`);
+        return this._block.querySelector(`div#c${p.x}-${p.y}`);
     }
     
     getRandomPoint() {
@@ -216,5 +214,9 @@ export class Field {
     
     isBorderAngle(p) {
         return (p.x == 0 || p.x == this._countX) && (p.y == 0 || p.y == this._countY);
+    }
+
+    getCenterPoint(shift) {
+        return {x: Math.round(this._countX/2 + shift.x), y: Math.round(this._countY/2 + shift.y)};
     }
 }

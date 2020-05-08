@@ -41,7 +41,7 @@ export default class SnakeGame2 extends BaseSnakeGame {
         ];
         this._purposes = [];
         this._purposesAddInterval = null;
-        this._purposesAddSpeed = params.settings['purposes_add_speed'] || 300;
+        this._purposesAddSpeed = params.settings.purposes_add_speed || 300;
     }
 
     _stopAddPurpose() {

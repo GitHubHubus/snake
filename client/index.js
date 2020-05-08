@@ -119,8 +119,10 @@ const v = new Vue({
             });
         },
         startGame() {
-            this._recreateGame(false);
-            EventHelper.fire('start');
+            this.gameObject.ready(() => {
+                this._recreateGame(false);
+                EventHelper.fire('start');
+            });
         },
         changeSettings(e) {
             this.settingsValues[e[0]] = Number(e[1]);
