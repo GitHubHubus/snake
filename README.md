@@ -5,7 +5,7 @@
 Server
 
 ```
-cp settings.js.dist settings.js
+cp settings.json.dist settings.json
 cd docker
 docker-compose up --build
 ```
@@ -13,5 +13,6 @@ docker-compose up --build
 Client
 
 ```
+npm i
 npm run start
 ```
