@@ -7,7 +7,7 @@ import EventHelper from './js/SnakeGame/Helper/EventHelper';
 import $ from 'jquery'
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './css/pixel.css';
+import './css/pixel.scss';
 import Vue from 'vue';
 import api from './js/Api/index';
 import TableScore from './view/components/TableScore';

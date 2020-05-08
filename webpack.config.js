@@ -1,5 +1,5 @@
 const path = require('path');
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
   entry: './client/index.js',
@@ -11,14 +11,15 @@ module.exports = {
     uws: "uws"
   },
   output: {
+    path: path.resolve(__dirname, 'web', 'build', 'js'),
     filename: 'snake.js',
-    path: path.resolve(__dirname, 'dist')
+    publicPath: '/build/'
   },
   module: {
     rules: [
       {
-        test: /\.css$/,
-        loader: ['style-loader', 'css-loader']
+        test: /\.(s*)css$/,
+        loader: ['style-loader', 'css-loader?url=false', 'sass-loader']
       },
       {
         test: /\.vue$/,
@@ -38,6 +39,6 @@ module.exports = {
     extensions: ['*', '.js', '.vue', '.json']
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
   ]
 };

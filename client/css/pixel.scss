@@ -33,6 +33,13 @@ div#top .table-striped tbody tr:nth-of-type(odd) {
      background-color: rgb(235, 237, 240);
 }
 
+.col-settings {
+    background-image: url('./web/build/img/logo.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 3% center;
+}
+
 .col-settings, .col-main {
     display: flex;
 }

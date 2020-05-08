@@ -1,4 +1,4 @@
-dist/
+web/build/js/
 package-lock.json
 node_modules/
 settings.json

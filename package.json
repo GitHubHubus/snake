@@ -13,8 +13,10 @@
     "i18next-xhr-backend": "^3.2.2",
     "jquery": "^3.4.1",
     "mongodb": "^3.5.5",
+    "node-sass": "^4.14.1",
     "popper.js": "^1.14.3",
     "query-string": "^6.12.1",
+    "sass-loader": "^8.0.2",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "vue": "^2.6.11"
