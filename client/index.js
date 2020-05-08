@@ -14,16 +14,25 @@ import TableScore from './view/components/TableScore';
 import Input from './view/components/Input';
 import socket from './js/Api/WebSocket';
 import './i18n';
-import i18next from 'i18next';
+import locales from './locales/en/translation';
+import translate from "./js/Helper/translator";
 
 Vue.component('table-score', TableScore);
 Vue.component('settings-input', Input);
+
+const games = {
+    [SnakeGame.id()]: SnakeGame,
+    [SnakeGame2.id()]: SnakeGame2,
+    [SnakeGame4.id()]: SnakeGame4,
+    [SnakeGame6.id()]: SnakeGame6,
+    [SnakeGame7.id()]: SnakeGame7
+};
 
 const v = new Vue({
     el: '#app',
     created() {
         socket.on('refresh', (data) => {
-            data.type === this.type && this._updateTop(data.score);
+            Number(data.type) === this.type && this._updateTop(data.score);
         });
         
         window.addEventListener("keydown", function(e) {
@@ -36,28 +45,21 @@ const v = new Vue({
         this._recreateGame();
     },
     data: {
+        trans: translate(locales),
         top: [],
         lastScore: null,
         score: 0,
-        type: SnakeGame.description(),
+        type: SnakeGame.id(),
         name: '',
-        rules: SnakeGame.rules(),
         rating: true,
-        games: [
-            {value: SnakeGame, text: SnakeGame.description()},
-            {value: SnakeGame2, text: SnakeGame2.description()},
-            {value: SnakeGame4, text: SnakeGame4.description()},
-            {value: SnakeGame6, text: SnakeGame6.description()},
-            {value: SnakeGame7, text: SnakeGame7.description()},
-        ],
+        games: Object.entries(games).map(game => {return {value: game[0], text: game[1].description()};}),
         game: SnakeGame,
         gameObject: null,
-        settings: SnakeGame.settings(),
         settingsValues: {}
     },
     methods: {
         changeGame(e) {
-            this.type = e.target.value;
+            this.type = Number(e.target.value);
             this._recreateGame();
         },
         _updateTop(data) {
@@ -76,16 +78,7 @@ const v = new Vue({
                 this.gameObject = null;
             }
 
-            for (let i = 0; i < this.games.length; i++) {
-                if (this.games[i].text === type) {
-                    const game = this.games[i].value;
-                    
-                    this.settings = game.settings();
-                    this.rules = game.rules();
-                    this.game = game;
-                    break;
-                }
-            }
+            this.game = games[type];
         },
         async _recreateGame(updateTop = true) {
             if (this.gameObject) {

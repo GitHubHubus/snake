@@ -12,6 +12,10 @@ export default class SnakeGame6 extends BaseSnakeGame {
         return i18next.t('games.rules.6');
     }
 
+    static id() {
+        return 6;
+    }
+
     static settings() {
         const settings = [
             {'type': 'number', 'max':20, 'min': 2, step: 1, label: i18next.t('games.settings.portal_numbers'), key: 'portal_numbers'}

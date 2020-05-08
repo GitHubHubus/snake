@@ -12,6 +12,10 @@ export default class SnakeGame7 extends BaseSnakeGame {
         return i18next.t('games.rules.7');
     }
 
+    static id() {
+        return 7;
+    }
+
     static settings() {
         const settings = [
             {'type': 'number', 'max':50, 'min': 5, step: 1, label: i18next.t('games.settings.purposes_count'), key: 'purposes_count'},

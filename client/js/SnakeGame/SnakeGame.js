@@ -12,6 +12,10 @@ export default class SnakeGame extends BaseSnakeGame {
         return  i18next.t('games.rules.1');
     }
 
+    static id() {
+        return 1;
+    }
+
     /**
      * @param {Object} event
      */

@@ -12,6 +12,10 @@ export default class SnakeGame4 extends BaseSnakeGame {
         return i18next.t('games.rules.4');
     }
 
+    static id() {
+        return 4;
+    }
+
     static settings() {
         const settings = [{type: 'number', max:15, min: 5, step: 1, label: i18next.t('games.settings.snake_length'), key: 'snake_length'}];
 

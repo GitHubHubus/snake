@@ -14,7 +14,7 @@
                         <div class="col-8 shadow-sm p-3 mb-5 bg-white col-settings">
                             <div class="settings form-inline content-center">
                                 <select id="type" class="form-control" v-on:change="changeGame">
-                                    <option v-for="option in games" v-bind:value="option.text">
+                                    <option v-for="option in games" v-bind:value="option.value">
                                         {{ option.text }}
                                     </option>
                                 </select>
@@ -43,15 +43,15 @@
                     </div>
                     <div class="row">
                         <div class="col-12 p-3 shadow-sm mb-5 bg-white">
-                            <h4 class="mb-4">Rules</h4>
-                            <div class="block-rules" v-html="rules"></div>
+                            <h4 class="mb-4">{{trans.page.rules}}</h4>
+                            <div class="block-rules" v-html="game.rules()"></div>
                         </div>
                     </div>
                     <div class="row" v-if="!rating">
                         <div class="col-12 p-3 shadow-sm mb-5 bg-white">
-                            <h4 class="mb-4">Settings</h4>
+                            <h4 class="mb-4">{{trans.page.settings}}</h4>
                             <div class="form-group ">
-                                <settings-input :props="set" @update="changeSettings" v-for="set in settings"  />
+                                <settings-input :props="set" @update="changeSettings" v-for="set in game.settings()" />
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">New score</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">{{trans.page.modal.score.new_score}}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -79,8 +79,8 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button v-on:click="postScore" type="button" class="btn btn-primary">Send</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{trans.page.modal.close}}</button>
+                            <button v-on:click="postScore" type="button" class="btn btn-primary">{{trans.page.modal.send}}</button>
                         </div>
                     </div>
                 </div>

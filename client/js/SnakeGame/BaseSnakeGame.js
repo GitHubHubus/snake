@@ -45,6 +45,13 @@ export default class SnakeGame {
     }
 
     /**
+     * Should be overriden in child class
+     */
+    static id() {
+        //
+    }
+
+    /**
      * @param {Object} event
      */
     _handle(event) {

@@ -12,6 +12,10 @@ export default class SnakeGame2 extends BaseSnakeGame {
         return i18next.t('games.rules.2');
     }
 
+    static id() {
+        return 2;
+    }
+
     static settings() {
         const settings = [
             {type: 'number', max:1500, min: 150, step: 10, label: i18next.t('games.settings.purposes_add_speed'), key: 'purposes_add_speed'},

@@ -13,9 +13,9 @@ thead {
     <table class="col-12 table-sm table-striped">
         <thead>
             <tr>
-                <th width="10%">#</th>
-                <th width="60%">Name</th>
-                <th width="30%">Score</th>
+                <th width="10%">{{trans.number}}</th>
+                <th width="60%">{{trans.name}}</th>
+                <th width="30%">{{trans.score}}</th>
             </tr>
         </thead>
         <tbody>
@@ -30,10 +30,18 @@ thead {
 </template>
 
 <script>
+import translate from "../../js/Helper/translator";
+import locales from '../../locales/en/translation';
+
 export default {
     name: 'TableScore',
     props: {
         items: Object,
+    },
+    data: function () {
+        return {
+            trans: translate(locales.page.score, 'page.score')
+        }
     },
 }
 </script>

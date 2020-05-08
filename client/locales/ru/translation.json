@@ -11,7 +11,14 @@
             "score": "Счет"
         },
         "settings": "Настройки",
-        "rules": "Правила"
+        "rules": "Правила",
+        "modal": {
+            "close": "Закрыть",
+            "send": "Отправить",
+            "score": {
+                "new_score": "Новый результат"
+            }
+        }
     },
     "games": {
         "settings": {

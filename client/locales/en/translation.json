@@ -11,7 +11,14 @@
             "score": "Score"
         },
         "settings": "Settings",
-        "rules": "Rules"
+        "rules": "Rules",
+        "modal": {
+            "close": "Close",
+            "send": "Send",
+            "score": {
+                "new_score": "New score"
+            }
+        }
     },
     "games": {
         "settings": {
