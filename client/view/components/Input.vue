@@ -1,7 +1,7 @@
 <template lang="html">
     <div class="form-group row">
-        <label :for="props.key" class="col-sm-2 col-form-label">{{props.label}}</label>
-        <div class="col-sm-10">
+        <label :for="props.key" class="col-sm-3 col-form-label">{{props.label}}</label>
+        <div class="col-sm-9">
             <input
                 :placeholder="props.min + ' - ' + props.max"
                 :type="props.type"

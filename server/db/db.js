@@ -1,7 +1,6 @@
 'use strict';
 
 const mongoClient = require('mongodb').MongoClient;
-const NumberInt = require('mongodb').Int32;
 const settings = require('../../settings.json');
 
 const connection = async () => {
