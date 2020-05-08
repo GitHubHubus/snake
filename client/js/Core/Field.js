@@ -219,4 +219,8 @@ export class Field {
     getCenterPoint(shift) {
         return {x: Math.round(this._countX/2 + shift.x), y: Math.round(this._countY/2 + shift.y)};
     }
+
+    getCountTiles() {
+        return (this._countY * this._countX) - this._border.length;
+    }
 }

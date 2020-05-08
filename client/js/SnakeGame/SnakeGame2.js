@@ -14,14 +14,8 @@ export default class SnakeGame2 extends BaseSnakeGame {
 
     static settings() {
         const settings = [
-            {
-                type: 'number', 
-                max:1500, 
-                min: 150, 
-                step: 10, 
-                label: i18next.t('games.settings.purposes_add_speed'), 
-                key: 'purposes_add_speed'
-            },
+            {type: 'number', max:1500, min: 150, step: 10, label: i18next.t('games.settings.purposes_add_speed'), key: 'purposes_add_speed'},
+            {type: 'number', max:100, min: 1, step: 1, label: i18next.t('games.settings.permissible_field_filling'), key: 'permissible_field_filling'},
         ];
 
         return settings.concat(super.settings());
@@ -30,6 +24,7 @@ export default class SnakeGame2 extends BaseSnakeGame {
     constructor (params) {
         super(params);
 
+        const percentFilling = params.settings.permissible_field_filling || 25;
         this._purposeTypes = [
             {type: 'remove_purposes_by_area', color: 'yellow', action: this._removePurposesByArea},
             {type: 'increase_snake', color: 'red', action: this._increaseSnake},
@@ -42,6 +37,7 @@ export default class SnakeGame2 extends BaseSnakeGame {
         this._purposes = [];
         this._purposesAddInterval = null;
         this._purposesAddSpeed = params.settings.purposes_add_speed || 300;
+        this._permissibleFieldFilling = ((this._field.getCountTiles() - this._snake.length) * percentFilling) / 100;
     }
 
     _stopAddPurpose() {
@@ -105,7 +101,11 @@ export default class SnakeGame2 extends BaseSnakeGame {
 
         this._purposes.push(purpose);
 
-        EventHelper.fire('add_purpose', {purpose: purpose});
+        if (this._purposes.length > this._permissibleFieldFilling) {
+            this.handleEndGame();
+        } else {
+            EventHelper.fire('add_purpose', {purpose: purpose});
+        }
     }
 
     _getRandomPurposeType() {

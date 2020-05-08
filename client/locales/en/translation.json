@@ -23,7 +23,8 @@
             "portal_numbers": "Portal numbers",
             "purposes_count": "Purposes count",
             "colors_count": "Colors count",
-            "snake_length": "Snake length"
+            "snake_length": "Snake length",
+            "permissible_field_filling": "Permissible field filling"
         },
         "rules": {
             "1": "<p>You all know these rules<p><p>You eat purposes</><p>You lose if collide with border or snake</p><p>Speed growth when eating purposes</>",
