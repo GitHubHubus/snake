@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const score = require('./db/score.js');
 const NumberInt = require('mongodb').Int32;
 const cors = require('cors');
-const settings = require('../settings.json');
+const settings = require('./settings.json');
 const io = require('socket.io')(server, { origins: settings.api.allowed_hosts});
 const top = io.of('/top');
 

@@ -2,7 +2,7 @@ const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-  entry: './client/index.js',
+  entry: './index.js',
   devtool: 'eval',
   node: {
     fs: 'empty'
@@ -11,9 +11,9 @@ module.exports = {
     uws: "uws"
   },
   output: {
-    path: path.resolve(__dirname, 'web', 'build', 'js'),
+    path: path.resolve(__dirname, 'web/build/js'),
     filename: 'snake.js',
-    publicPath: '/build/'
+    publicPath: '/web/'
   },
   module: {
     rules: [

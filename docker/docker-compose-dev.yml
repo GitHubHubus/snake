@@ -7,8 +7,12 @@ services:
       dockerfile: ./docker/app/Dockerfile
     ports:
       - '8080:8080'
+    volumes:
+      - ../server/db:/usr/src/app/db
+      - ../server/index.js:/usr/src/app/index.js
+      - ../server/packages.json:/usr/src/app/packages.json
+      - ../server/settings.json:/usr/src/app/settings.json
     environment:
-      NODE_ENV: development
       WAIT_HOSTS: mongodb_image:27017
     depends_on:
       - mongodb_image
@@ -33,8 +37,16 @@ services:
       dockerfile: ./docker/ui/Dockerfile
     ports:
       - '80:80'
+    volumes:
+      - ../client/css:/usr/share/nginx/html/css
+      - ../client/js:/usr/share/nginx/html/js
+      - ../client/locales:/usr/share/nginx/html/locales
+      - ../client/view:/usr/share/nginx/html/view
+      - ../client/index.html:/usr/share/nginx/html/index.html
+      - ../client/index.js:/usr/share/nginx/html/index.js
+      - ../client/settings.json:/usr/share/nginx/html/settings.json
     environment:
-      - ENV=prod  
+      - ENV=dev
     depends_on:
       - snake-server
     networks:

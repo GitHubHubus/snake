@@ -4,7 +4,7 @@ import SnakeGame4 from './js/SnakeGame/SnakeGame4';
 import SnakeGame6 from './js/SnakeGame/SnakeGame6';
 import SnakeGame7 from './js/SnakeGame/SnakeGame7';
 import EventHelper from './js/SnakeGame/Helper/EventHelper';
-import $ from 'jquery'
+import $ from 'jquery';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/snake.scss';
@@ -15,7 +15,7 @@ import Input from './view/components/Input';
 import socket from './js/Api/WebSocket';
 import './i18n';
 import locales from './locales/en/translation';
-import translate from "./js/Helper/translator";
+import translate from './js/Helper/translator';
 
 Vue.component('table-score', TableScore);
 Vue.component('settings-input', Input);

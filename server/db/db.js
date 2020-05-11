@@ -1,7 +1,7 @@
 'use strict';
 
 const mongoClient = require('mongodb').MongoClient;
-const settings = require('../../settings.json');
+const settings = require('../settings.json');
 
 const connection = async () => {
     const client = await mongoClient.connect(settings.db.connection, {

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import settings from '../../../settings.json';
+import settings from '../../settings.json';
 
 const queryString = require('query-string');
 

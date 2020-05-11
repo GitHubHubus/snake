@@ -1,8 +1,9 @@
 FROM nginx:1.17.1-alpine
-COPY ./ /usr/share/nginx/html
-WORKDIR /usr/share/nginx/html
 
-RUN apk add --update npm
-RUN npm install && npm run build
+WORKDIR /usr/share/nginx/html
+COPY ./client ./
+COPY settings.json ./settings.json
+
+RUN apk add --update npm && npm install && npm rebuild node-sass && npm run build
 
 EXPOSE 80

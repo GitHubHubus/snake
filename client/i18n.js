@@ -1,9 +1,9 @@
 import i18n from 'i18next';
-
 import langEn from './locales/en/translation';
 import langRu from './locales/ru/translation';
 import Backend from 'i18next-xhr-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import settings from './settings.json';
 
 const resources = {
     en: {
@@ -26,7 +26,7 @@ i18n
     .init({
         resources,
         fallbackLng: 'en',
-        debug: true,
+        debug: settings.env === 'dev',
 
         interpolation: {
             escapeValue: false,
