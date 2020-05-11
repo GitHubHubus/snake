@@ -18,9 +18,9 @@
                                         {{ option.text }}
                                     </option>
                                 </select>
-                                <button v-on:click="startGame" class="btn btn-primary ml-2">{{ trans.page.options.start }}</button>
+                                <button v-on:click="startGame" class="btn btn-primary ml-2" :disabled='lockGame'>{{ trans.page.options.start }}</button>
                                 <div class="custom-control custom-checkbox ml-5">
-                                    <input type="checkbox" class="custom-control-input" id="rating-game" v-model="rating" v-on:change="changeRating">
+                                    <input type="checkbox" class="custom-control-input" id="rating-game" v-model="rating" v-on:change="changeRating" :disabled='lockGame'>
                                     <label class="custom-control-label" for="rating-game">{{ trans.page.options.rating_game }}</label>
                                 </div>
                             </div>

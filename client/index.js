@@ -45,6 +45,7 @@ const v = new Vue({
         this._recreateGame();
     },
     data: {
+        lockGame: false,
         trans: translate(locales),
         top: [],
         lastScore: null,
@@ -95,6 +96,8 @@ const v = new Vue({
             this.gameObject = new this.game({onEndGame: this._handleEndGame, settings: settings});
         },
         _handleEndGame() {
+            this.lockGame = false;
+            
             if (
                 this.rating &&
                 this.gameObject.score() > 0 &&
@@ -114,6 +117,7 @@ const v = new Vue({
         startGame() {
             this.gameObject.ready(() => {
                 this._recreateGame(false);
+                this.lockGame = true;
                 EventHelper.fire('start');
             });
         },
