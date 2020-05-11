@@ -3,7 +3,7 @@
         <label :for="props.key" class="col-sm-3 col-form-label">{{props.label}}</label>
         <div class="col-sm-9">
             <input
-                :placeholder="props.min + ' - ' + props.max"
+                :placeholder="trans.range_values + ': ' + props.min + ' - ' + props.max"
                 :type="props.type"
                 :max="props.max"
                 :min="props.min"
@@ -15,12 +15,20 @@
         </div>
     </div>
 </template>
-
+range_values
 <script>
+import translate from "../../js/Helper/translator";
+import locales from '../../locales/en/translation';
+
 export default {
     name: 'Input',
     props: {
         props: Object,
+    },
+    data: function () {
+        return {
+            trans: translate(locales.page, 'page')
+        }
     },
     methods: {
         update(e) {

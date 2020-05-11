@@ -11,6 +11,7 @@
             "score": "Score"
         },
         "settings": "Settings",
+        "range_values": "Range of values",
         "rules": "Rules",
         "modal": {
             "close": "Close",
