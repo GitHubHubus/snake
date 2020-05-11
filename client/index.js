@@ -45,6 +45,8 @@ const v = new Vue({
         this._recreateGame();
     },
     data: {
+        email: '',
+        message: '',
         lockGame: false,
         trans: translate(locales),
         top: [],
@@ -112,6 +114,16 @@ const v = new Vue({
 
             api.score.post(data).then(() => {
                 $('#scoreModal').modal('hide');
+            });
+        },
+        openEmailModal() {
+            $('#emailModal').modal({show: true});
+        },
+        sendEmail() {
+            let data = {email: this.email, message: this.message};
+
+            api.email.post(data).then(() => {
+                $('#emailModal').modal('hide');
             });
         },
         startGame() {

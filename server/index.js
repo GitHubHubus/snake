@@ -9,6 +9,7 @@ const cors = require('cors');
 const settings = require('./settings.json');
 const io = require('socket.io')(server, { origins: settings.api.allowed_hosts});
 const top = io.of('/top');
+const send = require('./mailer.js');
 
 
 app.use(cors(settings.api.allowed_hosts));
@@ -36,4 +37,15 @@ app.post('/score', (req, res) => {
             res.send('OK');
         });
     });
+});
+
+app.post('/email', (req, res) => {
+    const email = req.body.email;
+    const message = req.body.message;
+ 
+    if (email && message) {
+        send(email, message);
+    }
+    
+    res.send('OK');
 });

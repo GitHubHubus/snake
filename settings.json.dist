@@ -11,4 +11,10 @@
         "user": "root",
         "password": "rootpassword"
     }
+    "mailer": {
+        "service": "gmail",
+        "user": "",
+        "pass": "",
+        "supportEmail": ""
+    }
 }
