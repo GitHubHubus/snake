@@ -31,8 +31,8 @@ app.post('/score', (req, res) => {
     };
 
     score.post(data).then(() => {
-        score.top({type: data.type, limit: 10}).then((data) => {
-            top.emit('refresh', { type: data.type, score: data });
+        score.top({type: data.type, limit: 10}).then((result) => {
+            top.emit('refresh', { type: data.type, score: result });
             res.send('OK');
         });
     });
