@@ -11,6 +11,7 @@
                 class="mb-3 form-control"
                 v-on:change="update"
                 :id="props.key"
+                :disabled="lock"
             />
         </div>
     </div>
@@ -24,6 +25,7 @@ export default {
     name: 'Input',
     props: {
         props: Object,
+        lock: Boolean
     },
     data: function () {
         return {
