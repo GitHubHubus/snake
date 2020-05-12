@@ -1,19 +1,22 @@
 var nodemailer = require('nodemailer');
 const settings = require('./settings.json');
+var smtpTransport = require('nodemailer-smtp-transport');
 
-var transporter = nodemailer.createTransport({
-  service: settings.mailer.service,
-  auth: {
-    user: settings.mailer.user,
-    pass: settings.mailer.password
-  }
-});
+var transporter = nodemailer.createTransport(smtpTransport({
+    service: settings.mailer.service,
+    host: settings.mailer.host,
+    port: 587,
+    auth: {
+        user: settings.mailer.user,
+        pass: settings.mailer.pass
+    }
+}));
 
 const send = (email, text) => {
     var mailOptions = {
         from: settings.mailer.user,
         to: settings.mailer.supportEmail,
-        subject: 'Response from snake ' + email,
+        subject: '[snake] Feedback from ' + email,
         text: text
       };
     

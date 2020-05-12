@@ -47,3 +47,13 @@ div#top .table-striped tbody tr:nth-of-type(odd) {
 .col-top {
     min-height: 375px;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.feedback {
+    textarea.message {
+        height: 180px;
+    }
+}

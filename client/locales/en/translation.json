@@ -18,6 +18,11 @@
             "send": "Send",
             "score": {
                 "new_score": "New score"
+            },
+            "feedback": {
+                "email": "E-mail",
+                "message": "Message",
+                "feedback": "Feedback"
             }
         }
     },

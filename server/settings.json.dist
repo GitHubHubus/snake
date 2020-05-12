@@ -8,6 +8,7 @@
     }
     "mailer": {
         "service": "gmail",
+        "host": "smtp.gmail.com",
         "user": "",
         "pass": "",
         "supportEmail": ""
