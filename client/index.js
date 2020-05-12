@@ -90,7 +90,9 @@ const v = new Vue({
 
             if (updateTop) {
                 const response = await api.score.list(this.type, 10);
-                this._updateTop(response.data);
+                if (response) {
+                    this._updateTop(response.data);
+                }
             }
 
             const settings = this.rating ? [] : this.settingsValues;

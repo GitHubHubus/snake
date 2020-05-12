@@ -11,7 +11,7 @@ services:
     volumes:
       - ../server/db:/usr/src/app/db
       - ../server/index.js:/usr/src/app/index.js
-      - ../server/packages.json:/usr/src/app/packages.json
+      - ../server/package.json:/usr/src/app/package.json
       - ../server/settings.json:/usr/src/app/settings.json
     environment:
       WAIT_HOSTS: mongodb_image:27017
@@ -48,6 +48,7 @@ services:
       - ../client/index.html:/usr/share/nginx/html/index.html
       - ../client/index.js:/usr/share/nginx/html/index.js
       - ../client/settings.json:/usr/share/nginx/html/settings.json
+      - ../client/webpack.config.js:/usr/share/nginx/html/webpack.config.js
     environment:
       - ENV=dev
     depends_on:

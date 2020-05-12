@@ -3,7 +3,7 @@ FROM node:12
 WORKDIR /usr/src/app
 
 COPY ./server ./
-COPY settings.json ./settings.json
+#COPY settings.json ./
 RUN npm install
 
 EXPOSE 8080

@@ -3,7 +3,6 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
   entry: './index.js',
-  devtool: 'eval',
   node: {
     fs: 'empty'
   },
@@ -15,6 +14,7 @@ module.exports = {
     filename: 'snake.js',
     publicPath: '/web/'
   },
+  devtool: 'source-map',
   module: {
     rules: [
       {

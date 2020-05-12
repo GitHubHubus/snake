@@ -1,11 +1,6 @@
 {
     "env": "dev",
-    "api": {
-        "scheme": "http://",
-        "url": "0.0.0.0",
-        "port": 8080,
-        "allowed_hosts": "*:*"
-    },
+    "allowed_hosts": "*:*"
     "db": {
         "connection": "mongodb://mongodb_image:27017/snake",
         "user": "root",
