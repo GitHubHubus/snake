@@ -17,12 +17,10 @@ export default class SnakeGame7 extends BaseSnakeGame {
     }
 
     static settings() {
-        const settings = [
+        return super.settings().concat([
             {'type': 'number', 'max':50, 'min': 5, step: 1, label: i18next.t('games.settings.purposes_count'), key: 'purposes_count'},
             {'type': 'number', 'max':20, 'min': 2, step: 1, label: i18next.t('games.settings.colors_count'), key: 'colors_count'},
-        ];
-
-        return settings.concat(super.settings());
+        ]);
     }
 
     constructor (params) {

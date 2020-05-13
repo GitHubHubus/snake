@@ -17,11 +17,9 @@ export default class SnakeGame6 extends BaseSnakeGame {
     }
 
     static settings() {
-        const settings = [
+        return super.settings().concat([
             {'type': 'number', 'max':20, 'min': 2, step: 1, label: i18next.t('games.settings.portal_numbers'), key: 'portal_numbers'}
-        ];
-
-        return settings.concat(super.settings());
+        ]);
     }
 
     constructor (params) {

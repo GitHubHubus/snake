@@ -17,12 +17,10 @@ export default class SnakeGame2 extends BaseSnakeGame {
     }
 
     static settings() {
-        const settings = [
+        return super.settings().concat([
             {type: 'number', max:1500, min: 150, step: 10, label: i18next.t('games.settings.purposes_add_speed'), key: 'purposes_add_speed'},
             {type: 'number', max:100, min: 1, step: 1, label: i18next.t('games.settings.permissible_field_filling'), key: 'permissible_field_filling'},
-        ];
-
-        return settings.concat(super.settings());
+        ]);
     }
 
     constructor (params) {

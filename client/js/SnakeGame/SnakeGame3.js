@@ -17,11 +17,9 @@ export default class SnakeGame3 extends BaseSnakeGame {
     }
 
     static settings() {
-        const settings = [
+        return super.settings().concat([
             {type: 'number', max:10, min: 1, step: 1, label: i18next.t('games.settings.disappearance_time'), key: 'disappearance_time'},
-        ];
-
-        return settings.concat(super.settings());
+        ]);
     }
 
     constructor (params) {
