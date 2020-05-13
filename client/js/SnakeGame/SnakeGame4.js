@@ -5,11 +5,11 @@ import i18next from 'i18next';
 
 export default class SnakeGame4 extends BaseSnakeGame {
     static description () {
-        return i18next.t('games.description.4');
+        return super.description(SnakeGame4.id());
     }
 
     static rules() {
-        return i18next.t('games.rules.4');
+        return super.rules(SnakeGame4.id());
     }
 
     static id() {

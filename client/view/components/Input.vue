@@ -16,7 +16,7 @@
         </div>
     </div>
 </template>
-range_values
+
 <script>
 import translate from "../../js/Helper/translator";
 import locales from '../../locales/en/translation';

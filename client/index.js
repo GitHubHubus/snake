@@ -1,8 +1,3 @@
-import SnakeGame from './js/SnakeGame/SnakeGame';
-import SnakeGame2 from './js/SnakeGame/SnakeGame2';
-import SnakeGame4 from './js/SnakeGame/SnakeGame4';
-import SnakeGame6 from './js/SnakeGame/SnakeGame6';
-import SnakeGame7 from './js/SnakeGame/SnakeGame7';
 import EventHelper from './js/SnakeGame/Helper/EventHelper';
 import $ from 'jquery';
 import 'bootstrap';
@@ -16,17 +11,10 @@ import socket from './js/Api/WebSocket';
 import './i18n';
 import locales from './locales/en/translation';
 import translate from './js/Helper/translator';
+import games from './js/SnakeGame/index';
 
 Vue.component('table-score', TableScore);
 Vue.component('settings-input', Input);
-
-const games = {
-    [SnakeGame.id()]: SnakeGame,
-    [SnakeGame2.id()]: SnakeGame2,
-    [SnakeGame4.id()]: SnakeGame4,
-    [SnakeGame6.id()]: SnakeGame6,
-    [SnakeGame7.id()]: SnakeGame7
-};
 
 const v = new Vue({
     el: '#app',
@@ -52,11 +40,11 @@ const v = new Vue({
         top: [],
         lastScore: null,
         score: 0,
-        type: SnakeGame.id(),
+        type: games[1].id(),
         name: '',
         rating: true,
         games: Object.entries(games).map(game => {return {value: game[0], text: game[1].description()};}),
-        game: SnakeGame,
+        game: games[1],
         gameObject: null,
         settingsValues: {}
     },

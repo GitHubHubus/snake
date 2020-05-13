@@ -1,15 +1,14 @@
 import BaseSnakeGame from './BaseSnakeGame';
 import EventHelper from './Helper/EventHelper';
 import Purpose from './Models/Purpose';
-import i18next from 'i18next';
 
 export default class SnakeGame extends BaseSnakeGame {
     static description() {
-        return i18next.t('games.description.1');
+        return super.description(SnakeGame.id());
     }
 
     static rules() {
-        return  i18next.t('games.rules.1');
+        return super.rules(SnakeGame.id());
     }
 
     static id() {

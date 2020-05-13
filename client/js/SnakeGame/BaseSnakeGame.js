@@ -5,6 +5,14 @@ import i18next from 'i18next';
 import TextDrawer from "../Core/Drawer/TextDrawer";
 
 export default class SnakeGame {
+    static description(id) {
+        return i18next.t(`games.description.${id}`);
+    }
+
+    static rules(id) {
+        return  i18next.t(`games.rules.${id}`);
+    }
+
     static settings() {
         return [
             {'type': 'number', 'max':1000, 'min': 150, step: 10, label: i18next.t('games.settings.field_width'), key: 'field_width'},
