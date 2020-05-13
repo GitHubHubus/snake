@@ -1,26 +1,32 @@
-import EventHelper from './js/SnakeGame/Helper/EventHelper';
-import $ from 'jquery';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './i18n';
 import './css/snake.scss';
+import $ from 'jquery';
 import Vue from 'vue';
 import api from './js/Api/index';
+import games from './js/SnakeGame/index';
+import EventHelper from './js/SnakeGame/Helper/EventHelper';
+import socket from './js/Api/WebSocket';
+import translate from './js/Helper/translator';
 import TableScore from './view/components/TableScore';
 import Input from './view/components/Input';
-import socket from './js/Api/WebSocket';
-import './i18n';
+import FeedbackModal from './view/components/Feedback/Modal';
+import FeedbackButton from './view/components/Feedback/Button';
+import ScoreModal from './view/components/ScoreModal';
 import locales from './locales/en/translation';
-import translate from './js/Helper/translator';
-import games from './js/SnakeGame/index';
 
 Vue.component('table-score', TableScore);
 Vue.component('settings-input', Input);
+Vue.component('feedback-modal', FeedbackModal);
+Vue.component('feedback-button', FeedbackButton);
+Vue.component('score-modal', ScoreModal);
 
 const v = new Vue({
     el: '#app',
     created() {
         socket.on('refresh', (data) => {
-            Number(data.type) === this.type && this._updateTop(data.score);
+            Number(data.type) === this.game.id() && this._updateTop(data.score);
         });
         
         window.addEventListener("keydown", function(e) {
@@ -30,18 +36,14 @@ const v = new Vue({
             }
         }, false);
 
-        this._recreateGame();
+        this._recreateGame(1);
     },
     data: {
-        email: '',
-        message: '',
         lockGame: false,
         trans: translate(locales),
         top: [],
         lastScore: null,
         score: 0,
-        type: games[1].id(),
-        name: '',
         rating: true,
         games: Object.entries(games).map(game => {return {value: game[0], text: game[1].description()};}),
         game: games[1],
@@ -50,8 +52,21 @@ const v = new Vue({
     },
     methods: {
         changeGame(e) {
-            this.type = Number(e.target.value);
-            this._recreateGame();
+            this._recreateGame(Number(e.target.value));
+        },
+        startGame() {
+            this.gameObject.ready(() => {
+                this._recreateGame(this.game.id(), false);
+                this.lockGame = true;
+                EventHelper.fire('start');
+            });
+        },
+        changeSettings(e) {
+            this.settingsValues[e[0]] = Number(e[1]);
+            this._recreateGame(this.game.id(), false);
+        },
+        changeRating(e) {
+            this._recreateGame(this.game.id(), false);
         },
         _updateTop(data) {
             this.top = [];
@@ -71,13 +86,13 @@ const v = new Vue({
 
             this.game = games[type];
         },
-        async _recreateGame(updateTop = true) {
+        async _recreateGame(type, updateTop = true) {
             if (this.gameObject) {
-                this._resetGame(this.type);
+                this._resetGame(type);
             }
 
             if (updateTop) {
-                const response = await api.score.list(this.type, 10);
+                const response = await api.score.list(type, 10);
                 if (response) {
                     this._updateTop(response.data);
                 }
@@ -98,37 +113,6 @@ const v = new Vue({
                 this.score = this.gameObject.score();
                 $('#scoreModal').modal({show: true});
             }
-        },
-        postScore() {
-            let data = {score: this.score, type: this.type, name: this.name};
-
-            api.score.post(data).then(() => {
-                $('#scoreModal').modal('hide');
-            });
-        },
-        openEmailModal() {
-            $('#emailModal').modal({show: true});
-        },
-        sendEmail() {
-            let data = {email: this.email, message: this.message};
-
-            api.email.post(data).then(() => {
-                $('#emailModal').modal('hide');
-            });
-        },
-        startGame() {
-            this.gameObject.ready(() => {
-                this._recreateGame(false);
-                this.lockGame = true;
-                EventHelper.fire('start');
-            });
-        },
-        changeSettings(e) {
-            this.settingsValues[e[0]] = Number(e[1]);
-            this._recreateGame(false);
-        },
-        changeRating(e) {
-            this._recreateGame(false);
         }
     }
 });
