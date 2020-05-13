@@ -97,11 +97,18 @@ export default class SnakeGame {
     /**
      * @return {Object} <p>{x;y}</p>
      */
-    getRandomPoint() {
+    getRandomPoint(nested = 300) {
         let p = this._field.getRandomPoint();
 
         if (this._field.isLockTile(p)) {
-            return this.getRandomPoint();
+            let decreasedNested = nested - 1;
+
+            if (decreasedNested === 0) {
+                console.log('break game');
+                this.handleEndGame();
+            }
+
+            return this.getRandomPoint(decreasedNested);
         }
 
         return p;
