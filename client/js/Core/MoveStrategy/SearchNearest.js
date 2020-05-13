@@ -29,8 +29,6 @@ class SearchNearest {
                     return false;
                 }
             }
-            
-            
         }.bind(this), p.frequency);
     }
     

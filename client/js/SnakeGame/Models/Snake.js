@@ -6,6 +6,14 @@ const DIRECTION_DOWN = 40;
 const DIRECTION_LEFT = 37;
 const DIRECTION_RIGHT = 39;
 
+const DEPRECATED_CHANGE_DIRECTION = {
+    [DIRECTION_UP]: DIRECTION_DOWN,
+    [DIRECTION_DOWN]: DIRECTION_UP,
+    [DIRECTION_LEFT]: DIRECTION_RIGHT,
+    [DIRECTION_RIGHT]: DIRECTION_LEFT,
+    [DIRECTION_NONE]: DIRECTION_NONE
+};
+
 export default class Snake {
     get points() {return this._points;}
     get color() {return this._color;}
@@ -52,7 +60,9 @@ export default class Snake {
      * @param {Object} event
      */
     _handle(event) {
-        this._direction = event.keyCode;
+        if (DEPRECATED_CHANGE_DIRECTION[this._direction] !== event.keyCode) {
+            this._direction = event.keyCode;
+        }
     }
     
     _moving() {

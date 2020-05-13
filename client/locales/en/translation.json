@@ -43,7 +43,7 @@
         },
         "rules": {
             "1": "<p>You all know these rules<p><p>You eat purposes</><p>You lose if collide with border or snake</p><p>Speed growth when eating purposes</>",
-            "2": "<p>The number of purposes is growing infinitely</p><p>Purposes have different properties depending on a color</p><p>You lose if the number of purposes exceeds the permissible value</p><p>Speed growth when eating purposes</p> ",
+            "2": "<p>The number of purposes is growing infinitely</p><p>Purposes have different properties depending on a color</p><p>You lose if the number of purposes exceeds the permissible value</p>",
             "3": "<p>You eat purposes</><p>Purposes disappear with time</p><p>You lose if collide with border or snake</p><p>Speed growth when eating purposes</>",
             "4": "<p>Instead of eating purposes, you need to cover the figure with a snake</p><p>You lose if you encounter the snake or border</p>",
             "5": "<p>You eat purposes</><p>Purposes disappear with time</p><p>Field fill with blockers when you eat purposes</p><p>You lose if collide with border, snake, or blockers</p><p>Speed growth when eating purposes</>",
