@@ -1,6 +1,6 @@
 import BaseSnakeGame from './BaseSnakeGame';
-import EventHelper from './Helper/EventHelper';
-import Purpose from './Models/Purpose';
+import EventHelper from '../Helper/EventHelper';
+import Purpose from '../Models/Purpose';
 import i18next from 'i18next';
 
 export default class SnakeGame6 extends BaseSnakeGame {

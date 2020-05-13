@@ -1,10 +1,10 @@
-import SnakeGame from './SnakeGame';
-import SnakeGame2 from './SnakeGame2';
-import SnakeGame3 from './SnakeGame3';
-import SnakeGame4 from './SnakeGame4';
-import SnakeGame5 from './SnakeGame5';
-import SnakeGame6 from './SnakeGame6';
-import SnakeGame7 from './SnakeGame7';
+import SnakeGame from './Games/SnakeGame';
+import SnakeGame2 from './Games/SnakeGame2';
+import SnakeGame3 from './Games/SnakeGame3';
+import SnakeGame4 from './Games/SnakeGame4';
+import SnakeGame5 from './Games/SnakeGame5';
+import SnakeGame6 from './Games/SnakeGame6';
+import SnakeGame7 from './Games/SnakeGame7';
 
 const games = {
     [SnakeGame.id()]: SnakeGame,

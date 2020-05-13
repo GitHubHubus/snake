@@ -1,8 +1,8 @@
-import Snake from './Models/Snake';
-import Score from './Score';
-import {DEFAULT_TILE_SIZE, Field} from "../Core/Field";
+import Snake from '../Models/Snake';
+import Score from '../Score';
+import {DEFAULT_TILE_SIZE, Field} from "../../Core/Field";
 import i18next from 'i18next';
-import TextDrawer from "../Core/Drawer/TextDrawer";
+import TextDrawer from "../../Core/Drawer/TextDrawer";
 
 export default class SnakeGame {
     static description(id) {

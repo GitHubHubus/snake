@@ -1,6 +1,6 @@
 import BaseSnakeGame from './BaseSnakeGame';
-import EventHelper from './Helper/EventHelper';
-import ShapeDrawer from '../Core/Drawer/ShapeDrawer';
+import EventHelper from '../Helper/EventHelper';
+import ShapeDrawer from '../../Core/Drawer/ShapeDrawer';
 import i18next from 'i18next';
 
 export default class SnakeGame4 extends BaseSnakeGame {

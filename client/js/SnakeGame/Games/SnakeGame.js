@@ -1,6 +1,6 @@
 import BaseSnakeGame from './BaseSnakeGame';
-import EventHelper from './Helper/EventHelper';
-import Purpose from './Models/Purpose';
+import EventHelper from '../Helper/EventHelper';
+import Purpose from '../Models/Purpose';
 
 export default class SnakeGame extends BaseSnakeGame {
     static description() {
