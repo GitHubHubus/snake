@@ -5,6 +5,7 @@ import SnakeGame4 from './Games/SnakeGame4';
 import SnakeGame5 from './Games/SnakeGame5';
 import SnakeGame6 from './Games/SnakeGame6';
 import SnakeGame7 from './Games/SnakeGame7';
+import SnakeGame8 from './Games/SnakeGame8';
 
 const games = {
     [SnakeGame.id()]: SnakeGame,
@@ -13,7 +14,8 @@ const games = {
     [SnakeGame4.id()]: SnakeGame4,
     [SnakeGame5.id()]: SnakeGame5,
     [SnakeGame6.id()]: SnakeGame6,
-    [SnakeGame7.id()]: SnakeGame7
+    [SnakeGame7.id()]: SnakeGame7,
+    [SnakeGame8.id()]: SnakeGame8
 };
 
 export default games;
