@@ -57,3 +57,6 @@ div#top .table-striped tbody tr:nth-of-type(odd) {
         height: 180px;
     }
 }
+
+[v-cloak] { display: none; }
+[v-cloak] > * { display:none }
