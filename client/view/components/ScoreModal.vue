@@ -9,7 +9,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="score-form">
+                    <div>
                         <div class="form-group">
                             <input type="text" placeholder="Name" class="form-control" v-model="name">
                         </div>
@@ -17,7 +17,7 @@
                             <input type="hidden" class="form-control" :value="score">
                             <input type="hidden" class="form-control" :value="type">
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{trans.close}}</button>

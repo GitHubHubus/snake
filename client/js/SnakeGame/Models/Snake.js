@@ -60,7 +60,10 @@ export default class Snake {
      * @param {Object} event
      */
     _handle(event) {
-        if (DEPRECATED_CHANGE_DIRECTION[this._direction] !== event.keyCode) {
+        if (
+                DEPRECATED_CHANGE_DIRECTION[event.keyCode] && 
+                DEPRECATED_CHANGE_DIRECTION[this._direction] !== event.keyCode
+            ) {
             this._direction = event.keyCode;
         }
     }

@@ -9,12 +9,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="score-form">
-                        <div class="form-group">
-                            <input type="text" :placeholder="trans.feedback.email" class="form-control mb-2" v-model="email">
-                            <textarea :placeholder="trans.feedback.message" class="form-control message" v-model="message"></textarea>
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <input type="text" :placeholder="trans.feedback.email" class="form-control mb-2" v-model="email">
+                        <textarea :placeholder="trans.feedback.message" class="form-control message" v-model="message"></textarea>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{trans.close}}</button>
