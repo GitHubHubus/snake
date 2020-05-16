@@ -7,12 +7,22 @@ const score = require('./db/score.js');
 const NumberInt = require('mongodb').Int32;
 const cors = require('cors');
 const settings = require('./settings.json');
-const io = require('socket.io')(server, { origins: settings.allowed_hosts});
+const io = require('socket.io')(server, { origins: "*:8080"});
 const top = io.of('/top');
 const send = require('./mailer.js');
 
+var whitelist = [settings.allowed_hosts]
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
-app.use(cors(settings.allowed_hosts));
+app.use(cors(corsOptions));
 app.use(bodyParser());
 
 server.listen(8080, '0.0.0.0');

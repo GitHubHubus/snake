@@ -1,11 +1,11 @@
 {
     "env": "dev",
-    "allowed_hosts": "*:*"
+    "allowed_hosts": "*:*",
     "db": {
         "connection": "mongodb://mongodb_image:27017/snake",
         "user": "root",
         "password": "rootpassword"
-    }
+    },
     "mailer": {
         "service": "gmail",
         "host": "smtp.gmail.com",
