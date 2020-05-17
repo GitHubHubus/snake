@@ -8,7 +8,7 @@ const score = require('./db/score.js');
 const NumberInt = require('mongodb').Int32;
 const cors = require('cors');
 const io = require('socket.io')(server, { origins: "*:8080"});
-const top = io.of('/api/top');
+const top = io.of('/top');
 const send = require('./mailer.js');
 
 var whitelist = [settings.allowed_hosts]

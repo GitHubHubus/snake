@@ -5,7 +5,7 @@ const queryString = require('query-string');
 
 class MainApi {
     constructor () {
-        this._url = `${settings.api.scheme}${settings.api.url}:${settings.api.port}/api`;
+        this._url = `${settings.api.scheme}${settings.api.url}/api`;
     }
     
     _get(url) {

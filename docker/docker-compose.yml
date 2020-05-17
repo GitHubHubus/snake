@@ -34,16 +34,20 @@ services:
       context: ..
       dockerfile: ./docker/ui/Dockerfile
     container_name: snake_client  
-    volumes:
-        - ./ui/snake.template:/etc/nginx/conf.d/default.conf
-        - ./sslcert:/usr/cert
+#    volumes:
+#        - ./ui/snake.template:/etc/nginx/conf.d/default.conf
+ #       - ./sslcert:/usr/cert
     ports:
       - '80:80'
       - '443:443'
     environment:
-      - ENV=prod  
+      ENV: prod
+      WAIT_HOSTS: snake-server:8080
     depends_on:
       - snake-server
+    links:
+      - snake-server
+    restart: always
     networks:
       - frontend
 
