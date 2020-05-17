@@ -1,12 +1,21 @@
 'use strict';
 
+const settings = require('./settings.json');
 const app = require('express')();
-const server = require('http').Server(app);
+
+if (settings.env === 'dev') {
+    const server = require('http').Server(app);
+} else {
+    const fs = require('fs');
+    const privateKey  = fs.readFileSync('./sslcert/snake.key', 'utf8');
+    const certificate = fs.readFileSync('./sslcert/certificate.crt', 'utf8');
+    const server = require('https').Server({key: privateKey, cert: certificate}, app);
+}
+
 const bodyParser = require('body-parser');
 const score = require('./db/score.js');
 const NumberInt = require('mongodb').Int32;
 const cors = require('cors');
-const settings = require('./settings.json');
 const io = require('socket.io')(server, { origins: "*:8080"});
 const top = io.of('/top');
 const send = require('./mailer.js');

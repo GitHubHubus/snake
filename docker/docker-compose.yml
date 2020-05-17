@@ -35,10 +35,11 @@ services:
       dockerfile: ./docker/ui/Dockerfile
     container_name: snake_client  
     volumes:
-        - ./docker/ui/snake.template:/etc/nginx/conf.d/snake.template
-        - ./docker/ui/cert:/usr/cert
+        - ./ui/snake.template:/etc/nginx/conf.d/snake.template
+        - ./sslcert:/usr/cert
     ports:
       - '80:80'
+      - '443:443'
     environment:
       - ENV=prod  
     depends_on:
