@@ -4,3 +4,4 @@ node_modules/
 settings.json
 client/settings.json
 server/settings.json
+docker/ui/cert/

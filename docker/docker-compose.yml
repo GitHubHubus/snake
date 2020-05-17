@@ -34,6 +34,9 @@ services:
       context: ..
       dockerfile: ./docker/ui/Dockerfile
     container_name: snake_client  
+    volumes:
+        - ./docker/ui/snake.template:/etc/nginx/conf.d/snake.template
+        - ./docker/ui/cert:/usr/cert
     ports:
       - '80:80'
     environment:
