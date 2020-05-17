@@ -2,23 +2,13 @@
 
 const settings = require('./settings.json');
 const app = require('express')();
-let server = null;
-
-if (settings.env === 'dev') {
-    server = require('http').Server(app);
-} else {
-    const fs = require('fs');
-    const privateKey  = fs.readFileSync('./sslcert/snake.key', 'utf8');
-    const certificate = fs.readFileSync('./sslcert/certificate.crt', 'utf8');
-    server = require('https').Server({key: privateKey, cert: certificate}, app);
-}
-
+const server = require('http').Server(app);
 const bodyParser = require('body-parser');
 const score = require('./db/score.js');
 const NumberInt = require('mongodb').Int32;
 const cors = require('cors');
 const io = require('socket.io')(server, { origins: "*:8080"});
-const top = io.of('/top');
+const top = io.of('/api/top');
 const send = require('./mailer.js');
 
 var whitelist = [settings.allowed_hosts]
@@ -38,13 +28,13 @@ app.use(bodyParser());
 server.listen(8080, '0.0.0.0');
 console.log(`Running server: http://0.0.0.0:${8080}`);
 
-app.get('/score/:type/:limit', (req, res) => {
+app.get('/api/score/:type/:limit', (req, res) => {
     score.top(req.params).then((data) => {
         res.send(data);
     });
 });
 
-app.post('/score', (req, res) => {
+app.post('/api/score', (req, res) => {
     const data = {
         name: req.body.name == '' ? 'Newbie' : req.body.name,
         type: req.body.type,
@@ -59,7 +49,7 @@ app.post('/score', (req, res) => {
     });
 });
 
-app.post('/email', (req, res) => {
+app.post('/api/email', (req, res) => {
     const email = req.body.email;
     const message = req.body.message;
  
