@@ -2,14 +2,15 @@
 
 const settings = require('./settings.json');
 const app = require('express')();
+let server = null;
 
 if (settings.env === 'dev') {
-    const server = require('http').Server(app);
+    server = require('http').Server(app);
 } else {
     const fs = require('fs');
     const privateKey  = fs.readFileSync('./sslcert/snake.key', 'utf8');
     const certificate = fs.readFileSync('./sslcert/certificate.crt', 'utf8');
-    const server = require('https').Server({key: privateKey, cert: certificate}, app);
+    server = require('https').Server({key: privateKey, cert: certificate}, app);
 }
 
 const bodyParser = require('body-parser');
