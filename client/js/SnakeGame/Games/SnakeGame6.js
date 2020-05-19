@@ -74,6 +74,8 @@ export default class SnakeGame6 extends BaseSnakeGame {
             this._field.fillTile(outPortal.p, this._snake.color);
             this._field.lockTile(outPortal.p);
         }
+        
+        this._snake.unhold();
     }
     
     _addPortal() {

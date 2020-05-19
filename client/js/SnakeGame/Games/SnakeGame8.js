@@ -71,6 +71,7 @@ export default class SnakeGame8 extends BaseSnakeGame {
         this._snake.increaseSnake(event.p);
         this._field.fillTile(event.p, this._snake.color);
         this._field.lockTile(event.p);
+        this._snake.unhold();
     }
 
     _addPurpose() {

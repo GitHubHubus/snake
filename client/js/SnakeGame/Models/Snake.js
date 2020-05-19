@@ -20,7 +20,6 @@ export default class Snake {
     set color(c) {this._color = c;}
     get length() {return this._points.length;}
     set direction(d) {this._direction = d;}
-    
     /**
      * @param {Object} params
      */
@@ -30,7 +29,8 @@ export default class Snake {
         this._direction = DIRECTION_NONE;
 
         this._speed = params.speed || 150;
-
+        this._hold = false;
+            
         this._handle = this._handle.bind(this);
         this._handleStart = this._handleStart.bind(this);
 
@@ -48,7 +48,11 @@ export default class Snake {
     start() {
         this._snakeInterval = setInterval(this._moving.bind(this), this._speed);
     }
-
+    
+    unhold() {
+        this._hold = false;
+    }
+    
     _handleStart() {
         if (!this._snakeInterval) {
             this._direction = DIRECTION_RIGHT;
@@ -61,10 +65,12 @@ export default class Snake {
      */
     _handle(event) {
         if (
+                !this._hold &&
                 DEPRECATED_CHANGE_DIRECTION[event.keyCode] && 
                 DEPRECATED_CHANGE_DIRECTION[this._direction] !== event.keyCode
             ) {
             this._direction = event.keyCode;
+            this._hold = true;
         }
     }
     
