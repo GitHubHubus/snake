@@ -36,7 +36,7 @@ app.get('/api/score/:type/:limit', (req, res) => {
 
 app.post('/api/score', (req, res) => {
     const data = {
-        name: req.body.name == '' ? 'Newbie' : req.body.name,
+        name: req.body.name == '' ? 'Newbie' : req.body.name.substring(0, 20),
         type: req.body.type,
         score: NumberInt(req.body.score)
     };
