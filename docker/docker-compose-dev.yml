@@ -36,7 +36,7 @@ services:
   snake-client:
     build:
       context: ..
-      dockerfile: ./docker/ui/Dockerfile
+      dockerfile: ./docker/ui/dev/Dockerfile
     container_name: snake_client  
     ports:
       - '80:80'

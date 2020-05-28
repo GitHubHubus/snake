@@ -7,22 +7,27 @@ const bodyParser = require('body-parser');
 const score = require('./db/score.js');
 const NumberInt = require('mongodb').Int32;
 const cors = require('cors');
-const io = require('socket.io')(server, { origins: "*:8080"});
+const io = require('socket.io')(server, { origins: settings.env === 'prod' ? "*:8080" : "*:*"});
 const top = io.of('/top');
 const send = require('./mailer.js');
 
-var whitelist = [settings.allowed_hosts]
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
+if (settings.env === 'prod') {
+    var whitelist = [settings.allowed_hosts];
+    var corsOptions = {
+        origin: function (origin, callback) {
+            if (whitelist.indexOf(origin) !== -1) {
+                callback(null, true)
+            } else {
+                callback(new Error('Not allowed by CORS'))
+            }
+        }
+    };
+
+    app.use(cors(corsOptions));
+} else {
+    app.use(cors());
 }
 
-app.use(cors(corsOptions));
 app.use(bodyParser());
 
 server.listen(8080, '0.0.0.0');
