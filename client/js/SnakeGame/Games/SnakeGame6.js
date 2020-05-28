@@ -59,7 +59,7 @@ export default class SnakeGame6 extends BaseSnakeGame {
         if (this.isPortal(event.p)) {
             this._lockPortal(event.p);
             outPortal = this._getRandomOutPortal(event.p);
-            this._score.set();
+            this.setScore();
         } else if (this._snake.isSnake(event.p) || this._field.isBorder(event.p)) {
             this.handleEndGame();
         }  
@@ -74,8 +74,6 @@ export default class SnakeGame6 extends BaseSnakeGame {
             this._field.fillTile(outPortal.p, this._snake.color);
             this._field.lockTile(outPortal.p);
         }
-        
-        this._snake.unhold();
     }
     
     _addPortal() {

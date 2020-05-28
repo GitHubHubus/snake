@@ -60,7 +60,7 @@ export default class SnakeGame7 extends BaseSnakeGame {
         let isChange = this._changeSnake(event.p);
         
         if (isChange === true) {
-            this._score.set();
+            this.setScore();
             this._addPurpose();
         } else if (isChange === false) {
             this.handleEndGame();
@@ -69,7 +69,6 @@ export default class SnakeGame7 extends BaseSnakeGame {
         this._snake.increaseSnake(event.p);
         this._field.fillTile(event.p, this._snake.color);
         this._field.lockTile(event.p);
-        this._snake.unhold();
     }
 
     _slicePurpose(p) {

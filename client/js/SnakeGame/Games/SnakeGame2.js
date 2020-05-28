@@ -65,7 +65,6 @@ export default class SnakeGame2 extends BaseSnakeGame {
         this._snake.increaseSnake(event.p);
         this._field.fillTile(event.p, this._snake.color);
         this._field.lockTile(event.p);
-        this._snake.unhold();
     }
 
     _slicePurpose(p) {
@@ -88,7 +87,7 @@ export default class SnakeGame2 extends BaseSnakeGame {
 
         if (purpose) {
             purpose.action();
-            this._score.set(purpose.amount);
+            this.setScore(purpose.amount);
         }
     }
 

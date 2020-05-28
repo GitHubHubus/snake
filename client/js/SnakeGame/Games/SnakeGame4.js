@@ -47,7 +47,7 @@ export default class SnakeGame4 extends BaseSnakeGame {
         let point = this._snake.lastPoint();
 
         if (this._isCoveredShape(event.p)) {
-            this._score.set();
+            this.setScore();
             this._addPurpose();
         } else {
             this._snake.decreaseSnake();
@@ -68,7 +68,6 @@ export default class SnakeGame4 extends BaseSnakeGame {
         this._snake.increaseSnake(event.p);
         this._field.fillTile(event.p, this._snake.color);
         this._field.lockTile(event.p);
-        this._snake.unhold();
     }
     
     _addPurpose() {
