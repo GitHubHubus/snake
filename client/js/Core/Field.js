@@ -10,20 +10,19 @@ export class Field {
      * @param {Object} params
      */
     constructor(blockId, params= {}) {
-        let height = document.getElementById(blockId).clientHeight;
-
+        this._block = document.querySelector(`div#${blockId}`);
+        let height = this._block.clientHeight;
+        this._data = {};
+        
         if (params.height) {
             height = params.height;
         } else if (height === 0) {
             height = document.documentElement.clientHeight;
         }
 
-        let width = params.width ? params.width : document.getElementById(blockId).clientWidth;
+        let width = params.width ? params.width : this._block.clientWidth;
 
         this._color = params.color ? params.color : '#ebedf0';
-        
-        this._id = blockId;
-        this._block = document.querySelector(`div#${this._id}`);
         this._countX = parseInt(width / (params.tile.width + params.tile.indent));
         this._countY = parseInt(height / (params.tile.height + params.tile.indent));
         this._tile = params.tile;
@@ -41,12 +40,11 @@ export class Field {
     }
 
     destroy() {
-        document.getElementById(this._id).innerHTML = "";
+        this._block.innerHTML = "";
     }
 
     draw() {
-        let root = document.getElementById(this._id);
-        root.style.overflow = 'hidden';
+        this._block.style.overflow = 'hidden';
 
         for (let y = 0; y < this._countY + 1; y++) {
             let row = document.createElement('div');
@@ -55,8 +53,9 @@ export class Field {
             for (let x = 0; x < this._countX + 1; x++) {
                 let div = this._createTile(x, y);
                 row.appendChild(div);
+                this._data[div.id] = div;
             }
-            root.appendChild(row);
+            this._block.appendChild(row);
         }
     }
 
@@ -65,28 +64,16 @@ export class Field {
             let left = {x: 0, y: y, direction: 39};
             let right = {x: this._countX, y: y, direction: 37};
 
-            this.fillTile(left, 'black');
-            this.lockTile(left);
-            
-            this.fillTile(right, 'black');
-            this.lockTile(right);
-            
-            this._border.push(left);
-            this._border.push(right);
+            this._createBorderTile(left);
+            this._createBorderTile(right);
         }
         
         for (let x = 0; x < this._countX + 1; x++) {
             let top = {x: x, y: 0, direction: 40};
             let bottom = {x: x, y: this._countY, direction: 38};
 
-            this.fillTile(top, 'black');
-            this.lockTile(top);
-            
-            this.fillTile(bottom, 'black');
-            this.lockTile(bottom);
-            
-            this._border.push(top);
-            this._border.push(bottom);
+            this._createBorderTile(top);
+            this._createBorderTile(bottom);
         }
     }
 
@@ -99,7 +86,13 @@ export class Field {
         
         return false;
     }
-
+    
+    _createBorderTile(tile, color = 'black') {
+        this.fillTile(tile, color);
+        this.lockTile(tile);
+        this._border.push(tile);
+    }
+    
     /**
      * 
      * @param {int} x
@@ -120,7 +113,7 @@ export class Field {
         div.style.height = this._tile.height + 'px';
         div.style.marginRight = this._tile.indent + 'px';
         div.style.marginBottom = this._tile.indent + 'px';
-        
+
         return div;
     }
     
@@ -194,14 +187,16 @@ export class Field {
     }
     
     cleanAllTiles() {
-        this._block.querySelectorAll('div#score div.field-node').forEach(el => el.style.backgroundColor = this._color);
+        for (let i in this._border) {
+            this._border[i].style.backgroundColor;
+        }
     }
     
     /**
      * @param {Object} p <p>{x;y}</p>
      */
     getTile(p) {
-        return this._block.querySelector(`div#c${p.x}-${p.y}`);
+        return this._data[`c${p.x}-${p.y}`];
     }
     
     getRandomPoint() {
