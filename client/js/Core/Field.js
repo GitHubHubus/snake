@@ -187,8 +187,8 @@ export class Field {
     }
     
     cleanAllTiles() {
-        for (let i in this._border) {
-            this._border[i].style.backgroundColor;
+        for (let i in this._data) {
+            this._data[i].style.backgroundColor = this._color;
         }
     }
     
