@@ -7,7 +7,7 @@ import Vue from 'vue';
 import api from './js/Api/index';
 import games from './js/SnakeGame/index';
 import EventHelper from './js/SnakeGame/Helper/EventHelper';
-import socket from './js/Api/WebSocket';
+import socketConnect from './js/Api/WebSocket';
 import translate from './js/Helper/translator';
 import TableScore from './view/components/TableScore';
 import Input from './view/components/Input';
@@ -25,7 +25,7 @@ Vue.component('score-modal', ScoreModal);
 const v = new Vue({
     el: '#app',
     created() {
-        socket.on('refresh', (data) => {
+        socketConnect('top').on('refresh', (data) => {
             Number(data.type) === this.game.id() && this._updateTop(data.score);
         });
         

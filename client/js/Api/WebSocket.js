@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 import settings from '../../settings.json';
 
-const socket = io(`${settings.api.scheme}${settings.api.url}${settings.api.port ? ':' + settings.api.port : ''}/top`);
+const socketConnect = (type) => io(`${settings.api.scheme}${settings.api.url}${settings.api.port ? ':' + settings.api.port : ''}/${type}`);
 
-export default socket;
+export default socketConnect;
