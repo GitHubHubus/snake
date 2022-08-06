@@ -63,12 +63,9 @@ export default class SnakeGame4 extends BaseSnakeGame {
         
         if (this._snake.isSnake(event.p) || this._field.isBorder(event.p)) {
             this.handleEndGame();
-        }  
+        }
 
-        this._snake.increaseSnake(event.p);
-        this._field.fillTile(event.p, this._snake.color);
-        this._field.lockTile(event.p);
-        this._snake.unhold();
+        super._handleSnakeMoving(event);
     }
     
     _addPurpose() {

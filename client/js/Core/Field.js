@@ -151,10 +151,14 @@ export class Field {
     
     /**
      * @param {Object} p <p>{x;y}</p>
+     * @param {String} color
+     * @param {Boolean} isLock
      */
-    fillTile(p, color) {
+    fillTile(p, color, isLock = false) {
         let tile = this.getTile(p);
         tile.style.backgroundColor = color || 'black';
+
+        isLock && this.lockTile(p);
     }
     
     /**

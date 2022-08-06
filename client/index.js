@@ -22,6 +22,8 @@ Vue.component('feedback-modal', FeedbackModal);
 Vue.component('feedback-button', FeedbackButton);
 Vue.component('score-modal', ScoreModal);
 
+const ARROW_KEY_CODES = [37, 38, 39, 40];
+
 const v = new Vue({
     el: '#app',
     created() {
@@ -31,9 +33,7 @@ const v = new Vue({
         
         window.addEventListener("keydown", function(e) {
             // arrow keys
-            console.log(e.keyCode);
-            if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-                console.log(e.keyCode + '  ' + 'prevented');
+            if(ARROW_KEY_CODES.indexOf(e.keyCode) > -1) {
                 e.preventDefault();
             }
         }, false);

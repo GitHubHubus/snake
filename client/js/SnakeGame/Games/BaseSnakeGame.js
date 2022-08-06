@@ -73,7 +73,9 @@ export default class SnakeGame {
      * @param {Object} event
      */
     _handleSnakeMoving(event) {
-        //
+        this._snake.increaseSnake(event.p);
+        this._field.fillTile(event.p, this._snake.color, true);
+        this._snake.unhold();
     }
 
     /**

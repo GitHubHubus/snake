@@ -66,10 +66,7 @@ export default class SnakeGame7 extends BaseSnakeGame {
             this.handleEndGame();
         }
 
-        this._snake.increaseSnake(event.p);
-        this._field.fillTile(event.p, this._snake.color);
-        this._field.lockTile(event.p);
-        this._snake.unhold();
+        super._handleSnakeMoving(event);
     }
 
     _slicePurpose(p) {
@@ -113,8 +110,7 @@ export default class SnakeGame7 extends BaseSnakeGame {
             p: this.getRandomPoint()
         });
 
-        this._field.fillTile(purpose.p, purpose.color);
-        this._field.lockTile(purpose.p);
+        this._field.fillTile(purpose.p, purpose.color, true);
         
         this._purposes.push(purpose);
         

@@ -60,10 +60,7 @@ export default class SnakeGame3 extends BaseSnakeGame {
             }
         }
 
-        this._snake.increaseSnake(event.p);
-        this._field.fillTile(event.p, this._snake.color);
-        this._field.lockTile(event.p);
-        this._snake.unhold();
+        super._handleSnakeMoving(event);
     }
 
     _addPurpose() {
@@ -72,8 +69,7 @@ export default class SnakeGame3 extends BaseSnakeGame {
         this._purpose = new Purpose({p: this.getRandomPoint()});
         this._purposeDisappearance = setInterval(this._purposeDisappearanceCallback.bind(this), 1000);
 
-        this._field.fillTile(this._purpose.p, this._colors[--this._counter]);
-        this._field.lockTile(this._purpose.p);
+        this._field.fillTile(this._purpose.p, this._colors[--this._counter], true);
 
         EventHelper.fire('add_purpose', {purpose: this._purpose});
     }

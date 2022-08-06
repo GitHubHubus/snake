@@ -65,14 +65,12 @@ export default class SnakeGame6 extends BaseSnakeGame {
         }  
 
         this._snake.increaseSnake(event.p);
-        this._field.fillTile(event.p, this._snake.color);
-        this._field.lockTile(event.p);
+        this._field.fillTile(event.p, this._snake.color, true);
         
         if (outPortal !== null) {
             this._snake.direction = outPortal.direction;
             this._snake.increaseSnake(outPortal.p);
-            this._field.fillTile(outPortal.p, this._snake.color);
-            this._field.lockTile(outPortal.p);
+            this._field.fillTile(outPortal.p, this._snake.color, true);
         }
 
         this._snake.unhold();

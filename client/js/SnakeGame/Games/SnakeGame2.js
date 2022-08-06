@@ -50,6 +50,9 @@ export default class SnakeGame2 extends BaseSnakeGame {
         this._purposesAddInterval = setInterval(this._addPurpose.bind(this), this._purposesAddSpeed);
     }
 
+    /**
+     * @param {Object} event
+     */
     _handleSnakeMoving(event) {
         let point = this._snake.decreaseSnake();
 
@@ -62,17 +65,14 @@ export default class SnakeGame2 extends BaseSnakeGame {
             this._executeAndRemovePurpose(event.p);
         }
 
-        this._snake.increaseSnake(event.p);
-        this._field.fillTile(event.p, this._snake.color);
-        this._field.lockTile(event.p);
-        this._snake.unhold();
+        super._handleSnakeMoving(event);
     }
 
     _slicePurpose(p) {
         let purpose = null;
 
         for (let i in this._purposes) {
-            if (this._purposes[i].p.x == p.x && this._purposes[i].p.y == p.y) {
+            if (this._purposes[i].p.x === p.x && this._purposes[i].p.y === p.y) {
                 purpose = this._purposes[i];
                 this._purposes.splice(i, 1);
                 
@@ -99,8 +99,7 @@ export default class SnakeGame2 extends BaseSnakeGame {
         let purpose = new Purpose(params);
         purpose._closure = this;
 
-        this._field.fillTile(purpose.p, purpose.color);
-        this._field.lockTile(purpose.p);
+        this._field.fillTile(purpose.p, purpose.color, true);
 
         this._purposes.push(purpose);
 
@@ -135,8 +134,7 @@ export default class SnakeGame2 extends BaseSnakeGame {
 
     _increaseSnake() {
         this._closure._snake.increaseSnake(this.p);
-        this._closure._field.fillTile(this.p, this._closure._snake.color);
-        this._closure._field.lockTile(this.p);
+        this._closure._field.fillTile(this.p, this._closure._snake.color, true);
     }
 
     _decreaseSnake() {
