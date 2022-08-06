@@ -5,9 +5,7 @@ services:
     build:
       context: ..
       dockerfile: ./docker/app/Dockerfile
-    container_name: snake_server  
-    ports:
-      - '8080:8080'
+    container_name: snake_server
     volumes:
       - ../server/db:/usr/src/app/db
       - ../server/index.js:/usr/src/app/index.js
@@ -21,7 +19,7 @@ services:
       - backend
 
   mongodb_image:
-    image: mongo:latest
+    image: mongo:4.4
     container_name: snake_db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -39,7 +37,7 @@ services:
       dockerfile: ./docker/ui/dev/Dockerfile
     container_name: snake_client  
     ports:
-      - '80:80'
+      - 80:80
     volumes:
       - ../client/css:/usr/share/nginx/html/css
       - ../client/js:/usr/share/nginx/html/js
@@ -54,13 +52,11 @@ services:
     depends_on:
       - snake-server
     networks:
-      - frontend
+      - backend
 
 volumes:
   mongodb_data_container:
 
 networks:
   backend:
-    driver: bridge
-  frontend:
     driver: bridge

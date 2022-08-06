@@ -69,13 +69,14 @@ export default class SnakeGame7 extends BaseSnakeGame {
         this._snake.increaseSnake(event.p);
         this._field.fillTile(event.p, this._snake.color);
         this._field.lockTile(event.p);
+        this._snake.unhold();
     }
 
     _slicePurpose(p) {
         let purpose = null;
 
         for (let i in this._purposes) {
-            if (this._purposes[i].p.x == p.x && this._purposes[i].p.y == p.y) {
+            if (this._purposes[i].p.x === p.x && this._purposes[i].p.y === p.y) {
                 purpose = this._purposes[i];
                 this._purposes.splice(i, 1);
                 

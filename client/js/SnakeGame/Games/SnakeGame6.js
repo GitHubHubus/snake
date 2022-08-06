@@ -74,6 +74,8 @@ export default class SnakeGame6 extends BaseSnakeGame {
             this._field.fillTile(outPortal.p, this._snake.color);
             this._field.lockTile(outPortal.p);
         }
+
+        this._snake.unhold();
     }
     
     _addPortal() {
@@ -97,7 +99,7 @@ export default class SnakeGame6 extends BaseSnakeGame {
      */
     _removePortal(p) {
         for (let i in this._portals) {
-            if (this._portals[i].p.x == p.x && this._portals[i].p.y == p.y) {
+            if (this._portals[i].p.x === p.x && this._portals[i].p.y === p.y) {
                 this._portals.splice(i, 1);
                 
                 break;
@@ -106,11 +108,11 @@ export default class SnakeGame6 extends BaseSnakeGame {
     }
 
     /**
-     * @param {Object} p <p>{x;y}</p>
+     * @param {function} callback
      */
     _iteratePortals(callback) {
         for (let i in this._portals) {
-            if (this._portals[i].p.x == p.x && this._portals[i].p.y == p.y) {
+            if (this._portals[i].p.x === p.x && this._portals[i].p.y === p.y) {
                 callback(i);
                 break;
             }
@@ -122,7 +124,7 @@ export default class SnakeGame6 extends BaseSnakeGame {
      */
     _lockPortal(p) {
         for (let i in this._portals) {
-            if (this._portals[i].p.x == p.x && this._portals[i].p.y == p.y) {
+            if (this._portals[i].p.x === p.x && this._portals[i].p.y === p.y) {
                 this._portals[i].lock = true;
                 
                 break;
@@ -136,7 +138,7 @@ export default class SnakeGame6 extends BaseSnakeGame {
      */
     isPortal(p) {
         for (let i in this._portals) {
-            if (this._portals[i].p.x == p.x && this._portals[i].p.y == p.y) {
+            if (this._portals[i].p.x === p.x && this._portals[i].p.y === p.y) {
                 return true;
             }
         }
@@ -171,7 +173,7 @@ export default class SnakeGame6 extends BaseSnakeGame {
     _getRandomOutPortal(p) {
         let portal = this._getRandomPortal();
         
-        if ((portal.p.x == p.x && portal.p.y == p.y) || portal.lock) {
+        if ((portal.p.x === p.x && portal.p.y === p.y) || portal.lock) {
             return this._getRandomOutPortal(p);
         }
         

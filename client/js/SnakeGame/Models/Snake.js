@@ -84,7 +84,7 @@ export default class Snake {
      */
     isSnake(p) {
         for (let i in this._points) {
-            if (this._points[i].x == p.x && this._points[i].y == p.y) {
+            if (this._points[i].x === p.x && this._points[i].y === p.y) {
                 return true;
             }
         }
@@ -132,16 +132,10 @@ export default class Snake {
         }
     }
 
-    /**
-     * @param {Object} <p>{x;y}</p>
-     */
     lastPoint() {
         return this._points[this._points.length - 1];
     }
 
-    /**
-     * @param {Object} <p>{x;y}</p>
-     */
     decreaseSnake() {
         return this._points.splice(-1, 1)[0];
     }

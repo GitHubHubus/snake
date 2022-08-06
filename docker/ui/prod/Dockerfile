@@ -9,5 +9,5 @@ RUN npm rebuild node-sass && npm run build
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.2.1/wait /wait
 RUN chmod +x /wait
 COPY ./docker/sslcert /usr/cert
-COPY ./docker/ui/snake.template /etc/nginx/conf.d/default.conf
+COPY ./docker/ui/prod/snake.template /etc/nginx/conf.d/default.conf
 EXPOSE 80

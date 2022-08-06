@@ -31,7 +31,9 @@ const v = new Vue({
         
         window.addEventListener("keydown", function(e) {
             // arrow keys
+            console.log(e.keyCode);
             if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                console.log(e.keyCode + '  ' + 'prevented');
                 e.preventDefault();
             }
         }, false);

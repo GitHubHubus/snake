@@ -15,7 +15,7 @@ For prod mode
 
 ```
 cd docker
-docker-compose up --build
+docker-compose up --build -d
 ```
 
 For dev mode
@@ -23,6 +23,6 @@ For dev mode
 
 ```
 cd docker
-docker-compose -f docker-compose-dev.yml up --build
-docker exec -it snake_client npm run start // run this in another shell window
+docker-compose -f docker-compose-dev.yml up --build -d
+docker exec -it snake_client npm run start
 ```

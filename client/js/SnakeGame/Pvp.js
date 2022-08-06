@@ -3,10 +3,10 @@ import socketConnect from '../Api/WebSocket';
 export default class Pvp {
         
     constructor (params) {
-        if (params.init) {
+        if (params && params.init) {
             this._socket = socketConnect('pvp');
             this._socket.on('refresh', params.refresh);
-            this._socket.on('conect', () => {
+            this._socket.on('connect', () => {
                 'get room or create'
             });
         }

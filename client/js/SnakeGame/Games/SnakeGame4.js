@@ -68,6 +68,7 @@ export default class SnakeGame4 extends BaseSnakeGame {
         this._snake.increaseSnake(event.p);
         this._field.fillTile(event.p, this._snake.color);
         this._field.lockTile(event.p);
+        this._snake.unhold();
     }
     
     _addPurpose() {
@@ -92,7 +93,7 @@ export default class SnakeGame4 extends BaseSnakeGame {
     _isCoveredShape(point) {
         for (let i in this._shapePoints) {
             let p = this._shapePoints[i];
-            if (!this._snake.isSnake(p) && !(point.x == p.x && point.y == p.y)) {
+            if (!this._snake.isSnake(p) && !(point.x === p.x && point.y === p.y)) {
                 return false;
             }
         }
@@ -106,7 +107,7 @@ export default class SnakeGame4 extends BaseSnakeGame {
      */
     _getShapePoint(p) {
         for (let i in this._shapePoints) {
-            if (this._shapePoints[i].x == p.x && this._shapePoints[i].y == p.y) {
+            if (this._shapePoints[i].x === p.x && this._shapePoints[i].y === p.y) {
                 return this._shapePoints[i];
             }
         }
