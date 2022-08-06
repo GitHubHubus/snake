@@ -60,7 +60,7 @@ export default class ShapeDrawer extends Drawer {
 
     _isExistPoint(p) {
         for (let i in this._points) {
-            if (this._points[i].x == p.x && this._points[i].y == p.y) {
+            if (this._points[i].x === p.x && this._points[i].y === p.y) {
                 return true;
             }
         }
@@ -70,7 +70,7 @@ export default class ShapeDrawer extends Drawer {
 
     _isAvailablePoint(p) {
         for (let i in this._available) {
-            if (this._available[i].x == p.x && this._available[i].y == p.y) {
+            if (this._available[i].x === p.x && this._available[i].y === p.y) {
                 return true;
             }
         }

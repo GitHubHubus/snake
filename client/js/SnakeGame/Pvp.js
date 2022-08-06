@@ -1,7 +1,6 @@
 import socketConnect from '../Api/WebSocket';
 
 export default class Pvp {
-        
     constructor (params) {
         if (params && params.init) {
             this._socket = socketConnect('pvp');

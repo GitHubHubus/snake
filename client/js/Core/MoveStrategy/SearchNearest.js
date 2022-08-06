@@ -13,7 +13,7 @@ class SearchNearest {
             for (let i = 0; i < points.length; i++) {
                 let point = points[i];
 
-                if (point.x != p.last.x && point.y != p.last.y) {
+                if (point.x !== p.last.x && point.y !== p.last.y) {
                     point.id = p.id;
                     point.color = p.color;
                     let result = this.viewMoveFunction(currentPlace, point);
@@ -70,6 +70,6 @@ class SearchNearest {
     
     stopMoving(p) {
         clearInterval(this.points[p.id]);
-        console.log({id: p.id, 'dx': p.destination.x, 'x': p.x, 'dy': p.destination.y, 'y': p.y});
+        //console.log({id: p.id, 'dx': p.destination.x, 'x': p.x, 'dy': p.destination.y, 'y': p.y});
     }
 }

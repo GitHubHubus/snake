@@ -181,7 +181,7 @@ export class Field {
             return false;
         }
 
-        if (o && o.dataset.lock != 1) {
+        if (o && o.dataset.lock !== 1) {
             o.style.backgroundColor = this._color;
         }
         
@@ -212,7 +212,7 @@ export class Field {
     }
     
     isBorderAngle(p) {
-        return (p.x == 0 || p.x == this._countX) && (p.y == 0 || p.y == this._countY);
+        return (p.x === 0 || p.x === this._countX) && (p.y === 0 || p.y === this._countY);
     }
 
     getCenterPoint(shift) {
