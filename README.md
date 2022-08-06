@@ -25,4 +25,6 @@ For dev mode
 cd docker
 docker-compose -f docker-compose-dev.yml up --build -d
 docker exec -it snake_client npm run start
+docker exec -it snake_db mongo admin -u root -p rootpassword --eval "use snake"
+docker exec -it snake_db mongo admin -u root -p rootpassword --eval "db.getSiblingDB('snake').createUser({user: 'root', pwd: 'rootpassword', roles: ['readWrite']})"
 ```
