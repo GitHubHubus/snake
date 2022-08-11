@@ -10,6 +10,7 @@ const cors = require('cors');
 const io = require('socket.io')(server, { origins: settings.env === 'prod' ? "*:8080" : "*:*"});
 const top = io.of('/top');
 const send = require('./mailer.js');
+const pvp = io.of('/pvp');
 
 if (settings.env === 'prod') {
     var whitelist = [settings.allowed_hosts];
@@ -41,7 +42,7 @@ app.get('/api/score/:type/:limit', (req, res) => {
 
 app.post('/api/score', (req, res) => {
     const data = {
-        name: req.body.name == '' ? 'Newbie' : req.body.name.substring(0, 20),
+        name: req.body.name === '' ? 'Newbie' : req.body.name.substring(0, 20),
         type: req.body.type,
         score: NumberInt(req.body.score)
     };
@@ -63,4 +64,30 @@ app.post('/api/email', (req, res) => {
     }
     
     res.send('OK');
+});
+
+let rooms = [];
+
+pvp.on("connection", (socket) => {
+    let r = rooms.filter(function (room) {
+        return room.players.include(socket.id);
+    });
+
+    let room = r[0];
+
+    if (!room) {
+        room = {players: [socket.id]};
+    }
+
+    socket.conn.on("packet", ({ type, data }) => {
+        let id = room.players.filter(id=> {return socket.id !== id})[0];
+        if (type === 'moveSnake') {
+            socket.to(id).emit("movePoint", anotherSocketId, data);
+        }
+
+        if (type === 'movePoint') {
+            socket.to(id).emit("movePoint", anotherSocketId, data);
+            socket.emit("movePoint", socket.id, data);
+        }
+    });
 });

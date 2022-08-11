@@ -16,6 +16,7 @@ const DEPRECATED_CHANGE_DIRECTION = {
 
 export default class Snake {
     get points() {return this._points;}
+    set points(points) {this._points = points;}
     get color() {return this._color;}
     set color(c) {this._color = c;}
     get length() {return this._points.length;}

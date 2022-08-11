@@ -28,7 +28,7 @@ export default class SnakeGame {
      */
     constructor (params) {
         this._createField(params);
-        this._createSnake(params);
+        this._snake = this._createSnake(params);
 
         let mock = () => {};
         this._onEndGame = params.onEndGame || mock;
@@ -87,16 +87,19 @@ export default class SnakeGame {
 
     /**
      * @param {Object} params
+     * @return {Snake}
      */
     _createSnake(params) {
         const points = params.snake && params.snake.points ? params.snake.points : null;
-        const speed = params.settings['start_speed'] ? (150 - (params.settings['start_speed'] * 10)) : null;
+        const speed = params.settings.start_speed ? (150 - (params.settings.start_speed * 10)) : null;
 
-        this._snake = new Snake({points: points, speed: speed});
+        let snake = new Snake({points: points, speed: speed});
         
-        for (let i in this._snake.points) {
-            this._field.fillTile(this._snake.points[i], this._snake.color);
+        for (let i in snake.points) {
+            this._field.fillTile(snake.points[i], snake.color);
         }
+
+        return snake;
     }
 
     /**
