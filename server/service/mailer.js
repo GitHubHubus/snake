@@ -1,5 +1,5 @@
 var nodemailer = require('nodemailer');
-const settings = require('./settings.json');
+const settings = require('../settings.json');
 var smtpTransport = require('nodemailer-smtp-transport');
 
 var transporter = nodemailer.createTransport(smtpTransport({
