@@ -6,8 +6,14 @@ export default class Pvp {
             console.log('INIT pvp');
             this._socket = socketConnect('pvp');
             this._socket.on("movePoint", params.callbackMovePoint);
+            this._socket.on("moveSnake", params.callbackMoveSnake);
+            this._socket.on("startGame", params.callbackStartGame);
             console.log(this._socket);
         }
+    }
+
+    getId() {
+        return this._socket ? this._socket.id : null;
     }
 
     sendSnake(snake) {

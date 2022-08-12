@@ -9,6 +9,7 @@ const io = require('socket.io')(server, { origins: settings.env === 'prod' ? "*:
 const top = io.of('/top');
 const pvp = io.of('/pvp');
 const addRoutes = require('./routing');
+const pvpInstance = require('./pvp/index');
 
 if (settings.env === 'prod') {
     var whitelist = [settings.allowed_hosts];
@@ -33,14 +34,4 @@ server.listen(8080, '0.0.0.0');
 console.log(`Running server: http://0.0.0.0:${8080}`);
 
 addRoutes(app, top);
-
-
-pvp.on("connection", (socket) => {
-    console.log('ON CONNECT')
-    socket.on("movePoint", (...args) => {
-        console.log(args);
-        socket.emit("movePoint", args[0].point);
-
-        console.log('EMIT movePoint');
-    });
-});
+pvpInstance.initPvp(pvp);

@@ -1,10 +1,10 @@
 import EventHelper from '../Helper/EventHelper';
 
-const DIRECTION_NONE = 0;
-const DIRECTION_UP = 38;
-const DIRECTION_DOWN = 40;
-const DIRECTION_LEFT = 37;
-const DIRECTION_RIGHT = 39;
+export const DIRECTION_NONE = 0;
+export const DIRECTION_UP = 38;
+export const DIRECTION_DOWN = 40;
+export const DIRECTION_LEFT = 37;
+export const DIRECTION_RIGHT = 39;
 
 const DEPRECATED_CHANGE_DIRECTION = {
     [DIRECTION_UP]: DIRECTION_DOWN,
@@ -25,18 +25,22 @@ export default class Snake {
      * @param {Object} params
      */
     constructor (params) {
+        this._fixed = params.fixed || false;
+
         this._color = params.color || 'green';
         this._points = params.points || [{x: 5, y: 1}, {x: 4, y: 1}, {x: 3, y: 1}, {x: 2, y: 1}, {x: 1, y: 1}];
         this._direction = DIRECTION_NONE;
 
         this._speed = params.speed || 150;
         this._hold = false;
-            
-        this._handle = this._handle.bind(this);
-        this._handleStart = this._handleStart.bind(this);
 
-        document.addEventListener('keydown', this._handle);
-        document.addEventListener('add_purpose', this._handleStart);
+        if (!this._fixed) {
+            this._handle = this._handle.bind(this);
+            this._handleStart = this._handleStart.bind(this);
+
+            document.addEventListener('keydown', this._handle);
+            document.addEventListener('add_purpose', this._handleStart);
+        }
     }
     
     stop(soft = false) {
