@@ -3,7 +3,6 @@ import Score from '../Score';
 import {DEFAULT_TILE_SIZE, Field} from "../../Core/Field";
 import i18next from 'i18next';
 import TextDrawer from "../../Core/Drawer/TextDrawer";
-import Pvp from '../Pvp';
 
 export default class SnakeGame {
     static description(id) {
@@ -41,8 +40,6 @@ export default class SnakeGame {
         document.addEventListener('snake_moving', this._handleSnakeMoving);
 
         this.increaseSpeedPoint = params.settings.increase_speed_point || 0;
-        
-        this._pvp = new Pvp(params.pvp);
     }
 
     _createField(params) {
@@ -96,7 +93,7 @@ export default class SnakeGame {
         let snake = new Snake({points: points, speed: speed});
         
         for (let i in snake.points) {
-            this._field.fillTile(snake.points[i], snake.color);
+            this._field.fillTile(snake.points[i], snake.color, true);
         }
 
         return snake;

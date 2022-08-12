@@ -4,7 +4,7 @@ class Email extends MainApi {
     post(data) {
         return this._post('/email', data);
     }
-};
+}
 
 let email = new Email();
 

@@ -34,28 +34,13 @@ console.log(`Running server: http://0.0.0.0:${8080}`);
 
 addRoutes(app, top);
 
-let rooms = [];
 
 pvp.on("connection", (socket) => {
-    let r = rooms.filter(function (room) {
-        return room.players.include(socket.id);
-    });
+    console.log('ON CONNECT')
+    socket.on("movePoint", (...args) => {
+        console.log(args);
+        socket.emit("movePoint", args[0].point);
 
-    let room = r[0];
-
-    if (!room) {
-        room = {players: [socket.id]};
-    }
-
-    socket.conn.on("packet", ({ type, data }) => {
-        let id = room.players.filter(id=> {return socket.id !== id})[0];
-        if (type === 'moveSnake') {
-            socket.to(id).emit("movePoint", anotherSocketId, data);
-        }
-
-        if (type === 'movePoint') {
-            socket.to(id).emit("movePoint", anotherSocketId, data);
-            socket.emit("movePoint", socket.id, data);
-        }
+        console.log('EMIT movePoint');
     });
 });

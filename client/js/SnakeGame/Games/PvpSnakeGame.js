@@ -1,6 +1,7 @@
 import BaseSnakeGame from './BaseSnakeGame';
 import EventHelper from '../Helper/EventHelper';
 import Purpose from '../Models/Purpose';
+import Pvp from "../Pvp";
 //DRAFT
 export default class PvpSnakeGame extends BaseSnakeGame {
     static description() {
@@ -16,46 +17,19 @@ export default class PvpSnakeGame extends BaseSnakeGame {
     }
 
     constructor (params) {
-        params.pvp = {
-            init: true,
-            callback: (type, data) => {
-                if (type === 'moveSnake') {
-                    this.redrawPlayerSnake(data);
-                }
-
-                if (type === 'movePoint') {
-                    this._addPurpose(data);
-                }
-            }
-        }
-
         super(params);
-        let snakeParams = {
-            snake: [{x: 20, y: 20}, {x: 19, y: 20}, {x: 18, y: 20}, {x: 17, y: 20}, {x: 16, y: 20}],
-            color: 'yellow',
-            settings: {
-                start_speed: 1
-            }
-        };
-        this._playerSnake = this._createSnake(snakeParams);
-    }
-
-    redrawPlayerSnake(points) {
-        this._playerSnake.points.forEach((point) => {
-            this._field.unlockTile(point);
-        })
-
-        this._playerSnake.points = points;
-        this._playerSnake.points.forEach((point) => {
-            this._field.fillTile(point, this._playerSnake.color, true);
-        })
+        this._params = {pvp :{
+            init: true,
+            callbackMovePoint: this._addPurpose.bind(this)
+        }};
     }
 
     /**
      * @param {Object} event
      */
     _handle(event) {
-        this._addPurpose();
+        this._pvp = new Pvp(this._params.pvp);
+        this._pvp.sendPoint(this.getRandomPoint());
     }
 
     /**
@@ -82,7 +56,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
         let purpose = new Purpose({p: point});
 
         this._field.fillTile(purpose.p, purpose.color, true);
-        
+
         EventHelper.fire('add_purpose', {purpose: purpose});
     }
 }

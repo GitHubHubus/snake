@@ -3,12 +3,10 @@ import socketConnect from '../Api/WebSocket';
 export default class Pvp {
     constructor (params) {
         if (params && params.init) {
+            console.log('INIT pvp');
             this._socket = socketConnect('pvp');
-           // this._socket.on('refresh', params.refresh);
-            this._socket.on('connect', () => {
-                'get room or create'
-            });
-            this._socket.on("packet", params.callback);
+            this._socket.on("movePoint", params.callbackMovePoint);
+            console.log(this._socket);
         }
     }
 
@@ -19,7 +17,9 @@ export default class Pvp {
     }
 
     sendPoint(p) {
+        console.log('sendPoint');
         if (this._socket) {
+            console.log('sendPoint emit');
             this._socket.emit("movePoint", { point: p});
         }
     }

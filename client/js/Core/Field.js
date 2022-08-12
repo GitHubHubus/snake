@@ -77,16 +77,25 @@ export class Field {
         }
     }
 
+    /**
+     * @param {Object} p <p>{x;y}</p>
+     * @returns {boolean}
+     */
     isBorder(p) {
         for (let i in this._border) {
-            if (this._border[i].x == p.x && this._border[i].y == p.y) {
+            if (this._border[i].x === p.x && this._border[i].y === p.y) {
                 return true;
             }
         }
         
         return false;
     }
-    
+
+    /**
+     * @param {Object} tile <p>{x;y}</p>
+     * @param {string|null} color
+     * @private
+     */
     _createBorderTile(tile, color = 'black') {
         this.fillTile(tile, color);
         this.lockTile(tile);
@@ -94,10 +103,10 @@ export class Field {
     }
     
     /**
-     * 
      * @param {int} x
      * @param {int} y
      * @returns {Element}
+     * @private
      */
     _createTile(x, y) {
         let div = document.createElement('div');
@@ -124,7 +133,7 @@ export class Field {
     isLockTile(p) {
         let tile = this.getTile(p);
 
-        return tile.dataset.lock == 1;
+        return parseInt(tile.dataset.lock) === 1;
     }
 
     isExistTile(p) {
@@ -210,11 +219,19 @@ export class Field {
     getRandomBorderPoint() {
         return this._border[parseInt(Math.random() * this._border.length)];
     }
-    
+
+    /**
+     * @param {Object} p <p>{x;y}</p>
+     * @returns {boolean}
+     */
     isBorderAngle(p) {
         return (p.x === 0 || p.x === this._countX) && (p.y === 0 || p.y === this._countY);
     }
 
+    /**
+     * {Object} shift <p>{x;y}</p>
+     * @returns {{x: int, y: int}}
+     */
     getCenterPoint(shift) {
         return {x: Math.round(this._countX/2 + shift.x), y: Math.round(this._countY/2 + shift.y)};
     }
