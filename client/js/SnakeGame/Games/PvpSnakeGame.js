@@ -29,7 +29,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
         }};
 
         let snakeParams = {
-            snake: this._field.points.slice(-6, -1),
+            snake: this._getOpponentSnakePoints(),
             color: 'yellow',
             settings: {
                 start_speed: 1
@@ -37,13 +37,14 @@ export default class PvpSnakeGame extends BaseSnakeGame {
             fixed: true
         };
         this._opponentSnake = this._createSnake(snakeParams);
+        this._pvp = new Pvp(this._params.pvp);
     }
 
     /**
      * @param {Object} event
      */
     _handle(event) {
-        this._pvp = new Pvp(this._params.pvp);
+        //this._pvp = new Pvp(this._params.pvp);
     }
 
     _startGame(room) {
@@ -54,7 +55,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
             this._opponentSnake.direction = DIRECTION_RIGHT;
             this._opponentSnake.color = 'green';
 
-            this._snake.points = this._field.slice(-6, -1);
+            this._snake.points = this._getOpponentSnakePoints();
             this._snake.direction = 0;
             this._snake.color = 'yellow';
         }
@@ -107,9 +108,10 @@ export default class PvpSnakeGame extends BaseSnakeGame {
         const drawer = new TextDrawer({field: this._field});
         const startPoint = this._field.getCenterPoint({x: -2, y: -3});
 
-        drawer.draw('WAIT', startPoint, false, this._field.color);
+        drawer.draw('W', startPoint, false, this._field.color);
 
         this._startCallback = callback;
+        console.log('READY');
     }
 
     _go() {
@@ -127,5 +129,17 @@ export default class PvpSnakeGame extends BaseSnakeGame {
 
             drawer.draw(String(i), startPoint, false, '#007bff');
         }, 400);
+    }
+
+    _getOpponentSnakePoints() {
+        const countXField = this._field.countX;
+        const countYField = this._field.countY;
+        let points = [];
+
+        for (let i=1; i < 6; i++) {
+            points.push({x: countXField - i, y: countYField - 1});
+        }
+
+        return points;
     }
 }

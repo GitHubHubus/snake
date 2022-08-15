@@ -9,16 +9,12 @@ const initPvp = (pvpSocket) => {
         let room = rooms[id] || null;
 
         if (!room) {
-            const availableRooms = rooms.filter((r) => {
-                return r.countPlayers > r.players.length;
-            });
+            let keys = Object.keys(rooms);
 
-            if (availableRooms.length > 0) {
-                for (let i = 0; i < availableRooms.length; i++) {
-                    if (availableRooms[0].players.length > 0) {
-                        room = availableRooms[0];
-                        break;
-                    }
+            for (let i = 0; i < keys.length; i++) {
+                if (rooms[keys[i]].players.length < rooms[keys[i]].countPlayers) {
+                    room = rooms[keys[i]];
+                    break;
                 }
             }
 
@@ -34,12 +30,15 @@ const initPvp = (pvpSocket) => {
     }
 
     pvpSocket.on("connection", (socket) => {
-        console.log('ON CONNECT')
 
         const room = _getRoom(socket.id)
-        socket.emit("startGame", room);
-        for(let i=0; i < room.players; i++) {
-            room.players[i] !== socket.id && socket.to(room.players[i]).emit("startGame", room);
+        console.log(room);
+        if (room.players.length === room.countPlayers) {
+            socket.emit("startGame", room);
+            for(let i=0; i < room.players; i++) {
+                room.players[i] !== socket.id && socket.to(room.players[i]).emit("startGame", room);
+                console.log('SEND ROOM: ' . room.players[i], room);
+            }
         }
 
         socket.on("movePoint", (...args) => {
