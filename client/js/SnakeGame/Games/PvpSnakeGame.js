@@ -2,7 +2,7 @@ import BaseSnakeGame from './BaseSnakeGame';
 import EventHelper from '../Helper/EventHelper';
 import Purpose from '../Models/Purpose';
 import Pvp from "../Pvp";
-import {DIRECTION_RIGHT} from "../Models/Snake";
+import {DIRECTION_LEFT, DIRECTION_RIGHT} from "../Models/Snake";
 import TextDrawer from "../../Core/Drawer/TextDrawer";
 //DRAFT
 export default class PvpSnakeGame extends BaseSnakeGame {
@@ -21,46 +21,54 @@ export default class PvpSnakeGame extends BaseSnakeGame {
     constructor (params) {
         super(params);
         this._startCallback = () => {throw Error('Invalid start callback');};
-        this._params = {pvp :{
-            init: true,
-            callbackMovePoint: this._addPurpose.bind(this),
-            callbackMoveSnake: this._redrawSnake.bind(this),
-            callbackStartGame: this._startGame.bind(this),
-        }};
+        this._params = {
+            pvp :{
+                init: true,
+                callbackMovePoint: this._addPurpose.bind(this),
+                callbackMoveSnake: this._redrawSnake.bind(this),
+                callbackStartGame: this._startGame.bind(this),
+                callbackConnectRoom: this._connectRoom.bind(this),
+            },
+            startParams: params
+        };
 
-        let snakeParams = {
-            snake: this._getOpponentSnakePoints(),
-            color: 'yellow',
+        this._opponentSnakeDefaultParams = {
+            snake: {
+                points: this._getOpponentSnakePoints(),
+                color: 'yellow',
+                fixed: true,
+                direction: DIRECTION_LEFT,
+            },
             settings: {
                 start_speed: 1
-            },
-            fixed: true
+            }
         };
-        this._opponentSnake = this._createSnake(snakeParams);
-        this._pvp = new Pvp(this._params.pvp);
     }
 
     /**
      * @param {Object} event
      */
     _handle(event) {
-        //this._pvp = new Pvp(this._params.pvp);
+        this._pvp = new Pvp(this._params.pvp);
+    }
+
+    _connectRoom(room) {
+        for (let i in room.players) {
+            let player = room.players[i];
+            let params = i === 0 ? this._params.startParams : this._opponentSnakeDefaultParams;
+
+            if (player.id === this._pvp.getId()) {
+                this._snake = this._createSnake(params);
+            } else {
+                this._opponentSnake = this._createSnake(params)
+            }
+        }
     }
 
     _startGame(room) {
         if (room.players[0].id === this._pvp.getId()) {
-            this._pvp.sendPoint(this.getRandomPoint());
-        } else {
-            this._opponentSnake.points = this._snake.points;
-            this._opponentSnake.direction = DIRECTION_RIGHT;
-            this._opponentSnake.color = 'green';
-
-            this._snake.points = this._getOpponentSnakePoints();
-            this._snake.direction = 0;
-            this._snake.color = 'yellow';
+            this._go();
         }
-
-        this._go();
     }
 
     /**
@@ -110,25 +118,12 @@ export default class PvpSnakeGame extends BaseSnakeGame {
 
         drawer.draw('W', startPoint, false, this._field.color);
 
-        this._startCallback = callback;
+        callback();
         console.log('READY');
     }
 
     _go() {
-        let i = 4;
-        const drawer = new TextDrawer({field: this._field});
-        let interval = setInterval(() => {
-            let startPoint = this._field.getCenterPoint({x: -2, y: -3});
-            drawer.draw(String(i--), startPoint, false, this._field.color);
-
-            if (i === 0) {
-                clearInterval(interval);
-                this._startCallback();
-                return;
-            }
-
-            drawer.draw(String(i), startPoint, false, '#007bff');
-        }, 400);
+        this._addPurpose(this._field.getRandomPoint());
     }
 
     _getOpponentSnakePoints() {

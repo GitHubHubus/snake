@@ -30,14 +30,18 @@ const initPvp = (pvpSocket) => {
     }
 
     pvpSocket.on("connection", (socket) => {
-
         const room = _getRoom(socket.id)
         console.log(room);
+
+        socket.emit("connectRoom", room);
+        for(let i=0; i < room.players; i++) {
+            socket.to(room.players[i]).emit("connectRoom", room);
+            console.log('SEND ROOM: ' . room.players[i], room);
+        }
+
         if (room.players.length === room.countPlayers) {
-            socket.emit("startGame", room);
             for(let i=0; i < room.players; i++) {
-                room.players[i] !== socket.id && socket.to(room.players[i]).emit("startGame", room);
-                console.log('SEND ROOM: ' . room.players[i], room);
+                socket.to(room.players[i]).emit("stratGame", args[0].point);
             }
         }
 

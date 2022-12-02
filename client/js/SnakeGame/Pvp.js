@@ -8,6 +8,7 @@ export default class Pvp {
             this._socket.on("movePoint", params.callbackMovePoint);
             this._socket.on("moveSnake", params.callbackMoveSnake);
             this._socket.on("startGame", params.callbackStartGame);
+            this._socket.on("connectRoom", params.callbackConnectRoom);
             console.log(this._socket);
         }
     }

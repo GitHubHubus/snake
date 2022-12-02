@@ -87,10 +87,15 @@ export default class SnakeGame {
      * @return {Snake}
      */
     _createSnake(params) {
-        const points = params.snake && params.snake.points ? params.snake.points : null;
+        const points = params.snake ? params.snake.points : null;
         const speed = params.settings.start_speed ? (150 - (params.settings.start_speed * 10)) : null;
 
-        let snake = new Snake({points: points, speed: speed});
+        let snake = new Snake({
+            points: points,
+            speed: speed,
+            color: params.snake ? params.snake.color : null,
+            fixed: params.snake ? params.snake.fixed : false
+        });
         
         for (let i in snake.points) {
             this._field.fillTile(snake.points[i], snake.color, true);
