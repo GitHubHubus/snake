@@ -19,6 +19,7 @@ export default class Pvp {
 
     sendSnake(snake) {
         if (this._socket) {
+            console.log('sendSnake:', snake.points);
             this._socket.emit("moveSnake", { snake: snake.points});
         }
     }

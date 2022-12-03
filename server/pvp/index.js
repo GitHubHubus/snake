@@ -40,8 +40,10 @@ const initPvp = (pvpSocket) => {
         }
 
         if (room.players.length === room.countPlayers) {
-            console.log('SEND START GAME: ' + room.players[0], room);
-            socket.to(room.players[0]).emit("startGame", room);
+            for(let i=0; i < room.players.length; i++) {
+                socket.to(room.players[i]).emit("startGame", room);
+                console.log('SEND START GAME: ' + room.players[i], room);
+            }
         }
 
         socket.on("movePoint", (...args) => {

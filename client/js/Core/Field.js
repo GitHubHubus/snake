@@ -1,4 +1,5 @@
 export const DEFAULT_TILE_SIZE = {width: 10, height: 10, indent: 1};
+export const DEFAULT_FIELD_COLOR = '#ebedf0';
 
 export class Field {
     get countX() {return this._countX;}
@@ -22,7 +23,7 @@ export class Field {
 
         let width = params.width ? params.width : this._block.clientWidth;
 
-        this._color = params.color ? params.color : '#ebedf0';
+        this._color = params.color ? params.color : DEFAULT_FIELD_COLOR;
         this._countX = parseInt(width / (params.tile.width + params.tile.indent));
         this._countY = parseInt(height / (params.tile.height + params.tile.indent));
         this._tile = params.tile;

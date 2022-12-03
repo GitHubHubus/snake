@@ -15,6 +15,7 @@ import FeedbackModal from './view/components/Feedback/Modal';
 import FeedbackButton from './view/components/Feedback/Button';
 import ScoreModal from './view/components/ScoreModal';
 import locales from './locales/en/translation';
+import PvpSnakeGame from "./js/SnakeGame/Games/PvpSnakeGame";
 
 Vue.component('table-score', TableScore);
 Vue.component('settings-input', Input);
@@ -102,7 +103,11 @@ const v = new Vue({
 
             const settings = this.rating ? [] : this.settingsValues;
 
-            this.gameObject = new this.game({onEndGame: this._handleEndGame, settings: settings});
+            this.gameObject = new this.game({
+                onEndGame: this._handleEndGame,
+                settings: settings,
+                disableCreateSnake: Number(type) === PvpSnakeGame.id()
+            });
         },
         _handleEndGame() {
             this.lockGame = false;

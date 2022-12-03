@@ -27,7 +27,10 @@ export default class SnakeGame {
      */
     constructor (params) {
         this._createField(params);
-        this._snake = this._createSnake(params);
+
+        if (!params.disableCreateSnake) {
+            this._snake = this._createSnake(params);
+        }
 
         let mock = () => {};
         this._onEndGame = params.onEndGame || mock;
@@ -90,7 +93,6 @@ export default class SnakeGame {
         const points = params.snake ? params.snake.points : null;
         const speed = params.settings.start_speed ? (150 - (params.settings.start_speed * 10)) : null;
 
-        console.log('Snake params', params);
         let snake = new Snake({
             points: points,
             speed: speed,
