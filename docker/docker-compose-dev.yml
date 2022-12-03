@@ -7,7 +7,9 @@ services:
       dockerfile: ./docker/app/Dockerfile
     container_name: snake_server
     volumes:
-      - ../server/db:/usr/src/app/db
+      - ../server/service:/usr/src/app/service
+      - ../server/pvp:/usr/src/app/pvp
+      - ../server/controller:/usr/src/app/controller
       - ../server/index.js:/usr/src/app/index.js
       - ../server/package.json:/usr/src/app/package.json
       - ../server/settings.json:/usr/src/app/settings.json

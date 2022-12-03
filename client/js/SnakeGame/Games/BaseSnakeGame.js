@@ -90,6 +90,7 @@ export default class SnakeGame {
         const points = params.snake ? params.snake.points : null;
         const speed = params.settings.start_speed ? (150 - (params.settings.start_speed * 10)) : null;
 
+        console.log('Snake params', params);
         let snake = new Snake({
             points: points,
             speed: speed,

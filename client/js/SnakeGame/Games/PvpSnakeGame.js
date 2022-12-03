@@ -2,8 +2,8 @@ import BaseSnakeGame from './BaseSnakeGame';
 import EventHelper from '../Helper/EventHelper';
 import Purpose from '../Models/Purpose';
 import Pvp from "../Pvp";
-import {DIRECTION_LEFT, DIRECTION_RIGHT} from "../Models/Snake";
 import TextDrawer from "../../Core/Drawer/TextDrawer";
+
 //DRAFT
 export default class PvpSnakeGame extends BaseSnakeGame {
     static description() {
@@ -21,6 +21,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
     constructor (params) {
         super(params);
         this._startCallback = () => {throw Error('Invalid start callback');};
+
         this._params = {
             pvp :{
                 init: true,
@@ -36,8 +37,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
             snake: {
                 points: this._getOpponentSnakePoints(),
                 color: 'yellow',
-                fixed: true,
-                direction: DIRECTION_LEFT,
+                fixed: true
             },
             settings: {
                 start_speed: 1
@@ -45,29 +45,38 @@ export default class PvpSnakeGame extends BaseSnakeGame {
         };
     }
 
-    /**
-     * @param {Object} event
-     */
-    _handle(event) {
-        this._pvp = new Pvp(this._params.pvp);
-    }
-
     _connectRoom(room) {
+        console.log('received connectRoom');
+        console.log(room.players);
+
         for (let i in room.players) {
             let player = room.players[i];
-            let params = i === 0 ? this._params.startParams : this._opponentSnakeDefaultParams;
-
-            if (player.id === this._pvp.getId()) {
+            let params = Number(i) === 0 ? this._params.startParams : this._opponentSnakeDefaultParams;
+            console.log(i, player, this._pvp.getId());
+            if (player === this._pvp.getId()) {
+                this._destroySnake(this._snake);
                 this._snake = this._createSnake(params);
+                console.log('_snake');
             } else {
-                this._opponentSnake = this._createSnake(params)
+                this._destroySnake(this._opponentSnake);
+                this._opponentSnake = this._createSnake(params);
+                console.log('_opponentSnake');
             }
+        }
+
+        if (room.players.length === room.countPlayers) {
+            this._startCallback();
+            console.log('START GAME');
         }
     }
 
     _startGame(room) {
-        if (room.players[0].id === this._pvp.getId()) {
-            this._go();
+        if (room.players[0] === this._pvp.getId()) {
+            const point = this.getRandomPoint();
+            this._addPurpose(point);
+            this._pvp.sendPoint(point)
+
+            console.log('RUN GAME');
         }
     }
 
@@ -89,6 +98,9 @@ export default class PvpSnakeGame extends BaseSnakeGame {
         }
 
         super._handleSnakeMoving(event);
+
+        console.log('SEND SNAKE');
+        console.log(this);
         this._pvp.sendSnake(this._snake);
     }
 
@@ -101,9 +113,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
     }
 
     _redrawSnake(data) {
-        for (let i = 0; i < this._opponentSnake.points.length; i++) {
-            this._field.cleanTile(this._opponentSnake.points[i]);
-        }
+        this._destroySnake(this._opponentSnake);
 
         this._opponentSnake.points = data.points;
 
@@ -116,14 +126,12 @@ export default class PvpSnakeGame extends BaseSnakeGame {
         const drawer = new TextDrawer({field: this._field});
         const startPoint = this._field.getCenterPoint({x: -2, y: -3});
 
-        drawer.draw('W', startPoint, false, this._field.color);
+        drawer.draw('W', startPoint, false, 'red');
 
-        callback();
-        console.log('READY');
-    }
+        this._pvp = new Pvp(this._params.pvp);
 
-    _go() {
-        this._addPurpose(this._field.getRandomPoint());
+        this._startCallback = callback;
+        console.log('INIT CALLBACK');
     }
 
     _getOpponentSnakePoints() {
@@ -136,5 +144,15 @@ export default class PvpSnakeGame extends BaseSnakeGame {
         }
 
         return points;
+    }
+
+    _destroySnake(snake) {
+        if (!snake || !snake.points) {
+            return;
+        }
+
+        for (let i = 0; i < snake.points.length; i++) {
+            this._field.cleanTile(snake.points[i]);
+        }
     }
 }
