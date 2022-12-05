@@ -39,7 +39,6 @@ export default class PvpSnakeGame extends BaseSnakeGame {
             snake: {
                 points: this._getOpponentSnakePoints(),
                 color: 'yellow',
-                fixed: true,
                 direction: DIRECTION_LEFT
             },
             settings: {
@@ -50,25 +49,34 @@ export default class PvpSnakeGame extends BaseSnakeGame {
 
     _connectRoom(room) {
         for (let i in room.players) {
-            let player = room.players[i];
             let params = Number(i) === 0 ? this._params.startParams : this._opponentSnakeDefaultParams;
 
-            if (player === this._pvp.getId()) {
+            if (room.players[i] === this._pvp.getId()) {
                 this._destroySnake(this._snake);
                 this._snake = this._createSnake(params);
             } else {
+                if (!params.snake) {
+                    params.snake = {};
+                }
+
+                params.snake.fixed = true;
                 this._destroySnake(this._opponentSnake);
                 this._opponentSnake = this._createSnake(params);
             }
         }
+
+        this._pvp.roomId = room.id;
     }
 
     _startGame(room) {
         console.log('receive start game');
         this._drawReadyText(DEFAULT_FIELD_COLOR);
-        const point = this.getRandomPoint();
-        this._addPurpose(point);
-        this._pvp.sendPoint(point);
+
+        if (room.players[0] === this._pvp.getId()) {
+            const point = this.getRandomPoint();
+            this._addPurpose(point);
+            this._pvp.sendPoint(point);
+        }
     }
 
     /**
@@ -103,7 +111,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
     _redrawSnake(data) {
         this._destroySnake(this._opponentSnake);
 
-        this._opponentSnake.points = data.points;
+        this._opponentSnake.points = data.points || [];
 
         for (let i = 0; i < this._opponentSnake.points.length; i++) {
             this._field.fillTile(this._opponentSnake.points[i], this._opponentSnake.color, true);
@@ -136,6 +144,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
 
         for (let i = 0; i < snake.points.length; i++) {
             this._field.cleanTile(snake.points[i]);
+            this._field.unlockTile(point);
         }
     }
 

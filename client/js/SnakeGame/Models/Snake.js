@@ -29,6 +29,7 @@ export default class Snake {
 
         this._color = params.color || 'green';
         this._points = params.points || [{x: 5, y: 1}, {x: 4, y: 1}, {x: 3, y: 1}, {x: 2, y: 1}, {x: 1, y: 1}];
+        this._startDirection = params.direction || DIRECTION_RIGHT;
         this._direction = DIRECTION_NONE;
 
         this._speed = params.speed || 150;
@@ -60,7 +61,7 @@ export default class Snake {
     
     _handleStart() {
         if (!this._snakeInterval) {
-            this._direction = DIRECTION_RIGHT;
+            this._direction = this._startDirection;
             this.start();
         }
     }

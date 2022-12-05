@@ -33,15 +33,14 @@ const initPvp = (pvpSocket) => {
         const room = _getRoom(socket.id)
         console.log(room);
 
-        socket.emit("connectRoom", room);
         for(let i=0; i < room.players.length; i++) {
-            socket.to(room.players[i]).emit("connectRoom", room);
+            pvpSocket.to(room.players[i]).emit("connectRoom", room);
             console.log('SEND ROOM: ' + room.players[i], room);
         }
 
         if (room.players.length === room.countPlayers) {
             for(let i=0; i < room.players.length; i++) {
-                socket.to(room.players[i]).emit("startGame", room);
+                pvpSocket.to(room.players[i]).emit("startGame", room);
                 console.log('SEND START GAME: ' + room.players[i], room);
             }
         }
@@ -50,10 +49,8 @@ const initPvp = (pvpSocket) => {
             console.log(args);
             const room = _getRoom(socket.id, args[0].roomId);
 
-            socket.emit("movePoint", args[0].point);
-
             for(let i=0; i < room.players.length; i++) {
-                room.players[i] !== socket.id && socket.to(room.players[i]).emit("movePoint", args[0].point);
+                room.players[i] !== socket.id && pvpSocket.to(room.players[i]).emit("movePoint", args[0].point);
             }
 
             console.log('EMIT movePoint');
@@ -64,7 +61,7 @@ const initPvp = (pvpSocket) => {
             const room = _getRoom(socket.id, args[0].roomId);
 
             for(let i=0; i < room.players.length; i++) {
-                room.players[i] !== socket.id && socket.to(room.players[i]).emit("moveSnake", {userId: socket.id, snake: args[0].snake});
+                room.players[i] !== socket.id && pvpSocket.to(room.players[i]).emit("moveSnake", {userId: socket.id, snake: args[0].snake});
             }
 
             console.log('EMIT moveSnake');

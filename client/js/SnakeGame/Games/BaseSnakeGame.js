@@ -1,4 +1,4 @@
-import Snake from '../Models/Snake';
+import Snake, {DIRECTION_RIGHT} from '../Models/Snake';
 import Score from '../Score';
 import {DEFAULT_TILE_SIZE, Field} from "../../Core/Field";
 import i18next from 'i18next';
@@ -97,7 +97,8 @@ export default class SnakeGame {
             points: points,
             speed: speed,
             color: params.snake ? params.snake.color : null,
-            fixed: params.snake ? params.snake.fixed : false
+            fixed: params.snake ? params.snake.fixed : false,
+            direction: params.snake ? params.snake.direction : DIRECTION_RIGHT
         });
         
         for (let i in snake.points) {
@@ -142,6 +143,7 @@ export default class SnakeGame {
      * @private
      */
     handleEndGame(isForce = false) {
+        console.log('END GAME');
         this._snake.stop();
         document.removeEventListener('start', this._handle);
         document.removeEventListener('snake_moving', this._handleSnakeMoving);
