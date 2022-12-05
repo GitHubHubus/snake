@@ -21,21 +21,23 @@ export default class Snake {
     set color(c) {this._color = c;}
     get length() {return this._points.length;}
     set direction(d) {this._direction = d;}
+
     /**
      * @param {Object} params
      */
     constructor (params) {
         this._fixed = params.fixed || false;
-
         this._color = params.color || 'green';
         this._points = params.points || [{x: 5, y: 1}, {x: 4, y: 1}, {x: 3, y: 1}, {x: 2, y: 1}, {x: 1, y: 1}];
-        this._startDirection = params.direction || DIRECTION_RIGHT;
         this._direction = DIRECTION_NONE;
-
-        this._speed = params.speed || 150;
         this._hold = false;
+        this._speed = 0;
+        this._startDirection = DIRECTION_NONE;
 
         if (!this._fixed) {
+            this._speed = params.speed || 150;
+            this._startDirection = params.direction || DIRECTION_RIGHT;
+
             this._handle = this._handle.bind(this);
             this._handleStart = this._handleStart.bind(this);
 
@@ -74,7 +76,7 @@ export default class Snake {
                 !this._hold &&
                 DEPRECATED_CHANGE_DIRECTION[event.keyCode] && 
                 DEPRECATED_CHANGE_DIRECTION[this._direction] !== event.keyCode
-            ) {
+        ) {
             this._direction = event.keyCode;
             this._hold = true;
         }

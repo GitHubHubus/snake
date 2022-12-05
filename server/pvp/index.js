@@ -30,41 +30,42 @@ const initPvp = (pvpSocket) => {
     }
 
     pvpSocket.on("connection", (socket) => {
-        const room = _getRoom(socket.id)
-        console.log(room);
+        const room = _getRoom(socket.id);
 
         for(let i=0; i < room.players.length; i++) {
             pvpSocket.to(room.players[i]).emit("connectRoom", room);
-            console.log('SEND ROOM: ' + room.players[i], room);
+            console.log('EMIT connectRoom to ' + room.players[i], room);
         }
 
         if (room.players.length === room.countPlayers) {
             for(let i=0; i < room.players.length; i++) {
                 pvpSocket.to(room.players[i]).emit("startGame", room);
-                console.log('SEND START GAME: ' + room.players[i], room);
+                console.log('EMIT startGame to ' + room.players[i], room);
             }
         }
 
         socket.on("movePoint", (...args) => {
-            console.log(args);
+            console.log("RECEIVE movePoint from " + socket.id, args);
             const room = _getRoom(socket.id, args[0].roomId);
 
             for(let i=0; i < room.players.length; i++) {
-                room.players[i] !== socket.id && pvpSocket.to(room.players[i]).emit("movePoint", args[0].point);
+                if (room.players[i] !== socket.id) {
+                    pvpSocket.to(room.players[i]).emit("movePoint", args[0].point);
+                    console.log('EMIT movePoint to ' + room.players[i]);
+                }
             }
-
-            console.log('EMIT movePoint');
         });
 
         socket.on("moveSnake", (...args) => {
-            console.log(args);
+            console.log("RECEIVE moveSnake from " + socket.id, args[0].snake);
             const room = _getRoom(socket.id, args[0].roomId);
 
             for(let i=0; i < room.players.length; i++) {
-                room.players[i] !== socket.id && pvpSocket.to(room.players[i]).emit("moveSnake", {userId: socket.id, snake: args[0].snake});
+                if (room.players[i] !== socket.id) {
+                    pvpSocket.to(room.players[i]).emit("moveSnake", {userId: socket.id, snake: args[0].snake});
+                    console.log('EMIT moveSnake to ' + room.players[i]);
+                }
             }
-
-            console.log('EMIT moveSnake');
         });
     });
 }
