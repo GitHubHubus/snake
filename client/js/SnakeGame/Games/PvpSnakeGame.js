@@ -69,13 +69,10 @@ export default class PvpSnakeGame extends BaseSnakeGame {
     }
 
     _startGame(room) {
-        console.log('receive start game');
         this._drawReadyText(DEFAULT_FIELD_COLOR);
 
         if (room.players[0] === this._pvp.getId()) {
-            const point = this.getRandomPoint();
-            this._addPurpose(point);
-            this._pvp.sendPoint(point);
+            this._createPoint();
         }
     }
 
@@ -88,11 +85,15 @@ export default class PvpSnakeGame extends BaseSnakeGame {
             this._field.unlockTile(point);
             this._field.cleanTile(point);
         } else {
-            if (this._snake.isSnake(event.p) || this._field.isBorder(event.p)) {
+            if (
+                this._snake.isSnake(event.p) ||
+                this._field.isBorder(event.p) ||
+                this._opponentSnake.isSnake(event.p)
+            ) {
                 this.handleEndGame();
             } else {
                 this.setScore();
-                this._pvp.sendPoint(this.getRandomPoint());
+                this._createPoint();
             }
         }
 
@@ -130,7 +131,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
         const countYField = this._field.countY;
         let points = [];
 
-        for (let i=1; i < 6; i++) {
+        for (let i=6; i > 1; i--) {
             points.push({x: countXField - i, y: countYField - 1});
         }
 
@@ -141,6 +142,8 @@ export default class PvpSnakeGame extends BaseSnakeGame {
         if (!snake || !snake.points) {
             return;
         }
+
+        snake.stop();
 
         for (let i = 0; i < snake.points.length; i++) {
             this._field.cleanTile(snake.points[i]);
@@ -153,5 +156,11 @@ export default class PvpSnakeGame extends BaseSnakeGame {
         const startPoint = this._field.getCenterPoint({x: -8, y: -3});
 
         drawer.draw('WAIT', startPoint, false, color);
+    }
+
+    _createPoint() {
+        const point = this.getRandomPoint();
+        this._addPurpose(point);
+        this._pvp.sendPoint(point);
     }
 }

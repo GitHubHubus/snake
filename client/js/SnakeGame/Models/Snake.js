@@ -54,7 +54,9 @@ export default class Snake {
     }
 
     start() {
-        this._snakeInterval = setInterval(this._moving.bind(this), this._speed);
+        if (!this._fixed) {
+            this._snakeInterval = setInterval(this._moving.bind(this), this._speed);
+        }
     }
     
     unhold() {
@@ -62,7 +64,7 @@ export default class Snake {
     }
     
     _handleStart() {
-        if (!this._snakeInterval) {
+        if (!this._snakeInterval && !this._fixed) {
             this._direction = this._startDirection;
             this.start();
         }
@@ -83,7 +85,9 @@ export default class Snake {
     }
     
     _moving() {
-        EventHelper.fire('snake_moving', {p: this._getNextPoint()});
+        if (!this._fixed) {
+            EventHelper.fire('snake_moving', {p: this._getNextPoint()});
+        }
     }
     
     /**
