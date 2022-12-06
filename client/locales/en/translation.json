@@ -51,7 +51,8 @@
             "5": "<p>You eat purposes</><p>Purposes disappear with time</p><p>Field fill with blockers when you eat purposes</p><p>You lose if collide with border, snake, or blockers</p><p>Speed growth when eating purposes</>",
             "6": "<p>Instead of eating purposes, you need to go through the portals</p><p>You lose if you encounter the snake or border</p>",
             "7": "<p>Eat the purposes</p><p>You lose if you eat the purpose of the same color as the snake or if you encounter the snake or border</p>",
-            "8": "<p>Eat the purposes</p><p>Snake decrease with time</p><p>You lose if collide with border or snake, or snake decrease at all</p>"
+            "8": "<p>Eat the purposes</p><p>Snake decrease with time</p><p>You lose if collide with border or snake, or snake decrease at all</p>",
+            "11": "<p>Player vs player game</p><p>Eat the purposes</p><p>You lose if collide with border or snakes</p>"
         },
         "description": {
             "1": "Simple snake",
@@ -62,7 +63,7 @@
             "6": "Portal as goal",
             "7": "Change color snake",
             "8": "Decrease snake",
-            "11": "Pvp"
+            "11": "Pvp snake"
         }
     }
 }

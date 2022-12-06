@@ -13,7 +13,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
     }
 
     static rules() {
-        return 'No rules';
+        return super.rules(PvpSnakeGame.id());
     }
 
     static id() {
@@ -31,6 +31,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
                 callbackMoveSnake: this._redrawSnake.bind(this),
                 callbackStartGame: this._startGame.bind(this),
                 callbackConnectRoom: this._connectRoom.bind(this),
+                callbackEndGame: this._endGame.bind(this),
             },
             startParams: params
         };
@@ -69,7 +70,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
     }
 
     _startGame(room) {
-        this._drawReadyText(DEFAULT_FIELD_COLOR);
+        this._drawText('WAIT', DEFAULT_FIELD_COLOR);
 
         if (room.players[0] === this._pvp.getId()) {
             this._createPoint();
@@ -120,7 +121,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
     }
 
     ready(callback) {
-        this._drawReadyText('red');
+        this._drawText('WAIT', 'red');
         this._pvp = new Pvp(this._params.pvp);
 
         this._startCallback = callback;
@@ -151,16 +152,34 @@ export default class PvpSnakeGame extends BaseSnakeGame {
         }
     }
 
-    _drawReadyText(color = null) {
+    _drawText(text, color = null) {
         const drawer = new TextDrawer({field: this._field});
         const startPoint = this._field.getCenterPoint({x: -8, y: -3});
 
-        drawer.draw('WAIT', startPoint, false, color);
+        drawer.draw(text, startPoint, false, color);
     }
 
     _createPoint() {
         const point = this.getRandomPoint();
         this._addPurpose(point);
         this._pvp.sendPoint(point);
+    }
+
+    _endGame() {
+        this._pvp.close();
+        super.handleEndGame();
+        this._field.cleanAllTiles();
+        this._drawText('WIN', 'green');
+    }
+
+    /**
+     * @param isForce
+     */
+    handleEndGame(isForce = false) {
+        super.handleEndGame(isForce);
+
+        this._pvp.sendEndGame();
+        this._field.cleanAllTiles();
+        this._drawText('LOSE', 'red')
     }
 }

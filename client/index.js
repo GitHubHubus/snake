@@ -114,6 +114,7 @@ const v = new Vue({
             
             if (
                 this.rating &&
+                this.gameObject.id !== PvpSnakeGame.id() &&
                 this.gameObject.score() > 0 &&
                 (!this.lastScore || this.gameObject.score() > this.lastScore.score || this.lastScore.key < 10)
             ) {

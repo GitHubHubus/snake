@@ -140,13 +140,14 @@ export default class SnakeGame {
     /**
      * It could be overridden in child class, but this method required be called with 'super'
      * @param isForce
-     * @private
+     * @protected
      */
     handleEndGame(isForce = false) {
-        console.log('END GAME');
-        this._snake.stop();
+        this._snake && this._snake.stop();
+
         document.removeEventListener('start', this._handle);
         document.removeEventListener('snake_moving', this._handleSnakeMoving);
+
         !isForce && this._onEndGame();
     }
 

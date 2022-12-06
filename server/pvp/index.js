@@ -29,6 +29,22 @@ const initPvp = (pvpSocket) => {
         return room;
     }
 
+    const _removePlayerFromRoom = (userId) => {
+        let keys = Object.keys(rooms);
+
+        for (let i = 0; i < keys.length; i++) {
+            const index = rooms[keys[i]].players.indexOf(userId);
+
+            if (index !== -1) {
+                rooms[keys[i]].players.splice(index, 1);
+
+                if (rooms[keys[i]].length === 0) {
+                    delete rooms[keys[i]];
+                }
+            }
+        }
+    }
+
     pvpSocket.on("connection", (socket) => {
         const room = _getRoom(socket.id);
 
@@ -43,6 +59,10 @@ const initPvp = (pvpSocket) => {
                 console.log('EMIT startGame to ' + room.players[i], room);
             }
         }
+
+        socket.on("disconnect", async () => {
+            _removePlayerFromRoom(socket.id);
+        });
 
         socket.on("movePoint", (...args) => {
             console.log("RECEIVE movePoint from " + socket.id, args);
@@ -64,6 +84,18 @@ const initPvp = (pvpSocket) => {
                 if (room.players[i] !== socket.id) {
                     pvpSocket.to(room.players[i]).emit("moveSnake", {userId: socket.id, snake: args[0].snake});
                     console.log('EMIT moveSnake to ' + room.players[i]);
+                }
+            }
+        });
+
+        socket.on("endGame", (...args) => {
+            console.log("RECEIVE endGame from " + socket.id);
+            const room = _getRoom(socket.id, args[0].roomId);
+
+            for(let i=0; i < room.players.length; i++) {
+                if (room.players[i] !== socket.id) {
+                    pvpSocket.to(room.players[i]).emit("endGame", {userId: socket.id});
+                    console.log('EMIT endGame to ' + room.players[i]);
                 }
             }
         });
