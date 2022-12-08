@@ -31,9 +31,8 @@ const v = new Vue({
         socketConnect('top').on('refresh', (data) => {
             Number(data.type) === this.game.id() && this._updateTop(data.score);
         });
-        
+
         window.addEventListener("keydown", function(e) {
-            // arrow keys
             if(ARROW_KEY_CODES.indexOf(e.keyCode) > -1) {
                 e.preventDefault();
             }
@@ -47,6 +46,7 @@ const v = new Vue({
         top: [],
         lastScore: null,
         score: 0,
+        countPvpPlayers: 0,
         rating: true,
         games: Object.entries(games).map(game => {return {value: game[0], text: game[1].description()};}),
         game: games[1],
@@ -118,14 +118,15 @@ const v = new Vue({
         },
         _handleEndGame() {
             this.lockGame = false;
-            
+
             if (
                 this.rating &&
-                this.gameObject.id !== PvpSnakeGame.id() &&
-                this.gameObject.score() > 0 &&
-                (!this.lastScore || this.gameObject.score() > this.lastScore.score || this.lastScore.key < 10)
+                this.gameObject &&
+                this.game.id() !== PvpSnakeGame.id() &&
+                this.gameObject.boardInfo() > 0 &&
+                (!this.lastScore || this.gameObject.boardInfo() > this.lastScore.value || this.lastScore.key < 10)
             ) {
-                this.score = this.gameObject.score();
+                this.score = this.gameObject.boardInfo();
                 $('#scoreModal').modal({show: true});
             }
         }

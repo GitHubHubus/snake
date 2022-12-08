@@ -5,6 +5,7 @@ import Pvp from "../Pvp";
 import TextDrawer from "../../Core/Drawer/TextDrawer";
 import {DEFAULT_FIELD_COLOR} from "../../Core/Field";
 import {DIRECTION_LEFT} from "../Models/Snake";
+import Players from "../Board/Players";
 
 //DRAFT
 export default class PvpSnakeGame extends BaseSnakeGame {
@@ -21,6 +22,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
     }
 
     constructor (params) {
+        params.board = new Players();
         super(params);
         this._startCallback = () => {throw Error('Invalid start callback');};
 
@@ -93,7 +95,6 @@ export default class PvpSnakeGame extends BaseSnakeGame {
             ) {
                 this.handleEndGame();
             } else {
-                this.setScore();
                 this._createPoint();
             }
         }
@@ -176,7 +177,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
      * @param isForce
      */
     handleEndGame(isForce = false) {
-        super.handleEndGame(true);
+        super.handleEndGame();
 
         if (!isForce) {
             this._pvp.sendEndGame();

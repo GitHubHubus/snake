@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const io = require('socket.io')(server, { origins: settings.env === 'prod' ? "*:8080" : "*:*"});
 const top = io.of('/top');
+const players = io.of('/players');
 const pvp = io.of('/pvp');
 const addRoutes = require('./routing');
 const pvpInstance = require('./pvp/index');
@@ -35,3 +36,11 @@ console.log(`Running server: http://0.0.0.0:${8080}`);
 
 addRoutes(app, top);
 pvpInstance.initPvp(pvp);
+
+players.on("connection", (socket) => {
+    players.emit('refresh', { count: io.engine.clientsCount });
+
+    socket.on("disconnect", async () => {
+        players.emit('refresh', { count: io.engine.clientsCount });
+    });
+});

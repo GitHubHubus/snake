@@ -62,7 +62,7 @@ export default class SnakeGame8 extends BaseSnakeGame {
                 this.setScore();
                 this._addPurpose();
 
-                if (this._score.score % this._decrease_time_point === 0) {
+                if (this.boardInfo() % this._decrease_time_point === 0) {
                     this._recreateSnakeDecreaseInterval();
                 }
             }

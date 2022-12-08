@@ -4,6 +4,7 @@ const roomInstance = require('./room');
 
 const initPvp = (pvpSocket) => {
     let rooms = [];
+    let countPlayers = 0;
 
     const _getRoom = (userId, id = null) => {
         let room = rooms[id] || null;

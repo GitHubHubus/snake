@@ -1,5 +1,5 @@
 import Snake, {DIRECTION_RIGHT} from '../Models/Snake';
-import Score from '../Score';
+import Score from '../Board/Score';
 import {DEFAULT_TILE_SIZE, Field} from "../../Core/Field";
 import i18next from 'i18next';
 import TextDrawer from "../../Core/Drawer/TextDrawer";
@@ -34,7 +34,7 @@ export default class SnakeGame {
 
         let mock = () => {};
         this._onEndGame = params.onEndGame || mock;
-        this._score = new Score();
+        this._board = params.board || new Score();
 
         this._handle = this._handle.bind(this);
         this._handleSnakeMoving = this._handleSnakeMoving.bind(this);
@@ -81,8 +81,8 @@ export default class SnakeGame {
     /**
      * @returns {number}
      */
-    score() {
-        return this._score.score;
+    boardInfo() {
+        return this._board.value;
     }
 
     /**
@@ -134,7 +134,7 @@ export default class SnakeGame {
 
     destroyView() {
         this._field.destroy();
-        this._score.destroy();
+        this._board.destroy();
     }
 
     /**
@@ -152,11 +152,11 @@ export default class SnakeGame {
     }
 
     setScore(amount) {
-        if (this.increaseSpeedPoint && (this._score.score % this.increaseSpeedPoint === 0)) {
+        if (this.increaseSpeedPoint && (this._board.value % this.increaseSpeedPoint === 0)) {
             this._snake.changeInterval(-10);
         }
 
-        this._score.set(amount);
+        this._board.set(amount);
     }
 
     ready(callback) {
