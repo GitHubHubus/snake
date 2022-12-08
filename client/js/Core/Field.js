@@ -200,9 +200,15 @@ export class Field {
         return true;
     }
     
-    cleanAllTiles() {
+    cleanAllTiles(withBorder = false) {
         for (let i in this._data) {
             this._data[i].style.backgroundColor = this._color;
+            this._data[i].dataset.lock = 0;
+            this._data[i].dataset.id = null;
+        }
+
+        if (withBorder) {
+            this._drawBorder();
         }
     }
     

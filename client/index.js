@@ -58,9 +58,16 @@ const v = new Vue({
             this._recreateGame(Number(e.target.value));
         },
         startGame() {
-            this.gameObject.ready(() => {
+            this.lockGame = true;
+            if (this.gameObject && this.game.id() === PvpSnakeGame.id()) {
                 this._recreateGame(this.game.id(), false);
-                this.lockGame = true;
+            }
+
+            this.gameObject.ready(() => {
+                if (this.game.id() !== PvpSnakeGame.id()) {
+                    this._recreateGame(this.game.id(), false);
+                }
+
                 EventHelper.fire('start');
             });
         },

@@ -168,7 +168,7 @@ export default class PvpSnakeGame extends BaseSnakeGame {
     _endGame() {
         this._pvp.close();
         super.handleEndGame();
-        this._field.cleanAllTiles();
+        this._field.cleanAllTiles(true);
         this._drawText('WIN', 'green');
     }
 
@@ -176,10 +176,12 @@ export default class PvpSnakeGame extends BaseSnakeGame {
      * @param isForce
      */
     handleEndGame(isForce = false) {
-        super.handleEndGame(isForce);
+        super.handleEndGame(true);
 
-        this._pvp.sendEndGame();
-        this._field.cleanAllTiles();
-        this._drawText('LOSE', 'red')
+        if (!isForce) {
+            this._pvp.sendEndGame();
+            this._field.cleanAllTiles(true);
+            this._drawText('LOSE', 'red');
+        }
     }
 }
