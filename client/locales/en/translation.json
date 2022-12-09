@@ -44,7 +44,8 @@
             "disappearance_time": "Purpose disappearance time",
             "blockers_per_unit": "Number of blockers per unit of time",
             "decrease_time": "Snake decrease time",
-            "decrease_time_point": "Point step to change snake decrease time"
+            "decrease_time_point": "Point step to change snake decrease time",
+            "count_players": "Count players"
         },
         "rules": {
             "1": "<p>You all know these rules<p><p>You eat purposes</><p>You lose if collide with border or snake</p><p>Speed growth when eating purposes</>",

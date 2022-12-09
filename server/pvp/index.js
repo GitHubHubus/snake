@@ -4,23 +4,25 @@ const roomInstance = require('./room');
 
 const initPvp = (pvpSocket) => {
     let rooms = [];
-    let countPlayers = 0;
 
-    const _getRoom = (userId, id = null) => {
+    const _getRoom = (userId, id = null, countPlayers = 2) => {
         let room = rooms[id] || null;
 
         if (!room) {
             let keys = Object.keys(rooms);
 
             for (let i = 0; i < keys.length; i++) {
-                if (rooms[keys[i]].players.length < rooms[keys[i]].countPlayers) {
+                if (
+                    rooms[keys[i]].countPlayers === countPlayers &&
+                    rooms[keys[i]].players.length < rooms[keys[i]].countPlayers
+                ) {
                     room = rooms[keys[i]];
                     break;
                 }
             }
 
             if (!room) {
-                room = roomInstance.create(Date.now());
+                room = roomInstance.create(Date.now(), countPlayers);
                 rooms[room.id] = room;
             }
 
@@ -47,21 +49,33 @@ const initPvp = (pvpSocket) => {
     }
 
     pvpSocket.on("connection", (socket) => {
-        const room = _getRoom(socket.id);
+        socket.on("connectRoom", async (...args) => {
+            console.log('RECEIVE connectRoom from ' + socket.id);
 
-        for(let i=0; i < room.players.length; i++) {
-            pvpSocket.to(room.players[i]).emit("connectRoom", room);
-            console.log('EMIT connectRoom to ' + room.players[i], room);
-        }
+            const room = _getRoom(socket.id, null, args[0].countPlayers);
 
-        if (room.players.length === room.countPlayers) {
             for(let i=0; i < room.players.length; i++) {
-                pvpSocket.to(room.players[i]).emit("startGame", room);
-                console.log('EMIT startGame to ' + room.players[i], room);
+                pvpSocket.to(room.players[i]).emit("connectRoom", room);
+                console.log('EMIT connectRoom to ' + room.players[i], room);
             }
-        }
+
+            if (room.players.length === room.countPlayers) {
+                for(let i=0; i < room.players.length; i++) {
+                    pvpSocket.to(room.players[i]).emit("readyGame", room);
+                    console.log('EMIT readyGame to ' + room.players[i], room);
+                }
+
+                setTimeout(() => {
+                    for(let i=0; i < room.players.length; i++) {
+                        pvpSocket.to(room.players[i]).emit("startGame", room);
+                        console.log('EMIT startGame to ' + room.players[i], room);
+                    }
+                }, 2000)
+            }
+        });
 
         socket.on("disconnect", async () => {
+            console.log('RECEIVE disconnect pvpSocket from ' + socket.id);
             _removePlayerFromRoom(socket.id);
         });
 

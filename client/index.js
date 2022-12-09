@@ -11,6 +11,7 @@ import socketConnect from './js/Api/WebSocket';
 import translate from './js/Helper/translator';
 import TableScore from './view/components/TableScore';
 import Input from './view/components/Input';
+import Select from './view/components/Select';
 import FeedbackModal from './view/components/Feedback/Modal';
 import FeedbackButton from './view/components/Feedback/Button';
 import ScoreModal from './view/components/ScoreModal';
@@ -19,6 +20,7 @@ import PvpSnakeGame from "./js/SnakeGame/Games/PvpSnakeGame";
 
 Vue.component('table-score', TableScore);
 Vue.component('settings-input', Input);
+Vue.component('settings-select', Select);
 Vue.component('feedback-modal', FeedbackModal);
 Vue.component('feedback-button', FeedbackButton);
 Vue.component('score-modal', ScoreModal);
@@ -58,13 +60,14 @@ const v = new Vue({
             this._recreateGame(Number(e.target.value));
         },
         startGame() {
-            this.lockGame = true;
             if (this.gameObject && this.game.id() === PvpSnakeGame.id()) {
                 this._recreateGame(this.game.id(), false);
+                this.lockGame = true;
             }
 
             this.gameObject.ready(() => {
                 if (this.game.id() !== PvpSnakeGame.id()) {
+                    this.lockGame = true;
                     this._recreateGame(this.game.id(), false);
                 }
 
@@ -108,7 +111,7 @@ const v = new Vue({
                 }
             }
 
-            const settings = this.rating ? [] : this.settingsValues;
+            const settings = this.rating && this.game.id() !== PvpSnakeGame.id() ? [] : this.settingsValues;
 
             this.gameObject = new this.game({
                 onEndGame: this._handleEndGame,

@@ -1,8 +1,8 @@
 'use strict';
 
-const create = (id) => {
+const create = (id, countPlayers = 2) => {
     return {
-        countPlayers: 2,
+        countPlayers: countPlayers,
         players: [],
         id: id
     };

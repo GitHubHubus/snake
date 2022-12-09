@@ -41,6 +41,7 @@ players.on("connection", (socket) => {
     players.emit('refresh', { count: io.engine.clientsCount });
 
     socket.on("disconnect", async () => {
+        console.log('RECEIVE disconnect players from ' + socket.id);
         players.emit('refresh', { count: io.engine.clientsCount });
     });
 });

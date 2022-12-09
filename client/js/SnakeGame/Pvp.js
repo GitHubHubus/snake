@@ -6,9 +6,11 @@ export default class Pvp {
 
     constructor (params) {
         if (params && params.init) {
+            this._countPlayers = params.countPlayers;
             this._socket = socketConnect('pvp');
             this._socket.on("movePoint", params.callbackMovePoint);
             this._socket.on("moveSnake", params.callbackMoveSnake);
+            this._socket.on("readyGame", params.callbackReadyGame);
             this._socket.on("startGame", params.callbackStartGame);
             this._socket.on("connectRoom", params.callbackConnectRoom);
             this._socket.on("endGame", params.callbackEndGame);
@@ -23,6 +25,12 @@ export default class Pvp {
     sendSnake(snake) {
         if (this._socket) {
             this._socket.emit("moveSnake", {snake: snake.points, roomId: this._roomId});
+        }
+    }
+
+    sendConnectRoom(p) {
+        if (this._socket) {
+            this._socket.emit("connectRoom", {countPlayers: this._countPlayers});
         }
     }
 
